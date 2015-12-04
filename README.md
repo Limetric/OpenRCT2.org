@@ -1,2 +1,2 @@
 # OpenRCT2.org
-Website op https://openrct2.org
+Website of https://openrct2.org
