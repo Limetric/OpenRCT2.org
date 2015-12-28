@@ -63,3 +63,35 @@ header nav ul li:hover {
   border-radius: 3px;
   padding: 8px;
 }
+
+header .uppermenu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.3);
+  height: 40px;
+  color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.uppermenu a {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 15px;
+}
+.uppermenu a.darklink {
+  background-color: rgba(0,0,0,0.5);
+  border-bottom-right-radius: 5px;
+}
+.uppermenu a.imglink {
+  padding: 0;
+}
+.uppermenu img {
+  height: 45px;
+  margin: -10px 10px 0 -15px;
+  border-bottom-left-radius: 5px;
+  vertical-align: middle;
+}
