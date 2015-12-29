@@ -5,7 +5,7 @@
 	<title>@yield('title', "OpenRCT2")</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:image" content="https://openrct2.org/forums/uploads/monthly_2015_11/Icon(512).png.d902a335ac235dba2f77eeb6aeec9591.png">
+  <meta property="og:image" content="{{asset('assets/images/logos/icon_x512.png')}}">
   <meta property="og:title" content="OpenRCT2">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://openrct2.org/">
@@ -15,6 +15,7 @@
 
   <link rel="stylesheet" href="{{asset('assets/stylesheets/reset.css')}}" />
   <link rel="stylesheet" href="{{asset('assets/stylesheets/styles.css')}}" />
+  <link rel="stylesheet" href="{{asset('assets/stylesheets/grid.css')}}" />
   <link href='https://fonts.googleapis.com/css?family=PT+Sans:300,400,700|Oswald:400' rel='stylesheet' type='text/css'>
 
 </head>

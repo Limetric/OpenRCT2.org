@@ -6,6 +6,9 @@ body {
   overflow-y: scroll;
   height: 100%;
 }
+a {
+    color: #5A89BE;
+}
 header {
   height: 100px;
   margin-bottom: 0;
@@ -100,6 +103,47 @@ header .uppermenu {
   border-bottom-left-radius: 5px;
   vertical-align: middle;
 }
+
+
+h2 {
+    background: #F3F5F6;
+    color: black;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 11px 15px 12px 15px;
+    margin: 15px 0 5px 0;
+}
+h2.blue {
+    background: #5A89BE;
+    color: white;
+}
+h2.lightblue {
+    backgroound #ADC4DF;
+    color: white;
+}
+
+p, .normaltext {
+    line-height: 1.6;
+    font-size: 14px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #272a34;
+}
+
+/* welcome.blade.php */
+
+.homepage_slider {
+    width: 100%;
+    height: 200px;
+    background-image: url('/assets/images/welcome/homepage_slider/runelaenen1.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* END welcome*/
+
 
 footer {
     background-color: #71abed;
