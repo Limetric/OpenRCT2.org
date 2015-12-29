@@ -1,6 +1,10 @@
+html {
+    height: 100%;
+}
 body {
   font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-y: scroll;
+  height: 100%;
 }
 header {
   height: 100px;
@@ -20,6 +24,7 @@ header {
   position: relative;
   box-sizing: border-box;
 }
+
 .header_logo a {
   text-decoration: none;
 }
@@ -94,4 +99,14 @@ header .uppermenu {
   margin: -10px 10px 0 -15px;
   border-bottom-left-radius: 5px;
   vertical-align: middle;
+}
+
+footer {
+    background-color: #71abed;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    color: #C6DDF8;
+    margin: 0;
+    padding: 0;
 }
