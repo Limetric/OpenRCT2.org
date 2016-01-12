@@ -21,8 +21,9 @@
       <ul>
         <li><a href="{{ url ('') }}">Home</a></li>
         <li><a href="{{ url ('downloads') }}">Downloads</a></li>
+        <li><a href="{{ url ('features') }}">Features</a></li>
         <li><a href="{{ url ('forums') }}">Forums</a></li>
-        <li><a href="{{ url ('coastercloud') }}">CoasterCloud</a></li>
+        <li><a href="{{ url ('streams') }}">Streams</a></li>
       </ul>
     </nav>
   </div>
