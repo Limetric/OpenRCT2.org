@@ -75,4 +75,14 @@
         <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
         and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
     </p>
+
+    <h2 class="blue">About OpenRCT2</h2>
+    <p>
+        OpenRCT2 is the free open source remake of Rollercoaster Tycoon 2. The
+        developers have taken the original game, decompiled it and rewrote
+        everything into a newer language while making this code open source.
+        This means other developers can now create plugins to extend the
+        gameplay, or even port the game to other platforms. At this moment,
+        the game is playable on Windows, Linux and OS X.
+    </p>
 @stop

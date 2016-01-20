@@ -24,7 +24,6 @@
             <li><a href="{{ url ('download') }}">Download</a></li>
             <li><a href="{{ url ('features') }}">Features</a></li>
             <li><a href="{{ url ('forums') }}">Forums</a></li>
-            <li><a href="{{ url ('streams') }}">Streams</a></li>
           </ul>
         </nav>
       </div>
