@@ -19,4 +19,6 @@ Route::get('/features', function () {
     return view('features');
 });
 
-Route::resource('download', 'DownloadController');
+Route::get('download', 'DownloadController@index');
+Route::get('download/latest/{version?}', 'DownloadController@showLatest');
+Route::get('download/{id}', 'DownloadController@show');

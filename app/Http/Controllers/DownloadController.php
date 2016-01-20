@@ -11,12 +11,11 @@ use App\Http\Controllers\Controller;
 class DownloadController extends Controller
 {
     /**
-     * Displays the main downloads page, or returns json.
+     * Displays the main downloads page
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         //
         $downloads = DB::table('downloads')
@@ -41,20 +40,16 @@ class DownloadController extends Controller
                             ->first()
                             ->version;
 
-        if ($request->wantsJson()) {
-            return $downloads;
-        }
         return view('download.index', ['downloads' => $downloads, 'latest' => $latest]);
     }
 
     /**
-     * Displays the download page, or returns json of a specific downloadId.
+     * Displays the download page of a specific downloadId.
      *
      * @param  int  $downloadId
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(int $downloadId, Request $request)
+    public function show(int $downloadId)
     {
         $download = DB::table('downloads')
                             ->join('downloadsBuilds', function ($join) {
@@ -79,13 +74,40 @@ class DownloadController extends Controller
                                         JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
                                         WHERE parentDownloadId = :id', ['id' => $downloadId]);
 
-        if ($request->wantsJson()) {
-            //TODO: return nice json stuff
-            return null;
-        }
         return view('download.download', ['download' => $download,
                                             'downloadsBuilds' => $downloadsBuilds,
                                             'commits' => json_decode($download->commits, TRUE),
                                             'serverURL' => 'http://cdn.limetric.com/games/openrct2/']);
+    }
+
+    /**
+     * Displays the download page, or returns json of a specific downloadId.
+     *
+     * @param  String? $version
+     * @return \Illuminate\Http\Response
+     */
+    public function showLatest(String $version = null)
+    {
+        if($version == null || $version == "develop"){
+            $download = DB::table('downloads')
+                                ->orderBy('downloadId', 'desc')
+                                ->first();
+            if($download == null) return redirect()->action('DownloadController@index');
+            return redirect()->action('DownloadController@show', [$download->downloadId]);
+        } elseif($version == "master" || $version == "stable"){
+            $download = DB::table('downloads')
+                                ->where('gitBranch', 'master')
+                                ->orderBy('downloadId', 'desc')
+                                ->first();
+            if($download == null) return redirect()->action('DownloadController@index');
+            return redirect()->action('DownloadController@show', [$download->downloadId]);
+        } else {
+            $download = DB::table('downloads')
+                                ->where('version', $version)
+                                ->orderBy('downloadId', 'desc')
+                                ->first();
+            if($download == null) return redirect()->action('DownloadController@index');
+            return redirect()->action('DownloadController@show', [$download->downloadId]);
+        }
     }
 }

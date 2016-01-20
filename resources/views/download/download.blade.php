@@ -7,7 +7,7 @@
 Status &amp; Branch: <span class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</span><br />
 Based on commit hash: {{ $download->gitHash }}<br />
 Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }})<br />
-Multiplayer support: @if($download->version != "0.0.2" && $download->version != "0.0.1")
+Multiplayer support: @if($download->version != "0.0.2" AND $download->version != "0.0.1")
     Yes. <a href="https://github.com/OpenRCT2/OpenRCT2/wiki/Multiplayer">More information</a>
 @else
     No.

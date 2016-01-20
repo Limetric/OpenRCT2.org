@@ -22,8 +22,10 @@
 </p>
 <p>
     An installation of RollerCoaster Tycoon 2 is required in order to play.
-    Alternatively, there are also ways to play <a href="/download-demo">OpenRCT2
-    free of charge</a>.
+    RCT2, with expansions, is cheap nowadays and can be bought from
+    <a href="https://www.g2a.com/r/rct2" target="_blank">G2A</a>,
+    <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
+    and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
 </p>
 <h2 class="blue">Download</h2>
 <p>

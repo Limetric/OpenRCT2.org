@@ -1,26 +1,34 @@
-@extends('layouts.sidebarPageWithHeader')
+@extends('layouts.sidebarPage')
 @section('title','Download OpenRCT2')
 
-@section('specialHeader')
-<h2 class="blue">Download OpenRCT2</h2>
-@stop
-@section('sidebar')
-<p>Please bear in mind OpenRCT2 is in early beta stage. Crashes and bugs are
-    common. If a build is not working, try an older one. You can report bugs
-    on <a href="https://github.com/OpenRCT2/OpenRCT2/issues">GitHub</a> or on
-    the <a href="/forums/forum/2-problems-bugs-and-feedback/">forums</a>.
-</p>
-<p>An installation of RollerCoaster Tycoon 2 is required in order to play
-    OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from
-    <a href="https://www.g2a.com/r/rct2" target="_blank">G2A</a>,
-    <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
-    and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
-    Alternatively, you can play the full game for free by
-    <a href="/download-demo">installing this demo</a>.
-</p>
-
-@stop
 @section('page')
+
+<h2 class="blue">Download OpenRCT2 Launcher</h2>
+<div class="section">
+    <div class="col span_7_of_12">
+        <p>
+            The OpenRCT2 Launcher makes playing OpenRCT2 very simple. Just open our
+            launcher, wait a few seconds and be ready to play. Without the launcher,
+            you would have to update your game files manually every time an update
+            was made!
+        </p><br />
+        <p>
+            The Launcher only works on Windows. If you want to play on Linux or
+            OS X, scroll down to the Builds, which are now available for all platforms.
+        </p><br />
+        <center>
+            <a href="https://openrct.net/OpenRCT2%20Launcher.application">Click
+                here to download the OpenRCT2 Launcher</a>
+        </center>
+    </div>
+    <div class="col span_5_of_12">
+        <img src="http://i.imgur.com/AvBw3N1.png" style="max-width: 100%;" />
+    </div>
+</div>
+
+<h2 class="blue">Download OpenRCT2 Builds</h2>
+
+
 <div class="downloadButtons">
     <a href="/download/latest/{{ $latest['stable'] }}" class="fleft stable">
         Download Stable: {{ $latest['stable'] }}
@@ -48,4 +56,23 @@
     @endforeach
     </tbody>
 </table>
+
+
+
+@stop
+
+@section('sidebar')
+    <h2 class="orange">Note</h2>
+
+    <p>Please bear in mind OpenRCT2 is in early beta stage. Crashes and bugs are
+        common. If a build is not working, try an older one. You can report bugs
+        on <a href="https://github.com/OpenRCT2/OpenRCT2/issues">GitHub</a> or on
+        the <a href="/forums/forum/2-problems-bugs-and-feedback/">forums</a>.
+    </p>
+    <p>An installation of RollerCoaster Tycoon 2 is required in order to play
+        OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from
+        <a href="https://www.g2a.com/r/rct2" target="_blank">G2A</a>,
+        <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
+        and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
+    </p>
 @stop

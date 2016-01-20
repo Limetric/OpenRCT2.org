@@ -143,6 +143,10 @@ h2.lightblue {
     backgroound #ADC4DF;
     color: white;
 }
+h2.orange {
+    background: #FF7700;
+    color: white;
+}
 
 p, .normaltext {
     line-height: 1.6;
@@ -158,7 +162,7 @@ p, .normaltext {
 .homepage_slider {
     width: 100%;
     height: 200px;
-    background-image: url('/assets/images/welcome/homepage_slider/runelaenen1.png');
+    background-image: url('/assets/images/welcome/homepage_slider/a.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
