@@ -20,7 +20,7 @@
     <nav>
       <ul>
         <li><a href="{{ url ('') }}">Home</a></li>
-        <li><a href="{{ url ('downloads') }}">Downloads</a></li>
+        <li><a href="{{ url ('download') }}">Download</a></li>
         <li><a href="{{ url ('features') }}">Features</a></li>
         <li><a href="{{ url ('forums') }}">Forums</a></li>
         <li><a href="{{ url ('streams') }}">Streams</a></li>

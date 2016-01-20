@@ -18,3 +18,5 @@ Route::get('/', function () {
 Route::get('/features', function () {
     return view('features');
 });
+
+Route::resource('download', 'DownloadController');
