@@ -104,6 +104,28 @@ header .uppermenu {
   vertical-align: middle;
 }
 
+.page-wrap {
+  min-height: 100%;
+  /* equal to negative footer height */
+  margin-bottom: -125px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.page-wrap:after {
+  height: 125px;
+}
+footer {
+    background-color: #71abed;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    color: #C6DDF8;
+    margin: 25px 0 0 0;
+    padding: 0;
+}
+
 
 h2 {
     background: #F3F5F6;
@@ -313,13 +335,3 @@ table.downloadsTable small.hash {
 }
 
 /* END download/download.blade.php */
-
-footer {
-    background-color: #71abed;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-    color: #C6DDF8;
-    margin: 0;
-    padding: 0;
-}

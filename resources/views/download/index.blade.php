@@ -8,11 +8,11 @@
 <p>Please bear in mind OpenRCT2 is in early beta stage. Crashes and bugs are
     common. If a build is not working, try an older one. You can report bugs
     on <a href="https://github.com/OpenRCT2/OpenRCT2/issues">GitHub</a> or on
-    the <a href="/community/category/4/comments-bugs-feedback">forums</a>.
+    the <a href="/forums/forum/2-problems-bugs-and-feedback/">forums</a>.
 </p>
 <p>An installation of RollerCoaster Tycoon 2 is required in order to play
     OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from
-    <a href="https://www.g2a.com/r/openrct2" target="_blank">G2A</a>,
+    <a href="https://www.g2a.com/r/rct2" target="_blank">G2A</a>,
     <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
     and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
     Alternatively, you can play the full game for free by
