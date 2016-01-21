@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/features', function () {
+    return view('features');
+});
+
+Route::get('download', 'DownloadController@index');
+Route::get('download/latest/{version?}', 'DownloadController@showLatest');
+Route::get('download/{id}', 'DownloadController@show');

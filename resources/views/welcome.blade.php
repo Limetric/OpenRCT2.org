@@ -1,45 +1,49 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Laravel</title>
+@extends('layouts.sidebarPageWithHeader')
+@section('title','Welcome')
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+@section('specialHeader')
+<div class="homepage_slider">
+</div>
+@stop
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+@section('page')
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-            }
+<h2 class="blue">OpenRCT2</h2>
+<p>
+    OpenRCT2 recreates RollerCoaster Tycoon 2 into opensource code. This allows
+    us to add <a href="/features">new features</a>, fix original bugs and raise
+    game limits. There's even multiplayer co-op!
+</p>
+<p>
+    Development started on April 2nd 2014 by <a
+    href="http://dev.intelorca.co.uk/" target="_blank">Ted 'IntelOrca' John</a>.
+    Thanks to numerous contributions from others the OpenRCT2 project is making
+    great progress and already has new features.
+</p>
+<p>
+    An installation of RollerCoaster Tycoon 2 is required in order to play.
+    RCT2, with expansions, is cheap nowadays and can be bought from
+    <a href="https://www.g2a.com/r/rct2" target="_blank">G2A</a>,
+    <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
+    and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
+</p>
+<h2 class="blue">Download</h2>
+<p>
+    OpenRCT2.com provides automated builds that makes it easy to get started.
+    <a href="/download/latest">Get the latest download</a>.
+</p>
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
+@stop
 
-            .title {
-                font-size: 96px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Laravel 5</div>
-            </div>
-        </div>
-    </body>
-</html>
+@section('sidebar')
+<h2 class="blue">Related Links</h2>
+<ul class="normaltext">
+	<li><a href="//github.com/OpenRCT2/OpenRCT2" target="_blank">Project on GitHub</a></li>
+	<li><a href="//github.com/OpenRCT2/OpenRCT2/issues" target="_blank">Official issue tracker</a></li>
+	<li><a href="/forums/" target="_blank" style="font-weight: 600;">Sign up on the Forums</a></li>
+	<li><a href="//www.reddit.com/r/OpenRCT2" target="_blank">Subreddit</a></li>
+	<li><a href="//gitter.im/OpenRCT2/OpenRCT2" target="_blank">Gitter Chat</a></li>
+	<li><a href="//gitter.im/OpenRCT2/OpenRCT2/non-dev" target="_blank">Gitter Non-Dev Chat</a></li>
+</ul>
+@stop

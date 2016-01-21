@@ -4,5 +4,6 @@
 .env.*.php
 .env.php
 .env
+.lock
 Homestead.yaml
 Homestead.json
