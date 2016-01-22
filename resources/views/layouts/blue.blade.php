@@ -19,16 +19,16 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="{{ url ('') }}">Home</a></li>
-                    <li><a href="{{ url ('download') }}">Download</a></li>
-                    <li><a href="{{ url ('features') }}">Features</a></li>
+                    <li{{{ (Request::is('/') ? ' class=active' : '') }}}><a href="{{ url('') }}">Home</a></li>
+                    <li{{{ (Request::is('downloads*') ? ' class=active' : '') }}}><a href="{{ url('downloads') }}">Download</a></li>
+                    <li{{{ (Request::is('features') ? ' class=active' : '') }}}><a href="{{ url('features') }}">Features</a></li>
                     <li><a href="{{ url ('forums') }}">Forums</a></li>
                 </ul>
             </nav>
         </div>
     </header>
     <div class="container">
-        @yield('section')
+@yield('section')
     </div>
 </div>
 <footer>

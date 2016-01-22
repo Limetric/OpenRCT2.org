@@ -27,8 +27,8 @@ header {
 }
 
 .container {
-    width: calc(100% - 30px);
-    max-width: 1200px;
+    width: calc(100% - 20px);
+    max-width: 967px;
     padding: 0 15px;
     margin: 0 auto;
     position: relative;
@@ -76,10 +76,14 @@ header nav ul li a, header nav ul li a:hover {
     text-decoration: none;
 }
 
-header nav ul li:hover {
+header nav ul li:hover, header nav ul li.active {
     border: 2px solid white;
     border-radius: 3px;
     padding: 8px;
+}
+
+header nav ul li:hover {
+    text-decoration: underline;
 }
 
 header .uppermenu {
