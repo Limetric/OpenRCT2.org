@@ -33,7 +33,7 @@
 </div>
 <footer>
         <div class="container">
-                Copyright © {{ date('Y') }} OpenRCT2.org. <a href="mailto:mail@openrct2.org">Email webmaster</a>.
+                Copyright © {{ date('Y') }} OpenRCT2.org. <a href="mailto:mail@openrct2.org">Email webmaster</a>. <a href="https://github.com/JarnoVgr/OpenRCT2.org" target="_blank">Website on GitHub</a>.
         </div>
 </footer>
 @stop
