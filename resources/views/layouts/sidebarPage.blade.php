@@ -1,4 +1,3 @@
-<!-- Use this layout to build a normal page with a sidebar. -->
 @extends('layouts.blue')
 @section('section')
 <div class="section">

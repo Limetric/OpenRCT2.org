@@ -7,8 +7,7 @@
 @stop
 
 @section('page')
-
-<h2 class="blue">Features</h2>
+<h1>OpenRCT2 Features</h1>
 <h2>0.0.4 (develop branch)</h2>
 <ul>
     <li>Feature: Add displaying of frames per second (FPS).</li>
@@ -137,7 +136,4 @@
     <li>Feature: Twitch integration</li>
     <li>Fix: Litter bins now get full and require emptying by handymen.</li>
 </ul>
-
-<br />
-
 @stop

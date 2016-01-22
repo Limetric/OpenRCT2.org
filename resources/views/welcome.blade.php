@@ -7,7 +7,6 @@
 @stop
 
 @section('page')
-
 <h2 class="blue">OpenRCT2</h2>
 <p>
     OpenRCT2 recreates RollerCoaster Tycoon 2 into opensource code. This allows
@@ -32,8 +31,6 @@
     OpenRCT2.com provides automated builds that makes it easy to get started.
     <a href="/download/latest">Get the latest download.</a>
 </p>
-
-
 @stop
 
 @section('sidebar')
