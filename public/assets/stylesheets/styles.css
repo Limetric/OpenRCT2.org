@@ -2,170 +2,177 @@ html {
     height: 100%;
 }
 body {
-  font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  overflow-y: scroll;
-  height: 100%;
+    font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    overflow-y: scroll;
+    height: 100%;
+    font-size: 11pt;
+    line-height: 1.5;
 }
 a {
     color: #5A89BE;
 }
 header {
-  height: 100px;
-  margin-bottom: 0;
-  padding-bottom: 0;
-  padding-top: 0;
+    height: 100px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
 
-  background-color: #71abed;
-  color: white;
+    background-color: #71abed;
+    color: white;
 }
 .container {
-  width: 79%;
-  min-width: 979px;
-  max-width: 1340px;
-  padding: 0 15px;
-  margin: 0 auto;
-  position: relative;
-  box-sizing: border-box;
+    width: 79%;
+    min-width: 979px;
+    max-width: 1340px;
+    padding: 0 15px;
+    margin: 0 auto;
+    position: relative;
+    box-sizing: border-box;
 }
 
 .header_logo a {
-  text-decoration: none;
+    text-decoration: none;
 }
 .header_logo span {
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
-  z-index: 9999;
-  line-height: 100px;
-  color: white;
-  font-size: 24pt;
-  font-family: 'Oswald', sans-serif;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    z-index: 9999;
+    line-height: 100px;
+    color: white;
+    font-size: 24pt;
+    font-family: 'Oswald', sans-serif;
 }
 .header_logo img {
-  vertical-align: middle;
-  padding-right: 15px;
+    vertical-align: middle;
+    padding-right: 15px;
 }
-
 
 header nav {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 header nav ul {
-  height: 50px;
+    height: 50px;
 }
 header nav ul li {
-  display: inline;
-  line-height: 50px;
-  padding: 10px;
+    display: inline;
+    line-height: 50px;
+    padding: 10px;
 }
 
 header nav ul li a {
-  color: white;
-  text-decoration: none;
+    color: white;
+    text-decoration: none;
 
 }
 header nav ul li:hover {
-  border: 2px solid white;
-  border-radius: 3px;
-  padding: 8px;
+    border: 2px solid white;
+    border-radius: 3px;
+    padding: 8px;
 }
 
 header .uppermenu {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: rgba(0,0,0,0.3);
-  height: 40px;
-  color: white;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.3);
+    height: 40px;
+    color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 .uppermenu a {
-  display: inline-block;
-  color: white;
-  text-decoration: none;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 15px;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 15px;
 }
 .uppermenu a.darklink {
-  background-color: rgba(0,0,0,0.5);
-  border-bottom-right-radius: 5px;
+    background-color: rgba(0,0,0,0.5);
+    border-bottom-right-radius: 5px;
 }
 .uppermenu a.imglink {
-  padding: 0;
+    padding: 0;
 }
 .uppermenu img {
-  height: 45px;
-  margin: -10px 10px 0 -15px;
-  border-bottom-left-radius: 5px;
-  vertical-align: middle;
+    height: 45px;
+    margin: -10px 10px 0 -15px;
+    border-bottom-left-radius: 5px;
+    vertical-align: middle;
 }
 
 .page-wrap {
-  min-height: 100%;
-  /* equal to negative footer height */
-  margin-bottom: -125px;
+    min-height: 100%;
+    /* equal to negative footer height */
+    margin-bottom: -125px;
 }
 .page-wrap:after {
-  content: "";
-  display: block;
+    content: "";
+    display: block;
 }
 .page-wrap:after {
-  height: 125px;
+    height: 125px;
 }
 footer {
-    background-color: #71abed;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-    color: #C6DDF8;
-    margin: 25px 0 0 0;
-    padding: 0;
+        background-color: #71abed;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        color: #C6DDF8;
+        margin: 25px 0 0 0;
+        padding: 0;
 }
 
 
-h2 {
-    background: #F3F5F6;
-    color: black;
-    font-size: 16px;
-    font-weight: 300;
-    padding: 11px 15px 12px 15px;
-    margin: 15px 0 5px 0;
+h1, h2 {
+        background: #F3F5F6;
+        color: black;
+        font-size: 16px;
+        font-weight: 300;
+        padding: 11px 15px 12px 15px;
+        margin: 15px 0 5px 0;
 }
-h2.blue {
-    background: #5A89BE;
-    color: white;
+
+h1, h2.blue {
+        background: #5A89BE;
+        color: white;
 }
 h2.lightblue {
-    backgroound #ADC4DF;
-    color: white;
+        backgroound #ADC4DF;
+        color: white;
 }
 h2.orange {
-    background: #FF7700;
-    color: white;
+        background: #FF7700;
+        color: white;
 }
 
 p, .normaltext {
-    line-height: 1.6;
-    font-size: 14px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.5;
-    color: #272a34;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        color: #272a34;
+}
+
+ul {
+    list-style-position: inside;
+}
+
+ul > li {
+    list-style-type: disc;
 }
 
 /* welcome.blade.php */
 
 .homepage_slider {
-    width: 100%;
-    height: 200px;
-    background-image: url('/assets/images/welcome/homepage_slider/a.png');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
+        width: 100%;
+        height: 200px;
+        background-image: url('/assets/images/welcome/homepage_slider/a.png');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
 }
 
 /* END welcome*/
@@ -173,145 +180,145 @@ p, .normaltext {
 /* download/index.blade.php */
 
 div.buildLog {
-	font-family: 'Consolas', "Courier New", Courier, monospace;
-	font-size: 11px;
-	margin-bottom: 6px;
+    font-family: 'Consolas', "Courier New", Courier, monospace;
+    font-size: 11px;
+    margin-bottom: 6px;
 }
 
 table.downloadsWaterfall {
-	margin-bottom: 6px;
-	width: 100%;
-    border-spacing: 3px;
-    border-collapse: separate;
+    margin-bottom: 6px;
+    width: 100%;
+        border-spacing: 3px;
+        border-collapse: separate;
 }
 
 table.downloadsWaterfall tbody {
-	font-size: 10px;
+    font-size: 10px;
 }
 
 table.downloadsLinks tbody {
-	font-size: 14px;
+    font-size: 14px;
 }
 
 table.downloadsWaterfall tbody tr td:first-child {
-	width: 100px;
+    width: 100px;
 }
 
 table td.size {
-	text-align: right;
+    text-align: right;
 }
 
 table thead tr td {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 table.downloadsWaterfall tbody tr:first-child {
-	font-size: 18px;
-	font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 table.downloadsWaterfall tbody tr:nth-child(2) {
-	font-size: 17px;
+    font-size: 17px;
 }
 
 table.downloadsWaterfall tbody tr:nth-child(3) {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 table.downloadsWaterfall tbody tr:nth-child(4) {
-	font-size: 15px;
+    font-size: 15px;
 }
 
 table.downloadsWaterfall tbody tr:nth-child(5) {
-	font-size: 14px;
+    font-size: 14px;
 }
 
 table.downloadsWaterfall tbody tr:nth-child(6) {
-	font-size: 13px;
+    font-size: 13px;
 }
 
 table.downloadsWaterfall tbody tr:nth-child(7) {
-	font-size: 12px;
+    font-size: 12px;
 }
 
 .downloadWarning {
-	background-color: #B34F4F;
-	border: 1px solid #D77F7F;
-	font-size: 16px;
-	padding: 5px;
-	display: inline-block;
+    background-color: #B34F4F;
+    border: 1px solid #D77F7F;
+    font-size: 16px;
+    padding: 5px;
+    display: inline-block;
 }
 
 .downloadWarning, .downloadWarning a {
-	color: #FFBFBF;
-	font-weight: bold;
+    color: #FFBFBF;
+    font-weight: bold;
 }
 
 .downloadDetails a.downloadLink {
-	font-size: 12px;
+    font-size: 12px;
 }
 
 .warning {
-	background-color: #B34F4F;
-	border: 1px solid #D77F7F;
-	font-size: 16px;
-	padding: 5px;
+    background-color: #B34F4F;
+    border: 1px solid #D77F7F;
+    font-size: 16px;
+    padding: 5px;
 }
 
 .warning, .warning a {
-	color: #FFBFBF;
-	font-weight: bold;
+    color: #FFBFBF;
+    font-weight: bold;
 }
 
 .downloadButtons > a {
-	background-color: #B34F4F;
-	border: 1px solid #D77F7F;
-	font-size: 18px;
-	padding: 10px;
-    margin-bottom: 15px;
-	width: calc(50% - 5px);
-	display: inline-block;
-	box-sizing: border-box;
-	color: #FFBFBF;
-	font-weight: bold;
-	text-align: center;
-	min-height: 40px;
-	line-height: 28px;
+    background-color: #B34F4F;
+    border: 1px solid #D77F7F;
+    font-size: 18px;
+    padding: 10px;
+        margin-bottom: 15px;
+    width: calc(50% - 5px);
+    display: inline-block;
+    box-sizing: border-box;
+    color: #FFBFBF;
+    font-weight: bold;
+    text-align: center;
+    min-height: 40px;
+    line-height: 28px;
 }
 
 .downloadButtons > a.stable {
-	background-color: #50B258;
-	border: 1px solid #80D687;
-	color: #BFFFC4;
+    background-color: #50B258;
+    border: 1px solid #80D687;
+    color: #BFFFC4;
 }
 
 .downloadButtons > a.develop {
-	background-color: #4F68AF;
-	border: 1px solid #7E95D3;
-	color: #BFD0FF;
+    background-color: #4F68AF;
+    border: 1px solid #7E95D3;
+    color: #BFD0FF;
 }
 
 .buildStatus {
-	border-radius: 4px;
-	color: #FFF;
-	text-align: center;
-	padding: 0 3px;
+    border-radius: 4px;
+    color: #FFF;
+    text-align: center;
+    padding: 0 3px;
 }
 
 div.buildStatus {
-	display: inline-block;
+    display: inline-block;
 }
 
 .buildStatus.success {
-	background-color: #009B0C;
+    background-color: #009B0C;
 }
 
 .buildStatus.unknown {
-	background-color: #007A99;
+    background-color: #007A99;
 }
 
 .buildStatus.failed {
-	background-color: #9E0000;
+    background-color: #9E0000;
 }
 
 /* END download/index.blade.php */
@@ -319,23 +326,23 @@ div.buildStatus {
 /* download/download.blade.php */
 
 table.changesTable {
-    width: 100%;
+        width: 100%;
 }
 table.changesTable author {
-    width: 20%;
+        width: 20%;
 }
 table.changesTable td {
-    vertical-align: top;
+        vertical-align: top;
 }
 
 table.downloadsTable {
-    width: 100%;
-    text-align: left;
+        width: 100%;
+        text-align: left;
 }
 
 table.downloadsTable small.hash {
-    font-size: 12px;
-    color: #E0E0E0;
+        font-size: 12px;
+        color: #E0E0E0;
 }
 
 /* END download/download.blade.php */
