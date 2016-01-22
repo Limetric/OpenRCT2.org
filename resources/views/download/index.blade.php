@@ -5,10 +5,10 @@
 
 <h2 class="blue">Download OpenRCT2</h2>
 <div class="downloadButtons">
-    <a href="/download/latest/{{ $latest['stable'] }}" class="fleft stable">
+    <a href="/downloads/latest/{{ $latest['stable'] }}" class="fleft stable">
         Download Stable: {{ $latest['stable'] }}
     </a>
-    <a href="/download/latest/develop" class="fright develop">
+    <a href="/downloads/latest/develop" class="fright develop">
         Download Develop: {{ $latest['develop'] }}
     </a>
 </div>
@@ -25,7 +25,7 @@
     @foreach ($downloads as $download)
         <tr class="download">
             <td class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</td>
-            <td class="name"><a href="/download/{{ $download->gitBranch }}/{{ $download->gitHashShort }}">{{ $download->version }} build {{ $download->gitHashShort }}</a></td>
+            <td class="name"><a href="/downloads/{{ $download->gitBranch }}/{{ $download->gitHashShort }}">{{ $download->version }} build {{ $download->gitHashShort }}</a></td>
             <td class="age">{{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }}</td>
         </tr>
     @endforeach

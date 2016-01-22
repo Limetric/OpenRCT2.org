@@ -23,6 +23,7 @@ Route::get('/download-demo', function () {
     return view('download-demo');
 });
 
-Route::get('download', 'DownloadController@index');
-Route::get('download/latest/{identifier}', 'DownloadController@showLatest');
-Route::get('download/{gitBranch}/{gitHashShort}', 'DownloadController@show');
+Route::get('downloads', 'DownloadsController@index');
+Route::get('downloads/latest', 'DownloadsController@showLatest');
+Route::get('downloads/latest/{identifier}', 'DownloadsController@showLatest');
+Route::get('downloads/{gitBranch}/{gitHashShort}', 'DownloadsController@show');

@@ -29,7 +29,7 @@
 <h2 class="blue">Download</h2>
 <p>
     OpenRCT2.com provides automated builds that makes it easy to get started.
-    <a href="/download/latest">Get the latest download.</a>
+    <a href="/downloads/latest">Get the latest download.</a>
 </p>
 @stop
 
