@@ -19,6 +19,10 @@ Route::get('/features', function () {
     return view('features');
 });
 
+Route::get('/download-demo', function () {
+    return view('download-demo');
+});
+
 Route::get('download', 'DownloadController@index');
 Route::get('download/latest/{identifier}', 'DownloadController@showLatest');
 Route::get('download/{gitBranch}/{gitHashShort}', 'DownloadController@show');
