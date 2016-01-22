@@ -3,7 +3,36 @@
 
 @section('page')
 
-<h2 class="blue">Download OpenRCT2 Launcher</h2>
+<h2 class="blue">Download OpenRCT2</h2>
+<div class="downloadButtons">
+    <a href="/download/latest/{{ $latest['stable'] }}" class="fleft stable">
+        Download Stable: {{ $latest['stable'] }}
+    </a>
+    <a href="/download/latest/develop" class="fright develop">
+        Download Develop: {{ $latest['develop'] }}
+    </a>
+</div>
+
+<table class="downloadsWaterfall">
+    <thead>
+        <tr>
+            <td class="status"></td>
+            <td class="name">Name</td>
+            <td class="age">Age</td>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($downloads as $download)
+        <tr class="download">
+            <td class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</td>
+            <td class="name"><a href="/download/{{ $download->gitBranch }}/{{ $download->gitHashShort }}">{{ $download->version }} build {{ $download->gitHashShort }}</a></td>
+            <td class="age">{{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }}</td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+
+<h2 class="blue">OpenRCT2 Launcher for Windows</h2>
 <div class="section">
     <div class="col span_7_of_12">
         <p>
@@ -26,39 +55,6 @@
     </div>
 </div>
 
-<h2 class="blue">Download OpenRCT2 Builds</h2>
-
-
-<div class="downloadButtons">
-    <a href="/download/latest/{{ $latest['stable'] }}" class="fleft stable">
-        Download Stable: {{ $latest['stable'] }}
-    </a>
-    <a href="/download/latest/develop" class="fright develop">
-        Download Develop: {{ $latest['develop'] }}
-    </a>
-</div>
-
-<table class="downloadsWaterfall">
-    <thead>
-        <tr>
-            <td class="status"></td>
-            <td class="name">Name</td>
-            <td class="age">Age</td>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach ($downloads as $download)
-        <tr class="download">
-            <td class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</td>
-            <td class="name"><a href="/download/{{ $download->gitBranch }}/{{ $download->gitHashShort }}">{{ $download->version }} build {{ $download->downloadId }}</a></td>
-            <td class="age">{{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }}</td>
-        </tr>
-    @endforeach
-    </tbody>
-</table>
-
-
-
 @stop
 
 @section('sidebar')
@@ -74,15 +70,15 @@
         <a href="https://www.g2a.com/r/openrct2" target="_blank">G2A</a>,
         <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
         and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
+        Alternatively, you can play the full game for free by <a href="/download-demo">downloading this demo</a>.
     </p>
 
     <h2 class="blue">About OpenRCT2</h2>
     <p>
-        OpenRCT2 is the free open source remake of RollerCoaster Tycoon 2. The
+        OpenRCT2 is a free open source remake of RollerCoaster Tycoon 2. The
         developers have taken the original game, decompiled it and rewrote
-        everything into a newer language while making this code open source.
-        This means other developers can now create plugins to extend the
-        gameplay, or even port the game to other platforms. At this moment,
-        the game is playable on Windows, Linux and OS X.
+        everything into a newer language.
+        This allows developers to extend the gameplay, alter the game, or even port the game to other platforms.
+        At this moment, the game is playable on Windows, Linux and OS X.
     </p>
 @stop
