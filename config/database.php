@@ -54,12 +54,12 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'laenen.nu'),
-            'database'  => env('DB_DATABASE', 'admin_oporg'),
-            'username'  => env('DB_USERNAME', 'admin_oporg'),
-            'password'  => env('DB_PASSWORD', 'oporg2'),
+            'host'      => env('DB_HOST', 'localhost'),
+            'database'  => env('DB_DATABASE', ''),
+            'username'  => env('DB_USERNAME', ''),
+            'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'collation' => 'utf8mb4_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
         ],
