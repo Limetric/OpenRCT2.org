@@ -2,16 +2,11 @@
 @section('title','Download OpenRCT2')
 
 @section('page')
-<h2 class="blue">{{ $download->version }} build {{ $download->downloadId }}</h2>
+<h2 class="blue">{{ $download->version }} build {{ $download->gitHashShort }}</h2>
 
-Status &amp; Branch: <span class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</span><br />
-Based on commit hash: {{ $download->gitHash }}<br />
-Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }})<br />
-Multiplayer support: @if($download->version != "0.0.2" AND $download->version != "0.0.1")
-    Yes. <a href="https://github.com/OpenRCT2/OpenRCT2/wiki/Multiplayer">More information</a>
-@else
-    No.
-@endif
+Status &amp; Branch: <span class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</span><br>
+Based on commit hash: {{ $download->gitHash }}<br>
+Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }})<br>
 
 <h2>Download OpenRCT2 {{ $download->version }} build {{ $download->downloadId }}</h2>
 <table class="downloadsTable">

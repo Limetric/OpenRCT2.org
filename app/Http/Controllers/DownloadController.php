@@ -27,6 +27,10 @@ class DownloadController extends Controller
                             ->orderBy('downloadId', 'desc')
                             ->take(25)
                             ->get();
+        //Generate gitHashShort
+        foreach ($downloads as $key => $download) {
+            $download->gitHashShort = substr($download->gitHash, 0, 8);
+        }
 
         $latest['stable'] = DB::table('downloads')
                             ->where('gitBranch', 'master')
@@ -46,10 +50,11 @@ class DownloadController extends Controller
     /**
      * Displays the download page of a specific downloadId.
      *
-     * @param  int  $downloadId
+     * @param  String  $gitBranch
+     * @param  String  $gitHash
      * @return \Illuminate\Http\Response
      */
-    public function show(int $downloadId)
+    public function show(String $gitBranch, String $gitHash)
     {
         $download = DB::table('downloads')
                             ->join('downloadsBuilds', function ($join) {
@@ -57,10 +62,12 @@ class DownloadController extends Controller
                                      ->where('downloadsBuilds.flavourId', '=', 1);
                             })
                             ->select('downloads.*', "downloadsBuilds.status")
-                            ->where('downloadId', $downloadId)
+                            ->where('gitBranch', $gitBranch)
+                            ->where('gitHash', 'like', $gitHash .'%')
                             ->orderBy('downloadId', 'desc')
                             ->first();
 
+        $download->gitHashShort = substr($download->gitHash, 0, 8);
 
         /* $downloadsBuilds = DB::table('downloadsBuilds')
                             ->where('downloadsBuilds.parentDownloadId', $downloadId)
@@ -72,7 +79,7 @@ class DownloadController extends Controller
         $downloadsBuilds = DB::select('SELECT filePath, fileName, fileSize, fileHash, title as flavourName
                                         FROM downloadsBuilds b
                                         JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
-                                        WHERE parentDownloadId = :id', ['id' => $downloadId]);
+                                        WHERE parentDownloadId = :id', ['id' => $download->downloadId]);
 
         return view('download.download', ['download' => $download,
                                             'downloadsBuilds' => $downloadsBuilds,
@@ -83,31 +90,34 @@ class DownloadController extends Controller
     /**
      * Displays the download page, or returns json of a specific downloadId.
      *
-     * @param  String? $version
+     * @param  String $identifier
      * @return \Illuminate\Http\Response
      */
-    public function showLatest(String $version = null)
+    public function showLatest(String $identifier = null)
     {
-        if($version == null || $version == "develop"){
+        if ($identifier == null || $identifier == "develop") {
             $download = DB::table('downloads')
                                 ->orderBy('downloadId', 'desc')
                                 ->first();
-            if($download == null) return redirect()->action('DownloadController@index');
-            return redirect()->action('DownloadController@show', [$download->downloadId]);
-        } elseif($version == "master" || $version == "stable"){
+            if ($download == null)
+                return redirect()->action('DownloadController@index');
+            return redirect()->action('DownloadController@show', [$download->gitBranch, substr($download->gitHash, 0, 8)]);
+        } elseif ($identifier == "master" || $identifier == "stable") {
             $download = DB::table('downloads')
                                 ->where('gitBranch', 'master')
                                 ->orderBy('downloadId', 'desc')
                                 ->first();
-            if($download == null) return redirect()->action('DownloadController@index');
-            return redirect()->action('DownloadController@show', [$download->downloadId]);
+            if ($download == null)
+                return redirect()->action('DownloadController@index');
+            return redirect()->action('DownloadController@show', [$download->gitBranch, substr($download->gitHash, 0, 8)]);
         } else {
             $download = DB::table('downloads')
-                                ->where('version', $version)
+                                ->where('version', $identifier)
                                 ->orderBy('downloadId', 'desc')
                                 ->first();
-            if($download == null) return redirect()->action('DownloadController@index');
-            return redirect()->action('DownloadController@show', [$download->downloadId]);
+            if ($download == null) return
+                redirect()->action('DownloadController@index');
+            return redirect()->action('DownloadController@show', [$download->gitBranch, substr($download->gitHash, 0, 8)]);
         }
     }
 }

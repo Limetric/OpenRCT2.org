@@ -20,5 +20,5 @@ Route::get('/features', function () {
 });
 
 Route::get('download', 'DownloadController@index');
-Route::get('download/latest/{version?}', 'DownloadController@showLatest');
-Route::get('download/{id}', 'DownloadController@show');
+Route::get('download/latest/{identifier}', 'DownloadController@showLatest');
+Route::get('download/{gitBranch}/{gitHashShort}', 'DownloadController@show');

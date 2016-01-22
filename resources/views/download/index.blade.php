@@ -22,7 +22,7 @@
         </center>
     </div>
     <div class="col span_5_of_12">
-        <img src="http://i.imgur.com/AvBw3N1.png" style="max-width: 100%;" />
+        <img src="/media/launcher_screenshot.png" style="max-width: 100%;" />
     </div>
 </div>
 
@@ -50,7 +50,7 @@
     @foreach ($downloads as $download)
         <tr class="download">
             <td class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</td>
-            <td class="name"><a href="/download/{{ $download->downloadId }}">{{ $download->version }} build {{ $download->downloadId }}</a></td>
+            <td class="name"><a href="/download/{{ $download->gitBranch }}/{{ $download->gitHashShort }}">{{ $download->version }} build {{ $download->downloadId }}</a></td>
             <td class="age">{{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }}</td>
         </tr>
     @endforeach
@@ -71,14 +71,14 @@
     </p>
     <p>An installation of RollerCoaster Tycoon 2 is required in order to play
         OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from
-        <a href="https://www.g2a.com/r/rct2" target="_blank">G2A</a>,
+        <a href="https://www.g2a.com/r/openrct2" target="_blank">G2A</a>,
         <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
         and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
     </p>
 
     <h2 class="blue">About OpenRCT2</h2>
     <p>
-        OpenRCT2 is the free open source remake of Rollercoaster Tycoon 2. The
+        OpenRCT2 is the free open source remake of RollerCoaster Tycoon 2. The
         developers have taken the original game, decompiled it and rewrote
         everything into a newer language while making this code open source.
         This means other developers can now create plugins to extend the
