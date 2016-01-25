@@ -22,14 +22,15 @@ class DownloadsController extends Controller
                             ->join('downloadsBuilds', function ($join) {
                                 $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
                             })
+                            ->select('downloads.*', 'downloadsBuilds.status')
                             ->groupBy('downloadId')
-                            //->select('downloads.*', 'downloadsBuilds.status')
                             ->orderBy('downloadId', 'desc')
                             ->take(25)
                             ->get();
         //Generate gitHashShort
         foreach ($downloads as $key => $download) {
-            $download->gitHashShort = substr($download->gitHash, 0, 7);
+            if (!isset($download->gitHashShort) || empty($download->gitHashShort))
+                $download->gitHashShort = substr($download->gitHash, 0, 7);
         }
 
         $latest['stable'] = DB::table('downloads')
@@ -75,7 +76,7 @@ class DownloadsController extends Controller
 
         //TODO: Convert to querybuilder... Couldn't get it to work so I wrote a manual query
         */
-        $downloadsBuilds = DB::select('SELECT filePath, fileName, fileSize, fileHash, title as flavourName
+        $downloadsBuilds = DB::select('SELECT b.filePath, b.fileName, b.fileSize, b.fileHash, f.platform AS flavourPlatform, f.architecture AS flavourArchitecture, f.name as flavourName
                                         FROM downloadsBuilds b
                                         JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
                                         WHERE parentDownloadId = :id', ['id' => $download->downloadId]);
