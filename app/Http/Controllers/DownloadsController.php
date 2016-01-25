@@ -20,16 +20,16 @@ class DownloadsController extends Controller
         //
         $downloads = DB::table('downloads')
                             ->join('downloadsBuilds', function ($join) {
-                                $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId')
-                                     ->where('downloadsBuilds.flavourId', '=', 1);
+                                $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
                             })
-                            ->select('downloads.*', 'downloadsBuilds.status')
+                            ->groupBy('downloadId')
+                            //->select('downloads.*', 'downloadsBuilds.status')
                             ->orderBy('downloadId', 'desc')
                             ->take(25)
                             ->get();
         //Generate gitHashShort
         foreach ($downloads as $key => $download) {
-            $download->gitHashShort = substr($download->gitHash, 0, 8);
+            $download->gitHashShort = substr($download->gitHash, 0, 7);
         }
 
         $latest['stable'] = DB::table('downloads')
@@ -58,8 +58,7 @@ class DownloadsController extends Controller
     {
         $download = DB::table('downloads')
                             ->join('downloadsBuilds', function ($join) {
-                                $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId')
-                                     ->where('downloadsBuilds.flavourId', '=', 1);
+                                $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
                             })
                             ->select('downloads.*', 'downloadsBuilds.status')
                             ->where('gitBranch', $gitBranch)
@@ -67,7 +66,7 @@ class DownloadsController extends Controller
                             ->orderBy('downloadId', 'desc')
                             ->first();
 
-        $download->gitHashShort = substr($download->gitHash, 0, 8);
+        $download->gitHashShort = substr($download->gitHash, 0, 7);
 
         /* $downloadsBuilds = DB::table('downloadsBuilds')
                             ->where('downloadsBuilds.parentDownloadId', $downloadId)
@@ -101,7 +100,7 @@ class DownloadsController extends Controller
                                 ->first();
             if ($download == null)
                 return redirect()->action('DownloadsController@index');
-            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 8)]);
+            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 7)]);
         } elseif ($identifier == 'master' || $identifier == 'stable') {
             $download = DB::table('downloads')
                                 ->where('gitBranch', 'master')
@@ -109,7 +108,7 @@ class DownloadsController extends Controller
                                 ->first();
             if ($download == null)
                 return redirect()->action('DownloadsController@index');
-            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 8)]);
+            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 7)]);
         } else {
             $download = DB::table('downloads')
                                 ->where('version', $identifier)
@@ -117,7 +116,7 @@ class DownloadsController extends Controller
                                 ->first();
             if ($download == null) return
                 redirect()->action('DownloadsController@index');
-            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 8)]);
+            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 7)]);
         }
     }
 }
