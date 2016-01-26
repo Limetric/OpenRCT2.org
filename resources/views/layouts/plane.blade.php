@@ -2,14 +2,16 @@
 <html lang="en-GB" dir="ltr">
     <head>
         <meta charset="UTF-8">
-        <title>@yield('title', "OpenRCT2")</title>
+        <title>@yield('title', "OpenRCT2 project")</title>
         <link href="https://fonts.googleapis.com/css?family=PT+Sans:300,400,700|Oswald:400" rel="stylesheet" type="text/css">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="@yield('description', "OpenRCT2 is the open-source adaption of the classic hit RollerCoaster Tycoon 2. The goal is to replace all game code with open-source code and extend the game with new features.")">
         <meta property="og:image" content="{{asset('assets/images/logos/icon_x512.png')}}">
         <meta property="og:title" content="OpenRCT2">
+        <meta property="og:description" content="@yield('description', "OpenRCT2 is the open-source adaption of the classic hit RollerCoaster Tycoon 2. The goal is to replace all game code with open-source code and extend the game with new features.")">
         <meta property="og:type" content="website">
-        <meta property="og:url" content="https://openrct2.org/">
+        <meta property="og:url" content="{{ isset($url) ? $url : str_replace('http://', 'https://', Request::url()) }}">
         <meta property="og:site_name" content="OpenRCT2">
         <meta property="og:locale" content="en_GB">
         <meta name="theme-color" content="#71abed">

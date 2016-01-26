@@ -1,14 +1,14 @@
 @extends('layouts.normalPage')
-@section('title','Download OpenRCT2')
-
+@section('title','Download '. $download->version .'-'. $download->gitBranch .' build '. $download->gitHashShort .' - OpenRCT2 project')
+@section('description','Download OpenRCT2 '. $download->version .'-'. $download->gitBranch .' build '. $download->gitHashShort .' of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.')
 @section('page')
-<h2 class="blue">{{ $download->version }} build {{ $download->gitHashShort }}</h2>
+<h1>{{ $download->version }} build {{ $download->gitHashShort }}</h1>
 
-Status &amp; Branch: <span class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</span><br>
+<p>Status &amp; Branch: <span class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</span><br>
 Based on commit hash: {{ $download->gitHash }}<br>
-Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }})<br>
+Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }})</p>
 
-<h2>Download OpenRCT2 {{ $download->version }} build {{ $download->downloadId }}</h2>
+<h2>Available downloads</h2>
 <table class="downloadsTable">
     <thead>
         <tr>
@@ -19,7 +19,6 @@ Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strt
     </thead>
     <tbody>
         @foreach ($downloadsBuilds as $build)
-
             <tr>
                 <td class="buildPlatform">{{ $build->flavourName }}</td>
                 <td class="buildDownload"><a href="{{$serverURL}}{{ $build->filePath }}/{{ $build->fileName }}">{{ $build->fileName }}</a> <small class="hash">{{ $build->fileHash }}</small></td>

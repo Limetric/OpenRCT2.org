@@ -1,5 +1,6 @@
 @extends('layouts.sidebarPage')
-@section('title','Download OpenRCT2')
+@section('title','Downloads - OpenRCT2 project')
+@section('description','Downloads for the open-source adaption of RollerCoaster Tycoon 2. Free to download.')
 
 @section('page')
 

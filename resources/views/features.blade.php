@@ -1,5 +1,6 @@
 @extends('layouts.normalPageWithHeader')
-@section('title','Features')
+@section('title','Features - OpenRCT2 project')
+@section('description','An overview of alterations made to OpenRCT2 when compared to RollerCoaster Tycoon 2.')
 
 @section('specialHeader')
 <div class="features_slider">

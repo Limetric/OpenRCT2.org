@@ -1,5 +1,6 @@
 @extends('layouts.normalPageWithHeader')
-@section('title','Download RCT2 Demo')
+@section('title','Download RCT2 Demo - OpenRCT2 project')
+@section('description','By downloading the free RollerCoaster Tycoon 2 TTP Demo you can play the full OpenRCT2 game.')
 
 @section('specialHeader')
 <div class="features_slider">
