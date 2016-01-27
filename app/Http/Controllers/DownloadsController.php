@@ -67,15 +67,14 @@ class DownloadsController extends Controller
                             ->orderBy('downloadId', 'desc')
                             ->first();
 
-        $download->gitHashShort = substr($download->gitHash, 0, 7);
+        if (!$download)
+            return redirect()->action('DownloadsController@index');
 
-        /* $downloadsBuilds = DB::table('downloadsBuilds')
-                            ->where('downloadsBuilds.parentDownloadId', $downloadId)
-                            ->join('downloadFlavours', 'downloadFlavours.flavourId', '=', 'downloadsBuilds.flavourId')
-                            ->select('downloadBuilds.*', 'downloadFlavours.title');
+        if (!isset($download->gitHashShort))
+            $download->gitHashShort = substr($download->gitHash, 0, 7);
+
 
         //TODO: Convert to querybuilder... Couldn't get it to work so I wrote a manual query
-        */
         $downloadsBuilds = DB::select('SELECT b.filePath, b.fileName, b.fileSize, b.fileHash, f.platform AS flavourPlatform, f.architecture AS flavourArchitecture, f.name as flavourName
                                         FROM downloadsBuilds b
                                         JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
@@ -95,29 +94,34 @@ class DownloadsController extends Controller
      */
     public function showLatest(String $identifier = null)
     {
-        if ($identifier == null || $identifier == 'develop') {
-            $download = DB::table('downloads')
-                                ->orderBy('downloadId', 'desc')
-                                ->first();
-            if ($download == null)
-                return redirect()->action('DownloadsController@index');
-            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 7)]);
-        } elseif ($identifier == 'master' || $identifier == 'stable') {
-            $download = DB::table('downloads')
-                                ->where('gitBranch', 'master')
-                                ->orderBy('downloadId', 'desc')
-                                ->first();
-            if ($download == null)
-                return redirect()->action('DownloadsController@index');
-            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 7)]);
-        } else {
-            $download = DB::table('downloads')
-                                ->where('version', $identifier)
-                                ->orderBy('downloadId', 'desc')
-                                ->first();
-            if ($download == null) return
-                redirect()->action('DownloadsController@index');
-            return redirect()->action('DownloadsController@show', [$download->gitBranch, substr($download->gitHash, 0, 7)]);
-        }
+        //Check for branch
+        $download = DB::table('downloads')
+                            ->join('downloadsBuilds', function ($join) {
+                                $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
+                            })
+                            ->select('downloads.*', 'downloadsBuilds.status')
+                            ->orderBy('downloadId', 'desc')
+                            ->where('gitBranch', $identifier)
+                            ->orwhere('version', $identifier)
+                            ->first();
+
+        if (!$download)
+            return redirect()->action('DownloadsController@index');
+
+        if (!isset($download->gitHashShort))
+            $download->gitHashShort = substr($download->gitHash, 0, 7);
+
+
+        //TODO: Convert to querybuilder... Couldn't get it to work so I wrote a manual query
+        $downloadsBuilds = DB::select('SELECT b.filePath, b.fileName, b.fileSize, b.fileHash, f.platform AS flavourPlatform, f.architecture AS flavourArchitecture, f.name as flavourName
+                                        FROM downloadsBuilds b
+                                        JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
+                                        WHERE parentDownloadId = :id', ['id' => $download->downloadId]);
+
+        return view('download.download', ['latest' => $identifier,
+                                            'download' => $download,
+                                            'downloadsBuilds' => $downloadsBuilds,
+                                            'commits' => json_decode($download->commits, TRUE),
+                                            'serverURL' => 'http://cdn.limetric.com/games/openrct2/']);
     }
 }

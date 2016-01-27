@@ -62,6 +62,9 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
+            'options' => array(
+                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET time_zone = \'+00:00\''
+            )
         ],
 
         'pgsql' => [

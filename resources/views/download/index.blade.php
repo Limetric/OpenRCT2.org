@@ -6,10 +6,10 @@
 
 <h2 class="blue">Download OpenRCT2</h2>
 <div class="downloadButtons">
-    <a href="/downloads/latest/{{ $latest['stable'] }}" class="fleft stable">
+    <a href="/downloads/{{ $latest['stable'] }}/latest" class="fleft stable">
         Download Stable: {{ $latest['stable'] }}
     </a>
-    <a href="/downloads/latest/develop" class="fright develop">
+    <a href="/downloads/develop/latest" class="fright develop">
         Download Develop: {{ $latest['develop'] }}
     </a>
 </div>
