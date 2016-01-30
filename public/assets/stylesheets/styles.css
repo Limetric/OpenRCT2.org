@@ -17,7 +17,7 @@ a:hover {
 }
 
 header {
-    height: 100px;
+    min-height: 80px;
     margin-bottom: 0;
     padding-bottom: 0;
     padding-top: 0;
@@ -28,41 +28,39 @@ header {
 
 .container {
     width: calc(100% - 20px);
-    max-width: 967px;
-    padding: 0 15px;
+    max-width: 936px;
+    /*padding: 0 15px;*/
     margin: 0 auto;
-    position: relative;
     box-sizing: border-box;
 }
 
-.header_logo a {
+header .container > a {
     text-decoration: none;
+    display: block;
 }
 
-.header_logo span {
+header .container > a span {
     display: inline-block;
     vertical-align: middle;
     position: relative;
-    z-index: 9999;
-    line-height: 100px;
+    line-height: 80px;
     color: white;
     font-size: 24pt;
     font-family: 'Oswald', sans-serif;
 }
 
-.header_logo img {
+header .container > a img {
     vertical-align: middle;
     padding-right: 15px;
 }
 
 header nav {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    margin-top: 30px;
 }
 
 header nav ul {
     height: 50px;
+    margin: 0 !important;
 }
 
 header nav ul li {
@@ -71,19 +69,23 @@ header nav ul li {
     padding: 10px;
 }
 
-header nav ul li a, header nav ul li a:hover {
-    color: white;
+header nav ul li a
+{
     text-decoration: none;
 }
 
-header nav ul li:hover, header nav ul li.active {
-    border: 2px solid white;
-    border-radius: 3px;
-    padding: 8px;
+header nav ul li a, header nav ul li a:hover {
+    color: white;
+}
+
+header nav ul li.active {
+    text-decoration: underline;
 }
 
 header nav ul li:hover {
-    text-decoration: underline;
+    border: 2px solid white;
+    border-radius: 3px;
+    padding: 8px;
 }
 
 header .uppermenu {
@@ -142,8 +144,17 @@ footer {
     padding: 40px 0;
     line-height: 20px;
     text-align: center;
-    color: #C6DDF8;
     margin: 25px 0 0 0;
+}
+
+footer, footer a
+{
+    color: #DFECFB;
+}
+
+footer a:hover
+{
+    color: #C6DDF8;
 }
 
 h1, h2 {
@@ -152,17 +163,18 @@ h1, h2 {
     font-size: 16px;
     font-weight: 300;
     padding: 11px 15px 12px 15px;
-    margin: 15px 0 5px 0;
 }
 
 h1, h2.blue {
     background: #5A89BE;
     color: white;
 }
+
 h2.lightblue {
     background: #ADC4DF;
     color: white;
 }
+
 h2.orange {
     background: #FF7700;
     color: white;
@@ -175,6 +187,10 @@ p, .normaltext {
     line-height: 1.5;
 }
 
+table, h1, h2, p, .normalText, ul {
+    margin: 6px 0;
+}
+
 ul {
     list-style-position: inside;
 }
@@ -183,12 +199,29 @@ ul > li {
     list-style-type: disc;
 }
 
+.fleft
+{
+    float: left;
+}
+
+.fright
+{
+    float: right;
+}
+
+.fclear:after
+{
+    content: "";
+    display: table;
+    clear: both;
+}
+
 /* welcome.blade.php */
 
 .homepage_slider {
-    width: 100%;
-    height: 200px;
-    background-image: url('/assets/images/welcome/homepage_slider/a.png');
+    max-width: 937px;
+    height: 140px;
+    background-image: url('/media/welcome/1.png');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -205,10 +238,10 @@ div.buildLog {
 }
 
 table.downloadsWaterfall {
-    margin-bottom: 6px;
+    margin: 6px 0;
     width: 100%;
-        border-spacing: 3px;
-        border-collapse: separate;
+    border-spacing: 3px;
+    border-collapse: separate;
 }
 
 table.downloadsWaterfall tbody {
@@ -289,16 +322,16 @@ table.downloadsWaterfall tbody tr:nth-child(7) {
     font-weight: bold;
 }
 
+.downloadButtons {
+    margin: 6px 0;
+}
+
 .downloadButtons > a {
-    background-color: #B34F4F;
-    border: 1px solid #D77F7F;
     font-size: 18px;
     padding: 10px;
-        margin-bottom: 15px;
     width: calc(50% - 5px);
-    display: inline-block;
+    display: block;
     box-sizing: border-box;
-    color: #FFBFBF;
     font-weight: bold;
     text-align: center;
     min-height: 40px;

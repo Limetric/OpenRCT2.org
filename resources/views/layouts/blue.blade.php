@@ -3,16 +3,12 @@
 @section('body')
 <div class="page-wrap">
     <header>
-        <div class="container">
-            <div class="header_logo">
-                <a href="/">
-                    <img src="{{asset('assets/images/logos/icon_x64.png')}}" />
-                    <span>OpenRCT2</span>
-                </a>
-            </div>
-            <div class="uppermenu">
-            </div>
-            <nav>
+        <div class="container fclear">
+            <a href="/" class="fleft">
+                <img src="{{asset('assets/images/logos/icon_x64.png')}}" />
+                <span>OpenRCT2</span>
+            </a>
+            <nav class="fright">
                 <ul>
                     <li{{{ (Request::is('/') ? ' class=active' : '') }}}><a href="{{ url('') }}">Home</a></li>
                     <li{{{ (Request::is('downloads*') ? ' class=active' : '') }}}><a href="{{ url('downloads') }}">Downloads</a></li>

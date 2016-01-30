@@ -5,7 +5,7 @@
 @section('page')
 
 <h2 class="blue">Download OpenRCT2</h2>
-<div class="downloadButtons">
+<div class="downloadButtons fclear">
     <a href="/downloads/{{ $latest['stable'] }}/latest" class="fleft stable">
         Download Stable: {{ $latest['stable'] }}
     </a>

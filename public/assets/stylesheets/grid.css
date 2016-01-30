@@ -10,7 +10,7 @@
 .col {
 	display: block;
 	float:left;
-	margin: 1% 0 1% 1%;
+	margin: 0 0 1% 1%;
 }
 .col:first-child { margin-left: 0; }
 
