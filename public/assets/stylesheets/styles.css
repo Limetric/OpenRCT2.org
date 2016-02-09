@@ -350,6 +350,10 @@ table.downloadsWaterfall tbody tr:nth-child(7) {
     color: #BFD0FF;
 }
 
+.downloadButtons > a small {
+    font-size: 12px;
+}
+
 .buildStatus {
     border-radius: 4px;
     color: #FFF;
