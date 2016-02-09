@@ -19,8 +19,8 @@
 <table class="downloadsWaterfall">
     <thead>
         <tr>
-            <td class="status"></td>
-            <td class="name">Name</td>
+            <td class="status">Branch</td>
+            <td class="name">Details</td>
             <td class="age">Age</td>
         </tr>
     </thead>
