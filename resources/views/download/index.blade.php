@@ -4,13 +4,15 @@
 
 @section('page')
 
-<h2 class="blue">Download OpenRCT2</h2>
+<h2 class="blue">Downloads for OpenRCT2</h2>
 <div class="downloadButtons fclear">
-    <a href="/downloads/{{ $latest['stable'] }}/latest" class="fleft stable">
-        Download Stable: {{ $latest['stable'] }}
+    <a href="/downloads/develop/latest" class="fleft develop">
+        <div>Download latest {{ $latest['develop'] }}-develop</div>
+        <small>Recommended, latest features, multi-platform.</small>
     </a>
-    <a href="/downloads/develop/latest" class="fright develop">
-        Download Develop: {{ $latest['develop'] }}
+    <a href="/downloads/master/latest" class="fright stable">
+        <div>Download {{ $latest['stable'] }}-master</div>
+        <small>Older, stable, less features.</small>
     </a>
 </div>
 
