@@ -176,7 +176,12 @@ h2.lightblue {
 }
 
 h2.orange {
-    background: #FF7700;
+    background: #D56300;
+    color: white;
+}
+
+h2.red {
+    background: #AE0000;
     color: white;
 }
 
@@ -323,10 +328,15 @@ table.downloadsWaterfall tbody tr:nth-child(7) {
 }
 
 .downloadButtons {
-    margin: 6px 0;
+    margin: 6px 0 0 0;
+}
+
+.downloadButtons > a:nth-child(2n) {
+    float: right;
 }
 
 .downloadButtons > a {
+    margin-bottom: 6px;
     font-size: 18px;
     padding: 10px;
     width: calc(50% - 5px);
@@ -336,9 +346,10 @@ table.downloadsWaterfall tbody tr:nth-child(7) {
     text-align: center;
     min-height: 40px;
     line-height: 28px;
+    text-decoration: none;
 }
 
-.downloadButtons > a.stable {
+/*.downloadButtons > a.stable {
     background-color: #50B258;
     border: 1px solid #80D687;
     color: #BFFFC4;
@@ -348,7 +359,7 @@ table.downloadsWaterfall tbody tr:nth-child(7) {
     background-color: #4F68AF;
     border: 1px solid #7E95D3;
     color: #BFD0FF;
-}
+}*/
 
 .downloadButtons > a small {
     font-size: 12px;
@@ -402,3 +413,7 @@ table.downloadsTable small.hash {
 }
 
 /* END download/download.blade.php */
+
+.container ul li {
+    margin: 5px 0px;
+}

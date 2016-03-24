@@ -1,21 +1,23 @@
 @extends('layouts.sidebarPage')
 @section('title','Downloads - OpenRCT2 project')
 @section('description','Downloads for the open-source adaption of RollerCoaster Tycoon 2. Free to download.')
-
 @section('page')
-
-<h2 class="blue">Downloads for OpenRCT2</h2>
+<h1>Downloads for OpenRCT2</h1>
 <div class="downloadButtons fclear">
-    <a href="/downloads/develop/latest" class="fleft develop">
-        <div>Download latest {{ $latest['develop'] }}-develop</div>
-        <small>Recommended, latest features, multi-platform.</small>
+    @foreach ($flavours as $flavour)
+    <a href="{{$serverURL}}{{ $flavour->latestDownload->filePath }}/{{ $flavour->latestDownload->fileName }}" class="fleft develop">
+        <img src="/assets/images/icons/{{ $flavour->iconFileName }}">
+        <div>{{ $flavour->prettyText }}</div>
+        <small>{{ $flavour->latestDownload->version ."-". $flavour->latestDownload->gitBranch ."-". $flavour->latestDownload->gitHashShort }} ({{ Carbon::createFromTimeStamp(strtotime($flavour->latestDownload->addedTime))->diffForHumans() }})</small>
     </a>
+    @endforeach
     <a href="/downloads/master/latest" class="fright stable">
-        <div>Download {{ $latest['stable'] }}-master</div>
-        <small>Older, stable, less features.</small>
+        <div>Download {{ $stable->version }} stable</div>
+        <small>{{ $stable->version ."-". $stable->gitBranch ."-". $stable->gitHashShort }} ({{ Carbon::createFromTimeStamp(strtotime($stable->addedTime))->diffForHumans() }})</small>
     </a>
 </div>
 
+<h2>Recent downloads</h2>
 <table class="downloadsWaterfall">
     <thead>
         <tr>
@@ -34,24 +36,18 @@
     @endforeach
     </tbody>
 </table>
-
-<h2 class="blue">OpenRCT2 Launcher for Windows</h2>
+<h2>OpenRCT2 Launcher for Windows, Linux and OS X</h2>
 <div class="section">
     <div class="col span_7_of_12">
         <p>
             The OpenRCT2 Launcher makes playing OpenRCT2 very simple. Just open our
             launcher, wait a few seconds and be ready to play. Without the launcher,
-            you would have to update your game files manually every time an update
-            was made!
-        </p><br />
-        <p>
-            The Launcher only works on Windows. If you want to play on Linux or
-            OS X, scroll down to the Builds, which are now available for all platforms.
-        </p><br />
-        <center>
-            <a href="https://openrct.net/OpenRCT2%20Launcher.application">Click
-                here to download the OpenRCT2 Launcher</a>
-        </center>
+            you would have to update your game every time an update was made!
+        </p>
+        <p style="text-align: center;">
+        	<a href="https://openrct.net/OpenRCT2%20Launcher.application">Download Launcher for Windows</a><br>
+        	<a href="https://github.com/LRFLEW/OpenRCT2Launcher/releases/latest" target="_blank">Download cross-platform Launcher for OS X, Linux and Windows</a>
+        </p>
     </div>
     <div class="col span_5_of_12">
         <img src="/media/launcher_screenshot.png" style="max-width: 100%;" />
@@ -61,7 +57,7 @@
 @stop
 
 @section('sidebar')
-    <h2 class="orange">Note</h2>
+    <h2 class="orange">Information</h2>
 
     <p>Please bear in mind OpenRCT2 is in early beta stage. Crashes and bugs are
         common. If a build is not working, try an older one. You can report bugs
@@ -73,7 +69,7 @@
         <a href="https://www.g2a.com/r/openrct2" target="_blank">G2A</a>,
         <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
         and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
-        Alternatively, you can play the full game for free by <a href="/download-demo">downloading this demo</a>.
+        Alternatively, <a href="/download-demo">this demo</a> can be used.
     </p>
 
     <h2 class="blue">About OpenRCT2</h2>

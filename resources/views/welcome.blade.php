@@ -7,7 +7,7 @@
 @section('page')
 <h1>OpenRCT2 in short</h1>
 <p>
-    The OpenRCT2 project recreates the classic hit RollerCoaster Tycoon 2 into open-source code, expanding the game with <a href="/features">new features</a>, fixing original bugs and raising game limits. Several notable improvements over RCT2 are: Multiplayer co-op, cheat menu, language support.
+    The OpenRCT2 project recreates the classic hit RollerCoaster Tycoon 2 into open-source code, expanding the game with <a href="/features">new features</a>, fixing original bugs and raising game limits. Several notable improvements over RCT2 are: Multiplayer co-op, a handy cheat menu and language support.
 </p>
 <p>
     Development started on April 2nd 2014 by <a href="http://dev.intelorca.co.uk/" target="_blank">Ted 'IntelOrca' John</a>.

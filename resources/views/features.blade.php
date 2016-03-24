@@ -9,15 +9,70 @@
 
 @section('page')
 <h1>OpenRCT2 Features</h1>
+<p>An overview of all the changes between OpenRCT2 versions. It can also be used to compare against the features from RollerCoaster Tycoon 2. This list is not fully up-to-date.</p>
 <h2>0.0.4 (develop branch)</h2>
 <ul>
+    <li>Feature: Full native OSX .app support.</li>
     <li>Feature: Add displaying of frames per second (FPS).</li>
     <li>Feature: Changing the number of trains no longer requires retesting.</li>
     <li>Feature: Add SI units as a new measurement system for distance / speed.</li>
     <li>Feature: Update alternative font selection mechanism for all platforms.</li>
     <li>Feature: Allow enabling / disabling of different notifications.</li>
-    <li>Fix: [#2126] Ferris Wheels set to "backward rotation" stop working (original bug)</li>
-    <li>Fix: [#2449] Turning off Day/Night Circle while it is night doesn't reset back to day</li>
+    <li>Feature: Add more columns and information to tile inspector.</li>
+    <li>Feature: Add ability to remove and reorder elements in tile inspector.</li>
+    <li>Feature: Integrate RCT1 style scenario select with optional unlock progression.</li>
+    <li>Feature: Add graphics scaling and filtering.</li>
+    <li>Feature: Add cheat: permanent marketing.</li>
+    <li>Feature: Closed rides show number of guests currently on the ride in tooltip and on the ride window customer page.</li>
+    <li>Feature: Scrolling the mouse wheel over any land tool preview box will increment or decrement the tool size.</li>
+    <li>Feature: Additional property views added to the ride list window.</li>
+    <li>Feature: Improved overall view centring for rides and shops.</li>
+    <li>Feature: Add permission and group management in multiplayer.</li>
+    <li>Feature: Add player windows with viewport and trace in multiplayer.</li>
+    <li>Feature: Add ability to start a new scenario when starting a new server.</li>
+    <li>Feature: Compress game data that is downloaded when connecting to a server.</li>
+    <li>Feature: Support for using system load/save dialogs on Linux and OS X.</li>
+    <li>Feature: OpenRCT2 now detects if the server is running a compatible version when attempting to connect to a multiplayer game.</li>
+    <li>Feature: Ride information list can show more properties, like age and running cost.</li>
+    <li>Feature: Added translations for Czech and Japanese.</li>
+    <li>Feature: Added Hong Kong dollar, New Taiwan dollar and Chinese yuan as currencies.</li>
+    <li>Feature: Weather cheat now allows for more types of weather.</li>
+    <li>Feature: Use fontconfig on Linux and Objective-C APIs on OS X to detect fonts and provide a fallback if necessary.</li>
+    <li>Feature: Ability to automatically open shops after placing them.</li>
+    <li>Feature: Ability to change the default inspection interval for rides.</li>
+    <li>Change: Server IP addresses are no longer shown in the server list.</li>
+    <li>Change: Theme format changed from INI to JSON (INI format no longer supported).</li>
+    <li>Change: Sound controls re-worked to control sound effects and ride music separately.</li>
+    <li>Change: Use native line endings in config.ini.</li>
+    <li>Change: Remove default audio device from audio device dropdown in Linux.</li>
+    <li>Technical: lodepng dropped in return for libpng.</li>
+    <li>Technical: SDL2 upgraded from 2.0.3 to 2.0.4.</li>
+    <li>Technical: argparse dropped in return for bespoke command line parsing implementation.</li>
+    <li>Improve: performance of rendering, particularly for highly populated parks.</li>
+    <li>Improve: performance of loading parks.</li>
+    <li>Removed: Anti-cheat code that detected money hack attempts.</li>
+    <li>Fix: Dated autosave files are not created on OSX and Linux.</li>
+    <li>Fix: Title sequence directories are not deleted when title sequence is deleted on OSX and Linux.</li>
+    <li>Fix: Tile not highlighted when placing staff members.</li>
+    <li>Fix: Various de-synchronisation issues in multiplayer.</li>
+    <li>Fix: Cheats not supported in multiplayer.</li>
+    <li>Fix: [#1333] Rides never become safe again after a crash.</li>
+    <li>Fix: [#2126] Ferris Wheels set to "backward rotation" stop working (original bug).</li>
+    <li>Fix: [#2449] Turning off Day/Night Circle while it is night doesn't reset back to day.</li>
+    <li>Fix: [#2477] When opening the built-in load/save dialog, the list is not properly sorted.</li>
+    <li>Fix: [#2650] Server did not validate actions send from clients (caused error box and desynchronisation).</li>
+    <li>Fix: [#2651] Ride was not removed when multiplayer client aborted ride construction.</li>
+    <li>Fix: [#2654] Free transport rides can prevent guests from properly leaving the park.</li>
+    <li>Fix: [#2657] Don't create copies of official objects due to bugged saves (original bug).</li>
+    <li>Fix: [#2681] When lowering/raising land/water with clearance checks off, walls still get removed.</li>
+    <li>Fix: [#2693] Multiplayer chat caret does not show true position.</li>
+    <li>Fix: [#2704] OSX Command Key not read for keyboard shortcuts.</li>
+    <li>Fix: [#2728] Closing a boat ride with passengers causes empty boats to leave the platform (original bug).</li>
+    <li>Fix: [#2925] Screenshots don't show night filters.</li>
+    <li>Fix: [#2941] Enter does not work on input box when on the title screen.</li>
+    <li>Fix: [#2948] New Ride window incorrectly said there were track designs available when in multiplayer mode.</li>
+    <li>Fix: [#2958] Unable to import RCT1 parks in the scenario editor using the load landscape dialog.</li>
+    <li>Fix: [#3015] Walls in SC4/SV4 files are not imported correctly.</li>
 </ul>
 <h2>0.0.3.1-beta (2015-12-04)</h2>
 <ul>

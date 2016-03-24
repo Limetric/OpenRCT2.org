@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 class DownloadsController extends Controller
 {
+    private $serverURL = 'http://cdn.limetric.com/games/openrct2/';
     /**
      * Displays the main downloads page
      *
@@ -19,7 +20,7 @@ class DownloadsController extends Controller
     {
         //
         $downloads = DB::table('downloads')
-                            ->join('downloadsBuilds', function ($join) {
+                            ->join('downloadsBuilds', function($join) {
                                 $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
                             })
                             ->select('downloads.*', 'downloadsBuilds.status')
@@ -33,19 +34,44 @@ class DownloadsController extends Controller
                 $download->gitHashShort = substr($download->gitHash, 0, 7);
         }
 
-        $latest['stable'] = DB::table('downloads')
+        $stable = DB::table('downloads')
                             ->where('gitBranch', 'master')
                             ->orderBy('downloadId', 'desc')
-                            ->first()
-                            ->version;
+                            ->first();
 
-        $latest['develop'] = DB::table('downloads')
-                            ->where('gitBranch', 'develop')
-                            ->orderBy('downloadId', 'desc')
-                            ->first()
-                            ->version;
+        //Get flavours
+        /*$flavours = DB::table('downloadFlavours')
+                            ->leftJoin('downloadsBuilds', function($join) {
+                                    $join->on('downloadsBuilds.flavourId', '=', 'downloadFlavours.flavourId');
+                            })
+                            ->select('downloadFlavours.*', 'downloadsBuilds.fileName', 'downloadsBuilds.parentDownloadId')
+                            ->orderBy('downloadFlavours.flavourId', 'asc')
+                            ->orderBy('downloadsBuilds.parentDownloadId', 'desc')
+                            ->groupBy('downloadBuilds.parentDownloadId')
+                            ->where('downloadFlavours.visibility', 1)
+                            ->get();*/
 
-        return view('download.index', ['downloads' => $downloads, 'latest' => $latest]);
+        $flavours = DB::table('downloadFlavours')
+                            ->select('downloadFlavours.*')
+                            ->where('downloadFlavours.visibility', 1)
+                            ->get();
+
+        foreach ($flavours as $flavour) {
+            $build = DB::table('downloadsBuilds')
+                            ->select('downloadsBuilds.*', 'downloads.version', 'downloads.gitBranch', 'downloads.gitHashShort', 'downloads.addedTime')
+                            ->leftJoin('downloads', function($join) {
+                                    $join->on('downloads.downloadId', '=', 'downloadsBuilds.parentDownloadId');
+                            })
+                            ->where('status', 'success')
+                            ->where('downloads.gitBranch', 'develop')
+                            ->where('downloadsBuilds.flavourId', $flavour->flavourId)
+                            ->orderBy('buildId', 'desc')
+                            ->first();
+
+            $flavour->latestDownload = $build;
+        }
+
+        return view('download.index', ['downloads' => $downloads, 'stable' => $stable, 'flavours' => $flavours, 'serverURL' => $this->serverURL]);
     }
 
     /**
@@ -83,7 +109,7 @@ class DownloadsController extends Controller
         return view('download.download', ['download' => $download,
                                             'downloadsBuilds' => $downloadsBuilds,
                                             'commits' => json_decode($download->commits, TRUE),
-                                            'serverURL' => 'http://cdn.limetric.com/games/openrct2/']);
+                                            'serverURL' => $this->serverURL]);
     }
 
     /**
@@ -94,16 +120,33 @@ class DownloadsController extends Controller
      */
     public function showLatest(String $identifier = null)
     {
-        //Check for branch
-        $download = DB::table('downloads')
-                            ->join('downloadsBuilds', function ($join) {
-                                $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
-                            })
-                            ->select('downloads.*', 'downloadsBuilds.status')
-                            ->orderBy('downloadId', 'desc')
-                            ->where('gitBranch', $identifier)
-                            ->orwhere('version', $identifier)
+        //Check if identifier matches one of the flavours
+        $flavour = DB::table('downloadFlavours')
+                            ->select('flavourId', 'identifier')
+                            ->where('identifier', $identifier)
                             ->first();
+
+        if (isset($flavour)) {
+            $download = DB::table('downloads')
+                                ->join('downloadsBuilds', function ($join) {
+                                    $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
+                                })
+                                ->select('downloads.*', 'downloadsBuilds.status', 'downloadsBuilds.flavourId')
+                                ->orderBy('downloadId', 'desc')
+                                ->where('downloadsBuilds.flavourId', $flavour->flavourId)
+                                ->first();
+        } else {    
+            //Check for branch
+            $download = DB::table('downloads')
+                                ->join('downloadsBuilds', function ($join) {
+                                    $join->on('downloadsBuilds.parentDownloadId', '=', 'downloads.downloadId');
+                                })
+                                ->select('downloads.*', 'downloadsBuilds.status')
+                                ->orderBy('downloadId', 'desc')
+                                ->where('gitBranch', $identifier)
+                                ->orwhere('version', $identifier)
+                                ->first();
+        }
 
         if (!$download)
             return redirect()->action('DownloadsController@index');
@@ -122,6 +165,6 @@ class DownloadsController extends Controller
                                             'download' => $download,
                                             'downloadsBuilds' => $downloadsBuilds,
                                             'commits' => json_decode($download->commits, TRUE),
-                                            'serverURL' => 'http://cdn.limetric.com/games/openrct2/']);
+                                            'serverURL' => $this->serverURL]);
     }
 }
