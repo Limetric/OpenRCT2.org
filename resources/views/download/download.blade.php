@@ -12,6 +12,7 @@ Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strt
         <tr>
             <td>Platform &amp; Type</td>
             <td>Download</td>
+            <td>SHA-256 Checksum</td>
             <td>File size</td>
         </tr>
     </thead>
@@ -19,7 +20,8 @@ Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strt
         @foreach ($downloadsBuilds as $build)
             <tr>
                 <td class="buildPlatform">{{ $build->flavourName }}</td>
-                <td class="buildDownload"><a href="{{$serverURL}}{{ $build->filePath }}/{{ $build->fileName }}">{{ $build->fileName }}</a> <small class="hash">{{ $build->fileHash }}</small></td>
+                <td class="buildDownload"><a href="{{$serverURL}}{{ $build->filePath }}/{{ $build->fileName }}">{{ $build->fileName }}</a></td>
+                <td><acronym title="{{ $build->fileHash }}" class="hash">{{  str_limit($build->fileHash, $limit = 9, $end = '&hellip;') }}</acronym></td>
                 <td class="buildSize">{{ Helpers::formatBytes($build->fileSize) }}</td>
             </tr>
         @endforeach
