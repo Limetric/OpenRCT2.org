@@ -30,7 +30,7 @@
     @foreach ($downloads as $download)
         <tr class="download">
             <td class="buildStatus {{ $download->status }}">{{ $download->gitBranch }}</td>
-            <td class="name"><a href="/downloads/{{ $download->gitBranch }}/{{ $download->gitHashShort }}">{{ $download->version }} build {{ $download->gitHashShort }}</a></td>
+            <td class="name"><a href="/downloads/{{ $download->gitBranch }}/{{ ($download->latestInBranch ? 'latest' : $download->gitHashShort) }}">{{ $download->version }} build {{ $download->gitHashShort }}</a></td>
             <td class="age">{{ Carbon::createFromTimeStamp(strtotime($download->addedTime))->diffForHumans() }}</td>
         </tr>
     @endforeach

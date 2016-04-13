@@ -28,10 +28,18 @@ class DownloadsController extends Controller
                             ->orderBy('downloadId', 'desc')
                             ->take(25)
                             ->get();
-        //Generate gitHashShort
+        
+        //Generate gitHashShort and check if latest
+        $hadBranches = array();
         foreach ($downloads as $key => $download) {
             if (!isset($download->gitHashShort) || empty($download->gitHashShort))
                 $download->gitHashShort = substr($download->gitHash, 0, 7);
+
+            if (!in_array($download->gitBranch, $hadBranches)) {
+                $download->latestInBranch = true;
+                $hadBranches[] = $download->gitBranch;
+            } else
+                $download->latestInBranch = false;
         }
 
         $stable = DB::table('downloads')
@@ -54,6 +62,7 @@ class DownloadsController extends Controller
         $flavours = DB::table('downloadFlavours')
                             ->select('downloadFlavours.*')
                             ->where('downloadFlavours.visibility', 1)
+                            ->where('downloadFlavours.indexVisibility', 1)
                             ->get();
 
         foreach ($flavours as $flavour) {
