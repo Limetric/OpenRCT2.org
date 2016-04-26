@@ -45,8 +45,8 @@
             you would have to update your game every time an update was made!
         </p>
         <p style="text-align: center;">
-        	<a href="https://openrct.net/OpenRCT2%20Launcher.application">Download Launcher for Windows</a><br>
-        	<a href="https://github.com/LRFLEW/OpenRCT2Launcher/releases/latest" target="_blank">Download cross-platform Launcher for OS X, Linux and Windows</a>
+        	<!--<a href="https://openrct.net/OpenRCT2%20Launcher.application">Download Launcher for Windows</a><br>-->
+        	<a href="https://github.com/LRFLEW/OpenRCT2Launcher/releases/latest" target="_blank">Download for OS X, Linux and Windows</a>
         </p>
     </div>
     <div class="col span_5_of_12">
@@ -69,7 +69,6 @@
         <a href="https://www.g2a.com/r/openrct2" target="_blank">G2A</a>,
         <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
         and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
-        Alternatively, <a href="/download-demo">this demo</a> can be used.
     </p>
 
     <h2 class="blue">About OpenRCT2</h2>
