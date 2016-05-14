@@ -45,7 +45,6 @@
             you would have to update your game every time an update was made!
         </p>
         <p style="text-align: center;">
-        	<!--<a href="https://openrct.net/OpenRCT2%20Launcher.application">Download Launcher for Windows</a><br>-->
         	<a href="https://github.com/LRFLEW/OpenRCT2Launcher/releases/latest" target="_blank">Download for OS X, Linux and Windows</a>
         </p>
     </div>
@@ -53,7 +52,14 @@
         <img src="/media/launcher_screenshot.png" style="max-width: 100%;" />
     </div>
 </div>
-
+<h2>Linux packages</h2>
+<div class="section">
+    <p>Linux packages are provided to make sure you always run the latest develop version of OpenRCT2.</p>
+    <p style="text-align: center;">
+        <a href="https://launchpad.net/~openrct2/+archive/ubuntu/nightly" target="_blank">PPA package for Ubuntu</a><br>
+        <a href="https://aur.archlinux.org/packages/openrct2-git" target="_blank">AUR package for Arch</a>
+    </p>
+</div>
 @stop
 
 @section('sidebar')
