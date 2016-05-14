@@ -10,7 +10,25 @@
 @section('page')
 <h1>OpenRCT2 Features</h1>
 <p>An overview of all the changes between OpenRCT2 versions. It can also be used to compare against the features from RollerCoaster Tycoon 2. This list is not fully up-to-date.</p>
-<h2>0.0.4 (develop branch)</h2>
+<h2>0.0.5 (in development)</h2>
+<ul>
+    <li>Feature: Ability to rotate map elements with the tile inspector.</li>
+    <li>Feature: Add cheat to disable littering.</li>
+    <li>Feature: Add ride console command for diagnostics and changing vehicle type.</li>
+    <li>Feature: Allow setting ownership of map edges.</li>
+    <li>Feature: Allow up to 255 cars per train.</li>
+    <li>Feature: Importing SV4 and SC4 files with rides.</li>
+    <li>Fix: [#3282] Launched Freefall ride ratings are fixed for Downward Launch.</li>
+    <li>Fix: [#3307] Ride music and sound has degraded since RCT2.</li>
+    <li>Fix: [#3344] Build new ride window can be opened in scenario editor.</li>
+    <li>Fix: [#3347] Ride windows are auto-positioned below the HUD when using RCT1 lights.</li>
+    <li>Fix: [#3352] Assertion triggered while fixing surface tiles.</li>
+    <li>Fix: [#3361] Missing Twister coaster piece.</li>
+    <li>Fix: [#3418] Launched freefall restraints are drawn incorrectly when up (original bug).</li>
+    <li>Fix: [#3451] Renaming staff is a guest command.</li>
+    <li>Fix: [#3210] Scenery window scrolls too far</li>
+</ul>
+<h2>0.0.4-beta (2016-04-15)</h2>
 <ul>
     <li>Feature: Full native OSX .app support.</li>
     <li>Feature: Add displaying of frames per second (FPS).</li>
@@ -40,6 +58,9 @@
     <li>Feature: Use fontconfig on Linux and Objective-C APIs on OS X to detect fonts and provide a fallback if necessary.</li>
     <li>Feature: Ability to automatically open shops after placing them.</li>
     <li>Feature: Ability to change the default inspection interval for rides.</li>
+    <li>Feature: Ability to disable lightning effect during a thunderstorm.</li>
+    <li>Feature: Ability to set ownership of map edges.</li>
+    <li>Feature: Display a chat hotkey when joining a server.</li>
     <li>Change: Server IP addresses are no longer shown in the server list.</li>
     <li>Change: Theme format changed from INI to JSON (INI format no longer supported).</li>
     <li>Change: Sound controls re-worked to control sound effects and ride music separately.</li>
@@ -48,8 +69,10 @@
     <li>Technical: lodepng dropped in return for libpng.</li>
     <li>Technical: SDL2 upgraded from 2.0.3 to 2.0.4.</li>
     <li>Technical: argparse dropped in return for bespoke command line parsing implementation.</li>
+    <li>Technical: Integrated breakpad for (manual) crash reporting</li>
     <li>Improve: performance of rendering, particularly for highly populated parks.</li>
     <li>Improve: performance of loading parks.</li>
+    <li>Improve: support for hacked parks.</li>
     <li>Removed: Anti-cheat code that detected money hack attempts.</li>
     <li>Fix: Dated autosave files are not created on OSX and Linux.</li>
     <li>Fix: Title sequence directories are not deleted when title sequence is deleted on OSX and Linux.</li>
@@ -57,6 +80,7 @@
     <li>Fix: Various de-synchronisation issues in multiplayer.</li>
     <li>Fix: Cheats not supported in multiplayer.</li>
     <li>Fix: [#1333] Rides never become safe again after a crash.</li>
+    <li>Fix: [#1742] Non-ascii characters in scenario details not showing correctly.</li>
     <li>Fix: [#2126] Ferris Wheels set to "backward rotation" stop working (original bug).</li>
     <li>Fix: [#2449] Turning off Day/Night Circle while it is night doesn't reset back to day.</li>
     <li>Fix: [#2477] When opening the built-in load/save dialog, the list is not properly sorted.</li>
@@ -73,6 +97,8 @@
     <li>Fix: [#2948] New Ride window incorrectly said there were track designs available when in multiplayer mode.</li>
     <li>Fix: [#2958] Unable to import RCT1 parks in the scenario editor using the load landscape dialog.</li>
     <li>Fix: [#3015] Walls in SC4/SV4 files are not imported correctly.</li>
+    <li>Fix: [#3063] Search exe directory for SSL bundle as well as CWD.</li>
+    <li>Fix: [#3120] Negative cash in finance window is not red.</li>
 </ul>
 <h2>0.0.3.1-beta (2015-12-04)</h2>
 <ul>
@@ -166,7 +192,7 @@
     <li>Feature: Exit OpenRCT2 to desktop.</li>
     <li>Feature: Game configuration, cache, scores and screenshots now saved in user documents directory under OpenRCT2.</li>
     <li>Feature: Auto-saving with frequency option.</li>
-    <li>Feature: Ability to change game speed via toolbar or (+ and - keys).</li>
+    <li>Feature: Ability to change game speed via toolbar or (+ and     <li>keys).</li>
     <li>Feature: Finance window accessible from toolbar (enabled in settings).</li>
     <li>Feature: Research and development / research funding now accessible as a stand alone window without the requirement of the finances window.</li>
     <li>Feature: Extra viewport windows.</li>
