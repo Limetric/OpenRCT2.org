@@ -349,6 +349,10 @@ table.downloadsWaterfall tbody tr:nth-child(7) {
     text-decoration: none;
 }
 
+.downloadButtons .fright.stable div {
+	margin-top: 60px;
+}
+
 /*.downloadButtons > a.stable {
     background-color: #50B258;
     border: 1px solid #80D687;
