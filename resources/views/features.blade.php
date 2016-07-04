@@ -12,7 +12,7 @@
 <p>An overview of all the changes between OpenRCT2 versions. It can also be used to compare against the features from RollerCoaster Tycoon 2. It is possible that this list isn't fully up-to-date.</p>
 <h2>0.0.5 (in development)</h2>
 <ul>
-    <li>Feature: Add OpenGL drawing engine.</li>
+	<li>Feature: Add OpenGL drawing engine.</li>
 	<li>Feature: Implementation of the user-defined currency.</li>
 	<li>Feature: Add ability to rotate map elements with the tile inspector.</li>
 	<li>Feature: Add ride console command for diagnostics and changing vehicle type.</li>
