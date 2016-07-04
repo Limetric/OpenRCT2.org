@@ -9,24 +9,45 @@
 
 @section('page')
 <h1>OpenRCT2 Features</h1>
-<p>An overview of all the changes between OpenRCT2 versions. It can also be used to compare against the features from RollerCoaster Tycoon 2. This list is not fully up-to-date.</p>
+<p>An overview of all the changes between OpenRCT2 versions. It can also be used to compare against the features from RollerCoaster Tycoon 2. It is possible that this list isn't fully up-to-date.</p>
 <h2>0.0.5 (in development)</h2>
 <ul>
-    <li>Feature: Ability to rotate map elements with the tile inspector.</li>
-    <li>Feature: Add cheat to disable littering.</li>
-    <li>Feature: Add ride console command for diagnostics and changing vehicle type.</li>
-    <li>Feature: Allow setting ownership of map edges.</li>
-    <li>Feature: Allow up to 255 cars per train.</li>
-    <li>Feature: Importing SV4 and SC4 files with rides.</li>
-    <li>Fix: [#3282] Launched Freefall ride ratings are fixed for Downward Launch.</li>
-    <li>Fix: [#3307] Ride music and sound has degraded since RCT2.</li>
-    <li>Fix: [#3344] Build new ride window can be opened in scenario editor.</li>
-    <li>Fix: [#3347] Ride windows are auto-positioned below the HUD when using RCT1 lights.</li>
-    <li>Fix: [#3352] Assertion triggered while fixing surface tiles.</li>
-    <li>Fix: [#3361] Missing Twister coaster piece.</li>
-    <li>Fix: [#3418] Launched freefall restraints are drawn incorrectly when up (original bug).</li>
-    <li>Fix: [#3451] Renaming staff is a guest command.</li>
-    <li>Fix: [#3210] Scenery window scrolls too far</li>
+    <li>Feature: Add OpenGL drawing engine.</li>
+	<li>Feature: Implementation of the user-defined currency.</li>
+	<li>Feature: Add ability to rotate map elements with the tile inspector.</li>
+	<li>Feature: Add ride console command for diagnostics and changing vehicle type.</li>
+	<li>Feature: Allow setting ownership of map edges.</li>
+	<li>Feature: Allow up to 255 cars per train.</li>
+	<li>Feature: Importing SV4 and SC4 files with rides.</li>
+	<li>Feature: Filter Object Selection Window by "Selected only" and "Non-selected only"</li>
+	<li>Feature: Allow raising terrain to 64 in-game units.</li>
+	<li>Feature: Assymmetric-key-based authorisation and assignment storage.</li>
+	<li>Feature: Add Norwegian translation.</li>
+	<li>Feature: Add cheat to disable littering.</li>
+	<li>Feature: Add Cheat to disable plant aging.</li>
+	<li>Feature: Add Cheat that allows any track piece to use a chain lift.</li>
+	<li>Feature: Add Console command to set vehicle friction.</li>
+	<li>Feature: Add console command to set scenario initial cash.</li>
+	<li>Removed: BMP screenshots.</li>
+	<li>Removed: Intamin and Phoenix easter eggs.</li>
+	<li>Fix: [#1038] Guest List is out of order.</li>
+	<li>Fix: [#2754] Dragging scrollview fails when scaled.</li>
+	<li>Fix: [#3210] Scenery window scrolls too far.</li>
+	<li>Fix: [#3282] Launched Freefall ride ratings are fixed for Downward Launch (original bug).</li>
+	<li>Fix: [#3307] Ride music and sound has degraded since RCT2.</li>
+	<li>Fix: [#3344] Build new ride window can be opened in scenario editor.</li>
+	<li>Fix: [#3347] Ride windows are auto-positioned below the HUD when using RCT1 lights.</li>
+	<li>Fix: [#3352] Assertion triggered while fixing surface tiles.</li>
+	<li>Fix: [#3361] Missing Twister coaster piece.</li>
+	<li>Fix: [#3418] Launched freefall restraints are drawn incorrectly when up (original bug).</li>
+	<li>Fix: [#3451] Renaming staff is a guest command.</li>
+	<li>Fix: [#3635] Inspecting sidewalk path crashes game.</li>
+	<li>Fix: [#3735] Advertisement campaign window bug.</li>
+	<li>Fix: [#3771] Crash when kicking player in multiplayer.</li>
+	<li>Fix: [#3824] Segfault when passing invalid arguments to ride set type.</li>
+	<li>Fix: [#3858] Tooltip shown when hovering over title logo.</li>
+	<li>Fix: [#3915] Restore horizontal and vertical scrollbar behavior from RCT2 when clicking on one of the scrollbars.</li>
+	<li>Technical: Mulitplayer groups are now stored in JSON format.</li>
 </ul>
 <h2>0.0.4-beta (2016-04-15)</h2>
 <ul>
