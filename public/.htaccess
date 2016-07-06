@@ -14,3 +14,19 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+<ifmodule mod_expires.c>
+
+<Filesmatch "\.(jpg|jpeg|png|txt|gif|js|css|php|html|swf|ico|woff|mp3)$">
+    ExpiresActive on
+    ExpiresDefault "access plus 1 month"
+</Filesmatch>
+
+# As the downloads page needs to be refreshed frequently.
+
+<Filesmatch "\.(php|html)$">
+    ExpiresActive on
+    ExpiresDefault "access plus 2 hours"
+</Filesmatch>
+
+</ifmodule>
