@@ -18,14 +18,66 @@ Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strt
     </thead>
     <tbody>
         @foreach ($downloadsBuilds as $build)
-            <tr>
+            <tr class="{{ $build->category }}" data-category="{{ $build->category }}">
                 <td class="buildPlatform">{{ $build->flavourName }}</td>
-                <td class="buildDownload"><a href="{{$serverURL}}{{ $build->filePath }}/{{ $build->fileName }}">{{ $build->fileName }}</a></td>
+                <td class="buildDownload" {!! (!empty($build->categoryReason) ? ' data-category-reason="'. $build->categoryReason .'"' : '') !!}><a href="{{$serverURL}}{{ $build->filePath }}/{{ $build->fileName }}">{{ $build->fileName }}</a></td>
                 <td><acronym title="{{ $build->fileHash }}" class="hash">{{  str_limit($build->fileHash, $limit = 9, $end = '&hellip;') }}</acronym></td>
                 <td class="buildSize">{{ Helpers::formatBytes($build->fileSize) }}</td>
             </tr>
         @endforeach
     </tbody>
+    <script async src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        function defer(method) {
+            if (window.jQuery)
+                method();
+            else
+                setTimeout(function() {
+                    defer(method);
+                }, 50);
+        }
+
+        function escapeHtml(text) {
+          return text
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;");
+        }
+
+        //ToDo: Rewrite in plain JS so we don't have to include a lib for just 1 page
+        defer(function() {
+        $(document).ready(function() {
+            $('table.downloadsTable tbody tr').each(function(idx) {
+                var category = $(this).data('category');
+                if (typeof(category) !== 'string')
+                    return;
+
+                var td = $(this).find('td.buildDownload');
+                var reason = td.data('category-reason');
+                if (typeof(reason) !== 'string' && category !== 'unstable')
+                    return;
+
+                if (typeof(reason) !== 'string' || reason === '')
+                    reason = 'This build is unstable.';
+
+                
+                td.data('original-html', td.html());
+
+                    
+                td.html(escapeHtml(reason) +" <a class=\"unlockBuildLink\" href=\"javascript:void(0)\">Unlock download</a>.");
+            });
+
+            $('a.unlockBuildLink').click(function() {
+                var td = $(this).closest('td.buildDownload');
+                td.html(td.data('original-html'));
+                var tr = td.closest('tr');
+                tr.removeClass(tr.data('category'));
+            });
+        });
+        });
+    </script>
 </table>
 @if(isset($commits))
 <h2>Changes in this build</h2>
@@ -41,7 +93,7 @@ Available since: {{ $download->addedTime }} ({{ Carbon::createFromTimeStamp(strt
         <tr class="commit">
             <td class="author">
 @if(isset($commit['author']))
-                <img alt="{{ $commit['author']['login'] }}'s avatar" title="{{ $commit['author']['login'] }}" src="{{ $commit['author']['avatar_url'] }}" style="width:40px;height:40px;">
+                <a href="https://github.com/{{ $commit['author']['login'] }}" target="_blank" title="View GitHub profile" rel="nofollow">{{ $commit['author']['login'] }}</a>
 @endif
             </td>
             <td class="message">{{ $commit['commit']['message'] }}</td>

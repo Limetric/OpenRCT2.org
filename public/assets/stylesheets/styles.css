@@ -5,7 +5,7 @@ body {
     font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     overflow-y: scroll;
     height: 100%;
-    font-size: 11pt;
+    font-size: 12pt;
 }
 
 a {
@@ -409,6 +409,10 @@ table.changesTable td {
 table.downloadsTable {
         width: 100%;
         text-align: left;
+}
+
+table.downloadsTable tbody td {
+    padding-top: 3px;
 }
 
 table.downloadsTable small.hash {

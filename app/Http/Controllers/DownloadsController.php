@@ -110,10 +110,11 @@ class DownloadsController extends Controller
 
 
         //TODO: Convert to querybuilder... Couldn't get it to work so I wrote a manual query
-        $downloadsBuilds = DB::select('SELECT b.filePath, b.fileName, b.fileSize, b.fileHash, f.platform AS flavourPlatform, f.architecture AS flavourArchitecture, f.name as flavourName
+        $downloadsBuilds = DB::select('SELECT b.filePath, b.fileName, b.fileSize, b.fileHash, f.platform AS flavourPlatform, f.architecture AS flavourArchitecture, f.name as flavourName, f.category AS category, f.categoryReason AS categoryReason
                                         FROM downloadsBuilds b
                                         JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
-                                        WHERE parentDownloadId = :id', ['id' => $download->downloadId]);
+                                        WHERE parentDownloadId = :id
+                                        ORDER BY f.category ASC, f.identifier DESC', ['id' => $download->downloadId]);
 
         return view('download.download', ['download' => $download,
                                             'downloadsBuilds' => $downloadsBuilds,
@@ -165,10 +166,11 @@ class DownloadsController extends Controller
 
 
         //TODO: Convert to querybuilder... Couldn't get it to work so I wrote a manual query
-        $downloadsBuilds = DB::select('SELECT b.filePath, b.fileName, b.fileSize, b.fileHash, f.platform AS flavourPlatform, f.architecture AS flavourArchitecture, f.name as flavourName
+        $downloadsBuilds = DB::select('SELECT b.filePath, b.fileName, b.fileSize, b.fileHash, f.platform AS flavourPlatform, f.architecture AS flavourArchitecture, f.name as flavourName, f.category AS category, f.categoryReason AS categoryReason
                                         FROM downloadsBuilds b
                                         JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
-                                        WHERE parentDownloadId = :id', ['id' => $download->downloadId]);
+                                        WHERE parentDownloadId = :id
+                                        ORDER BY f.category ASC, f.identifier DESC', ['id' => $download->downloadId]);
 
         return view('download.download', ['latest' => $identifier,
                                             'download' => $download,
