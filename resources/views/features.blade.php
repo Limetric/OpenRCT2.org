@@ -9,6 +9,22 @@
 
 @section('page')
 <h1>OpenRCT2 Features</h1>
+<p>
+OpenRCT2 features many changes compared to the original OpenRCT2 game. A few of them are listed here.
+</p>
+<ul>
+    <li>User Interface theming.</li>
+    <li>Fast-forwarding gameplay.</li>
+    <li>Multiplayer support.</li>
+    <li>Multilingual. Improved translations.</li>
+    <li>OpenGL hardware rendering.</li>
+    <li>Various fixes and improvements for bugs in the original game.</li>
+    <li>Native support for Linux and macOS.</li>
+    <li>Added hacks and cheats.</li>
+    <li>Auto-saving and giant screenshots.</li>
+</ul>
+
+<h1>Changes history</h1>
 <p>An overview of all the changes between OpenRCT2 versions. It can also be used to compare against the features from RollerCoaster Tycoon 2. It is possible that this list isn't fully up-to-date.</p>
 <h2>0.0.5 (in development)</h2>
 <ul>
