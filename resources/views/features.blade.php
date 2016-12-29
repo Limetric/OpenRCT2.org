@@ -10,7 +10,7 @@
 @section('page')
 <h1>OpenRCT2 Features</h1>
 <p>
-OpenRCT2 features many changes compared to the original OpenRCT2 game. A few of them are listed here.
+OpenRCT2 features many changes compared to the original RollerCoaster Tycoon 2 game. A few of them are listed here.
 </p>
 <ul>
     <li>User Interface theming.</li>
