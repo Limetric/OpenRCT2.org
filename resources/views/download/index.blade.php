@@ -58,6 +58,7 @@
     <p style="text-align: center;">
         <a href="https://launchpad.net/~openrct2/+archive/ubuntu/nightly" target="_blank">PPA package for Ubuntu</a><br>
         <a href="https://aur.archlinux.org/packages/openrct2-git" target="_blank">AUR package for Arch</a>
+        <a href="https://software.opensuse.org/download.html?project=games&amp;package=openrct2" target="_blank">RPM package for openSUSE</a>
     </p>
 </div>
 @stop
