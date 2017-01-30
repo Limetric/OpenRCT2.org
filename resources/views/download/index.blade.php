@@ -12,7 +12,7 @@
     </a>
     @endforeach
     <a href="/downloads/master/latest" class="fright stable">
-        <div>Download {{ $stable->version }} stable</div>
+        <div>Download {{ $stable->version }} release</div>
         <small>{{ $stable->version ."-". $stable->gitBranch ."-". $stable->gitHashShort }} ({{ Carbon::createFromTimeStamp(strtotime($stable->addedTime))->diffForHumans() }})</small>
     </a>
 </div>
