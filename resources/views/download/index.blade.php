@@ -66,7 +66,6 @@
     <h2 class="orange">Original Game Required</h2>
     <p>Original RollerCoaster Tycoon 2 game files are required in order to play
         OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from
-        <a href="https://www.g2a.com/r/openrct2" target="_blank">G2A</a>,
         <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a>
         and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.
     </p>

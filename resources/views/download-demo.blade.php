@@ -12,7 +12,7 @@
 <h1>RollerCoaster Tycoon 2 TTP Demo</h1>
 <p>The RollerCoaster Tycoon 2 TTP Demo allows you to play the full game for 1 hour. Fortunately, OpenRCT2 removes this 1 hour time limit. By removing this limit you can enjoy the full OpenRCT2 experience without buying the game.</p>
 <h2 class="red">Warning</h2>
-<p>We highly recommend you to <a href="https://www.g2a.com/r/openrct2" target="_blank">buy the game</a> in order to support Chris Sawyer and Atari. It's really not that expensive, and gives you the full experience as it should be. Using this demo is at your own risk!</p>
+<p>We highly recommend you to <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">buy the game</a> in order to support Chris Sawyer and Atari. It's really not that expensive, and gives you the full experience as it should be. Using this demo is at your own risk!</p>
 <h2>Instructions</h2>
 <ul>
     <li>Download and install the <a href="/downloads">latest OpenRCT2 build</a>. Don't run the game yet.</li>
