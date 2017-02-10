@@ -26,6 +26,36 @@ OpenRCT2 features many changes compared to the original RollerCoaster Tycoon 2 g
 
 <h1>Changes history</h1>
 <p>An overview of all the changes between OpenRCT2 versions. It can also be used to compare against the features from RollerCoaster Tycoon 2. It is possible that this list isn't fully up-to-date.</p>
+<h2>0.0.7 (in development)</h2>
+<ul>
+	<li>Improved: [#5137]: Removing all guests no longer closes the rides and removes the vehicles.</li>
+	<li>Fix: [#4689] Object selection tabs sometimes flicker.</li>
+	<li>Fix: [#5150] --openrct-data-path sets user data path instead of OpenRCT2 data path.</li>
+	<li>Fix: [#5188] Clicking on a Magic Carpet doesn't open the ride window.</li>
+</ul>
+<h2>0.0.6 (2017-01-29)</h2>
+<ul>
+	<li>Feature: [#3355] Allow loading of parks from URLs.</li>
+	<li>Feature: [#4673] Add paint Z clipping.</li>
+	<li>Feature: [#4901] Allow entertainers' costume changes even in absence of required scenery.</li>
+	<li>Feature: [#4916] FreeBSD support.</li>
+	<li>Feature: [#4963] Add boosters (from RCT1 and RCTC).</li>
+	<li>Feature: [#5113] Entertainers are now hired with a random costume.</li>
+	<li>Improved: [#4847] Guest / staff pathfinding.</li>
+	<li>Improved: [#4938] Checksum calculations speeded up.</li>
+	<li>Improved: [#5007] Vehicles and functioning rides are now imported when loading SC4 / SV4 parks.</li>
+	<li>Improved: Guests and staff are now imported when loading SC4 / SV4 parks.</li>
+	<li>Fix: [#4571] Only start autosave timer after update or game command.</li>
+	<li>Fix: [#4584] Junior Coaster diagonal flat-to-steep slopes not drawn.</li>
+	<li>Fix: [#4929] Changing TTF language crashes game.</li>
+	<li>Fix: [#4944] Game crashes upon selecting objects in scenario editor.</li>
+	<li>Fix: [#4951] Scenarios are not recorded as completed from a saved game.</li>
+	<li>Fix: [#4968] Completing a scenario does not save the name that is entered.</li>
+	<li>Fix: [#4996] Objects unloaded after loading landscape.</li>
+	<li>Fix: [#5003] Able to remove entrance/exit of unedittable rides (such as in Volcania).</li>
+	<li>Fix: [#5096] Failure to open parks with out of bounds sprite coordinates.</li>
+	<li>Fix: [#5114] Some entertainer costumes never select-able.</li>
+</ul>
 <h2>0.0.5 (2016-12-27)</h2>
 <p>This is the first fully implemented version of OpenRCT2. RCT2.EXE is no longer required.</p>
 <ul>
