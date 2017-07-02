@@ -29,7 +29,7 @@
 	<li><a href="//github.com/OpenRCT2/OpenRCT2/issues" target="_blank">Issue tracker</a></li>
 	<li><a href="/forums/" target="_blank" style="font-weight: 600;">Sign up on the Forums</a></li>
 	<li><a href="//www.reddit.com/r/OpenRCT2" target="_blank">Subreddit</a></li>
+	<li><a href="//gitter.im/OpenRCT2/OpenRCT2/non-dev" target="_blank">Gitter Chat</a></li>
 	<li><a href="//gitter.im/OpenRCT2/OpenRCT2" target="_blank">Gitter Development Chat</a></li>
-	<li><a href="//gitter.im/OpenRCT2/OpenRCT2/non-dev" target="_blank">Gitter Offtopic Chat</a></li>
 </ul>
 @stop
