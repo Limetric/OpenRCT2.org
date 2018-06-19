@@ -54,7 +54,6 @@ header {
       }
 
       &.separator {
-        font-weight: bold;
         height: 26px;
         width: 2px;
         background-color: $nav-item-color;
@@ -79,9 +78,27 @@ main {
 
 footer {
   margin: 15px auto 15px auto;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $footer-text-size;
 
-  > a, & {
-    color: grey;
+  > * {
+    margin-left: 10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .separator {
+    height: calc(#{$footer-text-size} + 4px);
+    width: 1px;
+    background-color: $footer-text-color;
+    align-self: center;
+  }
+
+  > a, > span {
+    color: $footer-text-color;
   }
 }
