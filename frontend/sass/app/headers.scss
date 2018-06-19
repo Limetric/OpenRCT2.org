@@ -1,0 +1,25 @@
+@import 'variables';
+
+h1, h2, h3 {
+  margin: 6px 0;
+  font-weight: 300;
+  padding: 12px 15px;
+}
+
+h1 {
+  background-color: $header-h1-bg-color;
+  color: $header-h1-text-color;
+  font-size: $header-h1-text-size;
+}
+
+h2 {
+  background-color: $header-h2-bg-color;
+  color: $header-h2-text-color;
+  font-size: $header-h2-text-size;
+}
+
+h3 {
+  background-color: $header-h3-bg-color;
+  color: $header-h3-text-color;
+  font-size: $header-h3-text-size;
+}
