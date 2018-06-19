@@ -10,4 +10,13 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/faq', (req, res, next) => {
+    const template = require('../views/faq.marko');
+    res.marko(template, {
+        page: {
+            description: 'Frequently Asked Questions about OpenRCT2 answered.'
+        }
+    });
+});
+
 module.exports = router;
