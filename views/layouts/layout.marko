@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="${data.page && data.page.description ? data.page.description : out.global.site.description}">
+    <title>${data.page && data.page.title ? data.page.title +' - '+ out.global.site.title : out.global.site.title}</title>
+    <link rel="stylesheet" href="/resources/style.min.css">
+    <link rel="shortcut icon" href="/assets/images/icons/icon_x32.png">
+</head>
+<body>
+    <app-header current="index" />
+    <if(input.body)>
+        <include(input.body)/>
+    </if>
+    <else>
+        <main role="main" class="container">
+            <p>No content available.</p>
+        </main>
+    </else>
+    <app-footer />
+</body>
+</html>
