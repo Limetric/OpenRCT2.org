@@ -10,6 +10,15 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.get('/about', (req, res, next) => {
+    const template = require('../views/about.marko');
+    res.marko(template, {
+        page: {
+            description: 'General information about the open-source OpenRCT2 project and it\'s authors.'
+        }
+    });
+});
+
 router.get('/faq', (req, res, next) => {
     const template = require('../views/faq.marko');
     res.marko(template, {
