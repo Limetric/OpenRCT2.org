@@ -28,4 +28,13 @@ router.get('/faq', (req, res, next) => {
     });
 });
 
+router.get('/features', (req, res, next) => {
+    const template = require('../views/features.marko');
+    res.marko(template, {
+        page: {
+            description: 'An overview of alterations made to OpenRCT2 when compared to RollerCoaster Tycoon 2.'
+        }
+    });
+});
+
 module.exports = router;
