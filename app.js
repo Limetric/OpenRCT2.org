@@ -198,7 +198,7 @@ class App {
                 isDevelopment: this.isDevelopment,
                 page: {
                     title: error.message,
-                    description: error.statusMessage ? error.statusMessage : 'An error occurred.'
+                    description: error.statusMessage
                 }
             });
         });
