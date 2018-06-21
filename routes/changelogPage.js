@@ -15,14 +15,12 @@ router.get('/', (req, res, next) => {
         res.marko(template, {
             page: {
                 title: 'Changelog',
-                description: 'An overview of all the OpenRCT2 changes over the years.'
+                description: 'An overview of all the OpenRCT2 changes over the years.',
+                path: App.getExpressPath(req.baseUrl, req.path)
             },
             changelog: changelog
         });
     });
-
-
-
 });
 
 module.exports = router;

@@ -57,11 +57,11 @@ class ChangelogScraper {
         //Filter versions
         const changelog = [];
 
-        let processingVersion;
+        let processingChangeset;
 
         rawContent.forEach((str, index) => {
             if (!str.startsWith('------')) {
-                if (!processingVersion)
+                if (!processingChangeset)
                     return;
 
                 //Skip malformed changes
@@ -70,7 +70,7 @@ class ChangelogScraper {
                     return;
 
                 //Push change
-                processingVersion.changes.push(str.substring(2));
+                processingChangeset.changes.push(str.substring(2));
 
                 return;
             }
@@ -79,11 +79,11 @@ class ChangelogScraper {
             if (!versionName)
                 return;
 
-            processingVersion = {
+            const changeset = processingChangeset = {
                 versionName,
                 changes: []
             };
-            changelog.push(processingVersion);
+            changelog.push(changeset);
         });
 
         return changelog;

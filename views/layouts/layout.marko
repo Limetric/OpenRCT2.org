@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="${data.page && data.page.description ? data.page.description : out.global.site.description}">
-    <meta property="og:image" content="https://openrct2.org/assets/images/icons/icon_x512.png">
-    <meta property="og:title" content="${data.page && data.page.title ? data.page.title +' - '+ out.global.site.title : out.global.site.title}">
+    <meta property="og:image" content="${out.global.site.publicUrl}/assets/images/icons/icon_x512.png">
+    <meta property="og:title" content="${data.page && data.page.title ? out.global.site.title +' '+ data.page.title : out.global.site.title}">
     <meta property="og:description" content="${data.page && data.page.description ? data.page.description : out.global.site.description}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://openrct2.org/features">
-    <meta property="og:site_name" content="OpenRCT2">
+    <meta property="og:url" content="${out.global.site.publicUrl + data.page.path}">
+    <meta property="og:site_name" content="${out.global.site.title}">
     <meta property="og:locale" content="en_GB">
     <meta name="theme-color" content="#71ABED">
-    <title>${data.page && data.page.title ? data.page.title +' - '+ out.global.site.title : out.global.site.title}</title>
+    <title>${data.page && data.page.title ? (data.page.overrideTitle ? data.page.title : data.page.title +' - '+ out.global.site.title) : out.global.site.title}</title>
     <link rel="stylesheet" href="/resources/style.min.css">
     <link rel="shortcut icon" href="/assets/images/icons/icon_x32.png">
 </head>

@@ -111,12 +111,13 @@ class App {
         this.express.locals.layout = '/views/layouts/defaultLayout.marko';
 
         this.express.locals.site = {
-            title: 'OpenRCT2.org',
-            //description: ''
+            title: this.config.site.title,
+            //description: '',
+            publicUrl: this.config.site.publicUrl
         };
         this.express.locals.author = {
-            name: 'OpenRCT2.org',
-            emailAddress: 'webmaster@openrct2.org'
+            name: 'OpenRCT2 Webmaster',
+            emailAddress: 'mail@openrct2.org'
         };
     }
 
@@ -156,6 +157,15 @@ class App {
         this.express.use('/assets', express.static(path.join(__dirname, 'public', 'assets'), {
             etag: !App.isDevelopment
         }));
+
+        //Redirect trailing slash requests
+        this.express.use((req, res, next) => {
+            if (req.path.substr(-1) === '/' && req.path.length > 1) {
+                const query = req.url.slice(req.path.length);
+                res.redirect(301, req.path.slice(0, -1) + query);
+            } else
+                next();
+        });
 
         this.express.use('/', require('./routes/staticPages'));
         this.express.use('/changelog', require('./routes/changelogPage'));
@@ -198,10 +208,22 @@ class App {
                 isDevelopment: this.isDevelopment,
                 page: {
                     title: error.message,
-                    description: error.statusMessage
+                    description: error.statusMessage,
+                    path: this.getExpressPath(req.baseUrl, req.path)
                 }
             });
         });
+    }
+
+    /**
+     * Helper function
+     * ToDo: Move to utility class
+     * @param {string} baseUrl
+     * @param {string} path
+     * @returns {string}
+     */
+    static getExpressPath(baseUrl, path) {
+        return baseUrl.replace(/\/$/, '') + path.replace(/\/$/, '')
     }
 
     static initModules() {
