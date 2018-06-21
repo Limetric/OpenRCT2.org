@@ -1,0 +1,39 @@
+<include('./layouts/layout.marko', data)>
+    <@body>
+<main class="flex downloads">
+    <section>
+        <h1>Downloads for OpenRCT2</h1>
+        <p class="lead">OpenRCT2 releases new stable versions regurarly. However, it is also possible to download less stable <i>develop</i> builds.</p>
+        <div class="branchSelection flex">
+            <a href="/downloads/master/latest" title="Latest download in stable master branch">
+                <h2>Stable <i>master</i> branch</h2>
+                <p>Throroughly tested releases with minimal bugs &amp; crashes.</p>
+                <p class="buttonContainer">
+                    <button>Download latest <i>master</i> build</button>
+                    <span>0.3.0 build 33a954f (1 week ago)</span>
+                </p>
+            </a>
+            <a href="/downloads/develop/latest" title="Latest download in unstable develop branch">
+                <h2>Unstable <i>develop</i> branch</h2>
+                <p>Updated often containing latest features and fixes. More popular for online multiplayer.</p>
+                <p class="buttonContainer">
+                    <button>Download latest <i>develop</i> build</button>
+                    <span>0.2.0 build f79954b (3 hours ago)</span>
+                </p>
+            </a>
+        </div>
+        <h2>Download history</h2>
+        <p>WIP</p>
+    </section>
+    <aside>
+        <h2>Original Game Required</h2>
+        <p>Original RollerCoaster Tycoon 2 game files are required in order to play OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a> and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.</p>
+        <h2>Bugs &amp; Crashes</h2>
+        <p>Please bear in mind OpenRCT2 is in early beta stage. Crashes and bugs are common. If a build is not working, try an older one. You can report bugs on <a href="https://github.com/OpenRCT2/OpenRCT2/issues" target="_blank">GitHub</a> or on the <a href="/forums/forum/2-problems-bugs-and-feedback/" target="_blank">forums</a>.</p>
+        <h2>About OpenRCT2</h2>
+        <p>OpenRCT2 is a free open source remake of RollerCoaster Tycoon 2. The developers have taken the original game, decompiled it and rewrote everything into a newer language. This allows developers to extend the gameplay, alter the game, and even port the game to other platforms such. At this moment, the game is playable on Windows, Linux, macOS and Android.
+        </p>
+    </aside>
+</main>
+    </@body>
+</include>

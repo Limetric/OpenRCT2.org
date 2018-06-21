@@ -2,7 +2,8 @@
 @import '../../node_modules/normalize.css/normalize';
 
 //Polyfill
-//@import '../node_modules/dialog-polyfill/dialog-polyfill'; //HTML dialog element polyfill
+//@import '../../node_modules/dialog-polyfill/dialog-polyfill'; //HTML dialog element polyfill
 
 @import 'app/layout';
 @import 'app/main';
+@import 'app/downloads';
