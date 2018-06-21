@@ -156,9 +156,8 @@ class App {
         this.express.use('/assets', express.static(path.join(__dirname, 'public', 'assets'), {
             etag: !App.isDevelopment
         }));
-
-        const indexRouter = require('./routes/index');
-        this.express.use('/', indexRouter);
+        
+        this.express.use('/', require('./routes/staticPages'));
 
         //Error Handler is our last stop
         this.express.use((req, res, next) => {
