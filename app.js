@@ -151,10 +151,7 @@ class App {
     static initRoutes() {
         const express = require('express');
         const path = require('path');
-        this.express.use('/resources', express.static(path.join(__dirname, 'public', 'resources'), {
-            etag: !App.isDevelopment
-        }));
-        this.express.use('/assets', express.static(path.join(__dirname, 'public', 'assets'), {
+        this.express.use('/', express.static(path.join(__dirname, 'public'), {
             etag: !App.isDevelopment
         }));
 
@@ -169,6 +166,7 @@ class App {
 
         this.express.use('/', require('./routes/staticPages'));
         this.express.use('/changelog', require('./routes/changelogPage'));
+        this.express.use('/downloads', require('./routes/downloadsPage'));
 
         //Error Handler is our last stop
         this.express.use((req, res, next) => {
