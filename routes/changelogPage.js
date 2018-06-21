@@ -5,7 +5,7 @@ router.get('/', (req, res, next) => {
     const jsonfile = require('jsonfile');
     jsonfile.readFile(App.modules.changelogScraper.getFilename(), (error, changelog) => {
         if (error) {
-            const error = new Error('Unable to load changelog');
+            const error = new Error('Unable to load changelog.');
             error.status = 500;
             next(error);
             return;

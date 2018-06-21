@@ -176,6 +176,18 @@ class App {
             if (!error.status)
                 error.status = 500;
 
+            switch (error.status) {
+                case 404:
+                    error.statusMessage = 'Not found';
+                    break;
+                case 403:
+                    error.statusMessage = 'No permission';
+                    break;
+                case 500:
+                    error.statusMessage = 'An internal server error occurred';
+                    break;
+            }
+
             if (!error.message)
                 error.message = 'An unknown error occurred.';
 
@@ -186,7 +198,7 @@ class App {
                 isDevelopment: this.isDevelopment,
                 page: {
                     title: error.message,
-                    description: 'An error occurred on platform.'
+                    description: error.statusMessage ? error.statusMessage : 'An error occurred.'
                 }
             });
         });

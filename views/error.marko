@@ -2,7 +2,7 @@
     <@body>
 <main role="main" class="container">
     <div class="headliner-template">
-        <h1>An ${data.error.status} error occurred</h1>
+        <h1>${data.error.status} - ${data.error.statusMessage ? data.error.statusMessage : `An unknown error occurred`}</h1>
         <p class="lead">${data.error.message}</p>
     </div>
 </main>
