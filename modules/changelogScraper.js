@@ -8,17 +8,17 @@ class ChangelogScraper {
             this.run();
         }, 3600 * 1000);
 
-        let contents;
+        let saved;
         try {
             const rawContent = await this.getFile();
-            contents = this.parse(rawContent);
-            await this.save(this.getFilename(), contents);
+            const content = this.parse(rawContent);
+            saved = await this.save(this.getFilename(), content);
         } catch (error) {
             log.error(error);
             return;
         }
 
-        log.debug('Saved new changelog');
+        log.debug(saved ? 'Saved new changelog' : 'Parsed latest changelog but didn\'t save');
     }
 
     /**
@@ -90,19 +90,29 @@ class ChangelogScraper {
     }
 
     /**
-     *
+     * Writes file if content is new
      * @param {string} file
      * @param {object} obj
-     * @returns {Promise<any>}
+     * @returns {Promise<boolean>}
      */
     static save(file, obj) {
         return new Promise((resolve, reject) => {
             const jsonfile = require('jsonfile');
-            jsonfile.writeFile(file, obj, error => {
-                if (error)
-                    reject(error);
-                else
-                    resolve();
+
+            //Check if we already have the same content stored
+            jsonfile.readFile(file, (error, readObj) => {
+                if (!error && JSON.stringify(obj) === JSON.stringify(readObj)) {
+                    resolve(false);
+                    return;
+                }
+
+                //Write new file
+                jsonfile.writeFile(file, obj, error => {
+                    if (error)
+                        reject(error);
+                    else
+                        resolve(true);
+                });
             });
         });
     }
