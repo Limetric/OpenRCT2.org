@@ -1,0 +1,18 @@
+<include('./layouts/layout.marko', data)>
+    <@body>
+<main>
+        <h1>OpenRCT2 Changelog</h1>
+        <p>
+            OpenRCT2 features many changes compared to the original RollerCoaster Tycoon 2 game. A few of them are listed here.
+        </p>
+        <for(changeset in data.changelog)>
+        <h2>${changeset.versionName}</h2>
+        <ul>
+            <for(change in changeset.changes)>
+                <li>${change}</li>
+            </for>
+        </ul>
+        </for>
+</main>
+    </@body>
+</include>

@@ -158,6 +158,7 @@ class App {
         }));
 
         this.express.use('/', require('./routes/staticPages'));
+        this.express.use('/changelog', require('./routes/changelogPage'));
 
         //Error Handler is our last stop
         this.express.use((req, res, next) => {
@@ -192,7 +193,9 @@ class App {
     }
 
     static initModules() {
-        const changelogScraper = require('./modules/changelogScraper');
+        this.modules = {};
+
+        const changelogScraper = this.modules.changelogScraper = require('./modules/changelogScraper');
         changelogScraper.run();
     }
 

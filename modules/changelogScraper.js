@@ -1,17 +1,18 @@
 class ChangelogScraper {
+    /**
+     *
+     * @returns {Promise<void>}
+     */
     static async run() {
         setTimeout(() => {
             this.run();
         }, 3600 * 1000);
 
-        const path = require('path');
-        const changelogFilename = path.join(App.paths.data, 'changelog.json');
-
         let contents;
         try {
             const rawContent = await this.getFile();
             contents = this.parse(rawContent);
-            await this.save(changelogFilename, contents);
+            await this.save(this.getFilename(), contents);
         } catch (error) {
             log.error(error);
             return;
@@ -20,6 +21,10 @@ class ChangelogScraper {
         log.debug('Saved new changelog');
     }
 
+    /**
+     *
+     * @returns {Promise<string>}
+     */
     static getFile() {
         return new Promise(async (resolve, reject) => {
             const remoteUrl = 'https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/distribution/changelog.txt';
@@ -84,6 +89,12 @@ class ChangelogScraper {
         return changelog;
     }
 
+    /**
+     *
+     * @param {string} file
+     * @param {object} obj
+     * @returns {Promise<any>}
+     */
     static save(file, obj) {
         return new Promise((resolve, reject) => {
             const jsonfile = require('jsonfile');
@@ -94,6 +105,15 @@ class ChangelogScraper {
                     resolve();
             });
         });
+    }
+
+    /**
+     *
+     * @returns {string}
+     */
+    static getFilename() {
+        const path = require('path');
+        return path.join(App.paths.data, 'changelog.json');
     }
 }
 
