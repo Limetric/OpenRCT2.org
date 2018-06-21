@@ -156,7 +156,7 @@ class App {
         this.express.use('/assets', express.static(path.join(__dirname, 'public', 'assets'), {
             etag: !App.isDevelopment
         }));
-        
+
         this.express.use('/', require('./routes/staticPages'));
 
         //Error Handler is our last stop
@@ -191,13 +191,29 @@ class App {
         });
     }
 
+    static initModules() {
+        const changelogScraper = require('./modules/changelogScraper');
+        changelogScraper.run();
+    }
+
+    static initPaths() {
+        const path = require('path');
+
+        this.paths = {
+            data: path.join(__dirname, 'data')
+        };
+    }
+
     static async init() {
         this.env = process.env.NODE_ENV;
         this.isDevelopment = process.env.NODE_ENV === 'development';
 
+
         this.initLog();
         this.initConfig();
         log.info(`Current environment: ${this.env} (debug: %s}`, this.isDevelopment);
+
+        this.initPaths();
 
         //Display detailed info about Unhandled Promise rejections and Uncaught Exceptions
         process.on('unhandledRejection', (reason, p) => log.fatal('Unhandled Rejection at:', p, 'reason:', reason));
@@ -214,6 +230,8 @@ class App {
         this.initExpress();
 
         this.initRoutes();
+
+        this.initModules();
 
         try {
             await this.listenExpress();
