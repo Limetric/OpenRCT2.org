@@ -14,6 +14,7 @@ router.get('/about', (req, res, next) => {
     const template = require('../views/about.marko');
     res.marko(template, {
         page: {
+            title: 'About',
             description: 'General information about the open-source OpenRCT2 project and it\'s authors.'
         }
     });
@@ -23,6 +24,7 @@ router.get('/faq', (req, res, next) => {
     const template = require('../views/faq.marko');
     res.marko(template, {
         page: {
+            title: 'FAQ',
             description: 'Frequently Asked Questions about OpenRCT2 answered.'
         }
     });
@@ -32,6 +34,7 @@ router.get('/features', (req, res, next) => {
     const template = require('../views/features.marko');
     res.marko(template, {
         page: {
+            title: 'Features',
             description: 'An overview of alterations made to OpenRCT2 when compared to RollerCoaster Tycoon 2.'
         }
     });
