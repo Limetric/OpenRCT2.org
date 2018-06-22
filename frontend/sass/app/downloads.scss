@@ -1,64 +1,126 @@
 @import 'variables';
 
 main.downloads {
-  div.branchSelection {
-    &.flex {
-      display: flex;
-      justify-content: space-between;
+  &.downloadsIndex {
+    div.branchSelection {
+      &.flex {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      > a {
+        box-sizing: border-box;
+        border: 1px solid $header-h3-bg-color;
+        text-decoration: none;
+        width: calc(50% - 5px);
+        color: $body-text-color;
+
+        &:hover {
+          border-color: $header-h2-bg-color;
+
+          > h3 {
+            background-color: $header-h2-bg-color;
+            color: $header-h1-text-color;
+          }
+
+          > p.buttonContainer > button {
+            background-color: $header-h2-bg-color;
+            color: white;
+          }
+        }
+
+        > h3 {
+          margin-top: 0;
+        }
+
+        > p {
+          padding: 0 10px;
+
+          &, > button {
+            text-align: center;
+          }
+        }
+
+        > p.buttonContainer {
+          > span {
+            display: block;
+            font-size: 0.8em;
+          }
+
+          > button {
+            display: block;
+            cursor: pointer;
+            border: 1px solid $header-h1-bg-color;
+            background-color: transparent;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 0 auto;
+            line-height: 1.2;
+            color: $header-h1-bg-color;
+            font-weight: bold;
+          }
+        }
+      }
+
     }
 
-    > a {
-      box-sizing: border-box;
-      border: 1px solid $header-h2-bg-color;
-      text-decoration: none;
-      width: calc(50% - 5px);
+    table {
+      border-collapse: separate;
+      border-spacing: 3px;
+      width: 100%;
 
-      &:hover {
-        border-color: $header-h1-bg-color;
-
-        > h2 {
-          background-color: $header-h1-bg-color;
-          color: $header-h1-text-color;
-        }
-
-        > p.buttonContainer > button {
-          background-color: $header-h1-bg-color;
-          color: white;
-        }
-      }
-
-      > h2 {
-        margin-top: 0;
-      }
-
-      > p {
-        padding: 0 10px;
-
-        &, > button {
-          text-align: center;
-        }
-      }
-
-      > p.buttonContainer {
-        > span {
-          display: block;
-          font-size: 0.8em;
-        }
-
-        > button {
-          display: block;
-          cursor: pointer;
-          border: 1px solid $header-h1-bg-color;
-          background-color: transparent;
-          border-radius: 5px;
-          padding: 10px 20px;
-          margin: 0 auto;
-          line-height: 1.2;
-          color: $header-h1-bg-color;
+      > thead {
+        td {
           font-weight: bold;
         }
       }
-    }
+      > tbody {
+        > tr {
+          font-size: 0.65em;
 
+          &:first-child {
+            font-size: 1em;
+          }
+
+          &:nth-child(2) {
+            font-size: 0.9em;
+          }
+
+          &:nth-child(3) {
+            font-size: 0.85em;
+          }
+
+          &:nth-child(4) {
+            font-size: 0.80em;
+          }
+
+          &:nth-child(5) {
+            font-size: 0.75em;
+          }
+
+          &:nth-child(6) {
+            font-size: 0.70em;
+          }
+
+          //Hide older history when on a small screen
+          @media only screen and (max-width:760px) {
+            &:nth-child(n+6) {
+              display: none;
+            }
+          }
+        }
+
+        .status {
+          border-left: 3px solid grey;
+          padding-left: 3px;
+          &.success {
+            border-color: darkgreen;
+          }
+          &.failed {
+            border-color: darkred;
+          }
+        }
+      }
+    }
   }
 }

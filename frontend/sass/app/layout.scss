@@ -1,15 +1,13 @@
 @import 'variables';
-@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
 
 html, body {
   height: 100%;
 }
 
 body {
-  font-family: 'PT Sans', sans-serif;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
+  font-family: 'Open Sans', sans-serif;
+  font-size: $body-font-size;
 }
 
 main,
@@ -21,7 +19,7 @@ footer > div {
 }
 
 header {
-  background-color: $primary-color;
+  background: linear-gradient(90deg, $primary-dark-color 0%, $primary-color 100%);
   width: 100%;
 
   > nav {
@@ -74,7 +72,6 @@ header {
 }
 
 main {
-  flex: 1 1 auto;
 }
 
 footer {

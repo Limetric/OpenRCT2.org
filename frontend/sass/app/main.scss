@@ -2,7 +2,7 @@
 
 main {
   &.flex {
-    @media only screen and (min-width:760px) {
+    @media only screen and (min-width: 760px) {
       display: flex;
       justify-content: space-between;
 
@@ -20,6 +20,11 @@ main {
     margin: 6px 0;
     font-weight: 300;
     padding: 12px 15px;
+
+    &.important {
+      background-color: $header-important-bg-color;
+      color: $header-important-text-color;
+    }
   }
 
   h1, h2.h1, h3.h1 {
@@ -27,6 +32,7 @@ main {
       background-color: $header-h1-bg-color;
       color: $header-h1-text-color;
       font-size: $header-h1-text-size;
+      font-weight: 600;
     }
   }
 
@@ -46,16 +52,30 @@ main {
     }
   }
 
-  p {
+  p, ul {
     line-height: 1.5;
-    color: $body-text-color;
+  }
 
-    a {
-      color: $body-link-color;
+  p {
+    text-align: justify;
+  }
 
-      &:hover {
-        color: $body-link-hover-color;
-      }
+  color: $body-text-color;
+
+  a {
+    color: $body-link-color;
+
+    &:hover {
+      color: $body-link-hover-color;
     }
+  }
+
+  .textCenter {
+    text-align: center;
+  }
+
+  pre {
+    display: inline;
+    font-size: inherit;
   }
 }

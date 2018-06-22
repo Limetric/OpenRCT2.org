@@ -2,12 +2,23 @@
 require('babel-polyfill');
 
 //Display dates and fromNow dates
-const moment = require('moment');
+const Moment = require('moment');
 for (const el of document.querySelectorAll('.date')) {
     const parentheses = el.classList.contains('parentheses');
-    el.textContent = (parentheses ? '(' : '') + moment(new Date(el.dataset.date || el.textContent)).format(el.dataset.format) + (parentheses ? ')' : '');
+    const moment = Moment(new Date(el.dataset.date || el.textContent));
+    const formattedMoment = moment.format(el.dataset.format);
+    el.textContent = (parentheses ? '(' : '') + formattedMoment + (parentheses ? ')' : '');
+
+    //Set date to element title
+    if (el.classList.contains('titleDate'))
+        el.setAttribute('title', formattedMoment);
 }
 for (const el of document.querySelectorAll('.fromNow')) {
     const parentheses = el.classList.contains('parentheses');
-    el.textContent = (parentheses ? '(' : '') + moment(new Date(el.dataset.date || el.textContent)).fromNow() + (parentheses ? ')' : '');
+    const moment = Moment(new Date(el.dataset.date || el.textContent));
+    el.textContent = (parentheses ? '(' : '') + moment.fromNow() + (parentheses ? ')' : '');
+
+    //Set date to element title
+    if (el.classList.contains('titleDate'))
+        el.setAttribute('title', moment.format(el.dataset.format));
 }

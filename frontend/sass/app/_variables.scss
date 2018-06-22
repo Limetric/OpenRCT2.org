@@ -1,22 +1,43 @@
-$primary-color: #71ABED;
-$primary-dark-color: #5A89BE;
+/**Layout**/
+$body-font-size: 100%;
+$primary-color: #6AA4EB;
+$primary-dark-color: #4C86E5;
 $nav-item-color: white;
 
 /**Main**/
 //Content headers
-$header-h1-bg-color: $primary-dark-color;
+$header-h1-bg-color: $primary-color;
 $header-h1-text-color: white;
-$header-h1-text-size: 18px;
-$header-h2-bg-color: #F3F5F6;
-$header-h2-text-color: black;
-$header-h2-text-size: 16px;
-$header-h3-bg-color: #F3F5F6;
+$header-h1-text-size: 1em;
+$header-h2-bg-color: #6AA4EB;
+$header-h2-text-color: white;
+$header-h2-text-size: 1em;
+$header-h3-bg-color: lightgrey;
 $header-h3-text-color: black;
-$header-h3-text-size: 16px;
+$header-h3-text-size: 1em;
+$header-important-bg-color: #D20000;
+$header-important-text-color: white;
 $body-text-color: #272A34;
 $body-link-color: #5A89BE;
 $body-link-hover-color: #4171A4;
 
+/*
+$header-h1-bg-color: $primary-dark-color;
+$header-h1-text-color: white;
+$header-h1-text-size: 1em;
+$header-h2-bg-color: #F3F5F6;
+$header-h2-text-color: black;
+$header-h2-text-size: 1em;
+$header-h3-bg-color: #F3F5F6;
+$header-h3-text-color: black;
+$header-h3-text-size: 1em;
+$header-important-bg-color: #D20000;
+$header-important-text-color: white;
+$body-text-color: #272A34;
+$body-link-color: #5A89BE;
+$body-link-hover-color: #4171A4;
+ */
+
 /**Footer**/
 $footer-text-color: grey;
-$footer-text-size: 12px;
+$footer-text-size: 0.8em;
