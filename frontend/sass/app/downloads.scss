@@ -3,6 +3,8 @@
 main.downloads {
   &.downloadsIndex {
     div.branchSelection {
+      margin: 1em 0;
+
       &.flex {
         display: flex;
         justify-content: space-between;

@@ -17,13 +17,17 @@ main {
   }
 
   h1, h2, h3 {
-    margin: 6px 0;
+    margin: 1.5em 0 0.5em 0;
     font-weight: 300;
-    padding: 12px 15px;
+    padding: 0.8em;
 
     &.important {
       background-color: $header-important-bg-color;
       color: $header-important-text-color;
+    }
+
+    &:first-child {
+      margin-top: 1em;
     }
   }
 
@@ -50,6 +54,10 @@ main {
       color: $header-h3-text-color;
       font-size: $header-h3-text-size;
     }
+  }
+
+  p, ul, table, video {
+    margin: 1em 0;
   }
 
   p, ul {

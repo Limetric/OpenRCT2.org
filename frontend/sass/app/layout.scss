@@ -26,6 +26,7 @@ header {
     //align-items: center;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 
     > a, > span {
       display: flex;
@@ -40,13 +41,11 @@ header {
         }
       }
 
-      //      box-sizing: content-box;
-
       &:not(.brand) {
         align-self: stretch;
       }
       color: $nav-item-color;
-      margin-left: 12px;
+      //margin-left: 20px;
 
       &:first-child {
         margin-left: 0;
