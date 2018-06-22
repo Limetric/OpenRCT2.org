@@ -185,19 +185,22 @@ class App {
                 error.status = 500;
 
             switch (error.status) {
-                case 404:
-                    error.statusMessage = 'Not found';
-                    break;
                 case 403:
                     error.statusMessage = 'No permission';
+                    break;
+                case 404:
+                    error.statusMessage = 'Not found';
                     break;
                 case 500:
                     error.statusMessage = 'An internal server error occurred';
                     break;
+                default:
+                    error.statusMessage = 'A server error occurred';
+                    break;
             }
 
             if (!error.message)
-                error.message = 'An unknown error occurred.';
+                error.message = 'An unknown problem occurred. Please try again later.';
 
             res.status(error.status);
             const layout = require('./views/error.marko');

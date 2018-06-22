@@ -59,7 +59,7 @@ main.downloads {
             margin: 0 auto;
             line-height: 1.2;
             color: $header-h1-bg-color;
-            font-weight: bold;
+            font-weight: 600;
           }
         }
       }
@@ -73,7 +73,7 @@ main.downloads {
 
       > thead {
         td {
-          font-weight: bold;
+          font-weight: 600;
         }
       }
       > tbody {
@@ -123,6 +123,12 @@ main.downloads {
           }
         }
       }
+    }
+  }
+
+  &.downloadsView {
+    .emphasize {
+      border-bottom: 1px dotted $body-text-color;
     }
   }
 }

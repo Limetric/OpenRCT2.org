@@ -15,8 +15,9 @@ for (const el of document.querySelectorAll('.date')) {
 }
 for (const el of document.querySelectorAll('.fromNow')) {
     const parentheses = el.classList.contains('parentheses');
+    const withoutSuffix = el.dataset.withoutSuffix === 'true';
     const moment = Moment(new Date(el.dataset.date || el.textContent));
-    el.textContent = (parentheses ? '(' : '') + moment.fromNow() + (parentheses ? ')' : '');
+    el.textContent = (parentheses ? '(' : '') + moment.fromNow(withoutSuffix) + (parentheses ? ')' : '');
 
     //Set date to element title
     if (el.classList.contains('titleDate'))

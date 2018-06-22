@@ -4,9 +4,9 @@ $ {
         return moment(date).format(format);
     };
 
-    const fromNowDate = date => {
+    const fromNowDate = (date, withoutSuffix) => {
         const moment = require('moment');
-        return moment(date).fromNow();
+        return moment(date).fromNow(withoutSuffix);
     };
 }
 <include('./layouts/layout.marko', data)>
@@ -18,11 +18,11 @@ $ {
         <p>Are you new to the project? Read the <a href="/quickstart">Quickstart Guide</a> to get your OpenRCT2 copy up and running.</p>
         <p>Please note that the original RollerCoaster Tycoon 2 game files are required in order to play OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank">GOG</a> and <a href="http://store.steampowered.com/app/285330/" target="_blank">Steam</a>.</p>
         <div class="branchSelection flex">
-            <a href="/downloads/master/latest" title="Latest download in stable master branch">
-                <h3>Stable <i>master</i> branch</h3>
+            <a href="/downloads/master/latest" title="Latest release download">
+                <h3>Releases</h3>
                 <p>Throroughly tested releases with minimal bugs &amp; crashes.</p>
                 <p class="buttonContainer">
-                    <button>Download latest <i>master</i> build</button>
+                    <button>Download latest release</button>
                     <span>$!{data.latestMaster ? `${data.latestMaster.version} build <span title="${data.latestMaster.gitHash}">${data.latestMaster.gitHashShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.latestMaster.addedTime.toISOString()}" data-format="llll">(${fromNowDate(data.latestMaster.addedTime)})</span>` : 'Last build info unknown'}</span>
                 </p>
             </a>

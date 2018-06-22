@@ -1,0 +1,27 @@
+$ {
+    const formatDate = (date, format) => {
+        const moment = require('moment');
+        return moment(date).format(format);
+    };
+
+    const fromNowDate = (date, withoutSuffix) => {
+        const moment = require('moment');
+        return moment(date).fromNow(withoutSuffix);
+    };
+}
+<include('./layouts/layout.marko', data)>
+    <@body>
+<main class="downloads downloadsView">
+    <h1>${data.latest ? `Latest OpenRCT2 ${data.download.version}-${data.download.gitBranch} download` : `Download OpenRCT2 ${data.download.version}-${data.download.gitBranch} build ${data.download.gitHashShort}`}</h1>
+    <ul>
+        <li>Branch: ${data.download.gitBranch}</li>
+        <li>Git hash: <pre class="emphasize">${data.download.gitHash.substr(0, 7)}</pre><pre>${data.download.gitHash.substr(7)}</pre></li>
+        <li>Available since <span class="fromNow" data-date="${data.download.addedTime.toISOString()}" data-without-suffix="true" data-format="llll">${fromNowDate(data.download.addedTime, true)}</span>: <span class="date" data-date="${data.download.addedTime.toISOString()}" data-format="llll">${formatDate(data.download.addedTime, 'llll')}</span></li>
+    </ul>
+    <h2>Downloads</h2>
+    <for(download in data.downloads)>
+        <p>${JSON.stringify(download)}</p>
+    </for>
+</main>
+    </@body>
+</include>
