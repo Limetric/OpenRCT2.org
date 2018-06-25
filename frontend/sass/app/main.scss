@@ -20,6 +20,8 @@ main {
     margin: 1.5em 0 0.5em 0;
     font-weight: 300;
     padding: 0.8em;
+    display: flex;
+    align-items:center;
 
     &.important {
       background-color: $header-important-bg-color;
@@ -28,6 +30,10 @@ main {
 
     &:first-child {
       margin-top: 1em;
+    }
+
+    .icon {
+      margin-right: 0.5em;
     }
   }
 
@@ -85,5 +91,17 @@ main {
   pre {
     display: inline;
     font-size: inherit;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 3px;
+    width: 100%;
+
+    > thead {
+      td {
+        font-weight: 600;
+      }
+    }
   }
 }

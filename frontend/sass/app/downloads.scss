@@ -10,6 +10,8 @@ main.downloads {
         justify-content: space-between;
       }
 
+      $hover-color: grey;
+
       > a {
         box-sizing: border-box;
         border: 1px solid $header-h3-bg-color;
@@ -18,15 +20,15 @@ main.downloads {
         color: $body-text-color;
 
         &:hover {
-          border-color: $header-h2-bg-color;
+          border-color: $hover-color;
 
           > h3 {
-            background-color: $header-h2-bg-color;
+            background-color: $hover-color;
             color: $header-h1-text-color;
           }
 
           > p.buttonContainer > button {
-            background-color: $header-h2-bg-color;
+            background-color: $hover-color;
             color: white;
           }
         }
@@ -52,13 +54,13 @@ main.downloads {
           > button {
             display: block;
             cursor: pointer;
-            border: 1px solid $header-h1-bg-color;
+            border: 1px solid $hover-color;
             background-color: transparent;
             border-radius: 5px;
             padding: 10px 20px;
             margin: 0 auto;
             line-height: 1.2;
-            color: $header-h1-bg-color;
+            color: $hover-color;
             font-weight: 600;
           }
         }
@@ -67,15 +69,6 @@ main.downloads {
     }
 
     table {
-      border-collapse: separate;
-      border-spacing: 3px;
-      width: 100%;
-
-      > thead {
-        td {
-          font-weight: 600;
-        }
-      }
       > tbody {
         > tr {
           font-size: 0.65em;
@@ -111,17 +104,6 @@ main.downloads {
             }
           }
         }
-
-        .status {
-          border-left: 3px solid grey;
-          padding-left: 3px;
-          &.success {
-            border-color: darkgreen;
-          }
-          &.failed {
-            border-color: darkred;
-          }
-        }
       }
     }
   }
@@ -129,6 +111,31 @@ main.downloads {
   &.downloadsView {
     .emphasize {
       border-bottom: 1px dotted $body-text-color;
+    }
+
+    table > thead > tr > td {
+      &:first-child {
+        width: 27%;
+      }
+
+      &:nth-child(3) {
+        width: 18%;
+      }
+
+      &:last-child {
+        width: 10%;
+      }
+    }
+  }
+
+  .status {
+    border-left: 3px solid grey;
+    padding-left: 3px;
+    &.success {
+      border-color: darkgreen;
+    }
+    &.failed {
+      border-color: darkred;
     }
   }
 }

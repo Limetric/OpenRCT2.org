@@ -8,6 +8,18 @@ $ {
         const moment = require('moment');
         return moment(date).fromNow(withoutSuffix);
     };
+
+    const formatBytes = (bytes, decimals) => {
+        if (bytes == 0)
+            return '0 Bytes';
+
+        const k = 1024,
+            dm = decimals || 2,
+            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+            i = Math.floor(Math.log(bytes) / Math.log(k));
+
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    };
 }
 <include('./layouts/layout.marko', data)>
     <@body>
@@ -15,12 +27,56 @@ $ {
     <h1>${data.latest ? `Latest OpenRCT2 ${data.download.version}-${data.download.gitBranch} download` : `Download OpenRCT2 ${data.download.version}-${data.download.gitBranch} build ${data.download.gitHashShort}`}</h1>
     <ul>
         <li>Branch: ${data.download.gitBranch}</li>
-        <li>Git hash: <pre class="emphasize">${data.download.gitHash.substr(0, 7)}</pre><pre>${data.download.gitHash.substr(7)}</pre></li>
+        <li>Git hash: <a href="https://github.com/OpenRCT2/OpenRCT2/commit/${data.download.gitHash}" title="View commit ${data.download.gitHash.substr(0, 7)} on GitHub" rel="nofollow" target="_blank"><pre>${data.download.gitHash.substr(0, 7)}</pre></a></li>
         <li>Available since <span class="fromNow" data-date="${data.download.addedTime.toISOString()}" data-without-suffix="true" data-format="llll">${fromNowDate(data.download.addedTime, true)}</span>: <span class="date" data-date="${data.download.addedTime.toISOString()}" data-format="llll">${formatDate(data.download.addedTime, 'llll')}</span></li>
     </ul>
-    <h2>Downloads</h2>
-    <for(download in data.downloads)>
-        <p>${JSON.stringify(download)}</p>
+$ {
+    const categories = {
+        'windows': {
+            name: 'Windows',
+            icon: 'windows.svg'
+        }, 'linux': {
+            name: 'Linux',
+            icon: 'linux.svg'
+        },
+        'osx': {
+            name: 'macOS',
+            icon: 'apple.svg'
+        },
+        'android': {
+            name: 'Android',
+            icon: 'android.svg'
+        },
+        'misc': {
+            name: 'Miscellaneous',
+            icon: 'download.svg'
+        }
+    };
+}
+    <for(categoryTag, setDownloads in data.categories)>
+$ const category = categories[categoryTag] || {}
+        <h2>$!{category.icon ? `<img src="/assets/images/icons/${category.icon}" class="icon">` : ''}${category.name} downloads</h2>
+$ const downloads = Array.from(setDownloads)
+        <table>
+            <thead>
+                <tr>
+                    <td>Variant</td>
+                    <td>Filename</td>
+                    <td>SHA-256 Checksum</td>
+                    <td>File Size</td>
+                </tr>
+            </thead>
+            <tbody>
+        <for(download in downloads)>
+                <tr>
+                    <td>${download.flavourName}</td>
+                    <td><a href="${download.url}" title="Download ${download.fileName}">${download.fileName}</a></td>
+                    <td title="SHA-256 checksum: ${download.fileHash}">${download.fileHashShort}…</td>
+                    <td>${formatBytes(download.fileSize)}</td>
+                </tr>
+        </for>
+            </tbody>
+        </table>
     </for>
 </main>
     </@body>

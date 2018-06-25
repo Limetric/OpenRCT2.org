@@ -53,7 +53,7 @@ router.get('/', async (req, res, next) => {
             latestMaster = latestMasters[0];
     } catch (error) {
         log.error(error);
-        next(new Error("Database problem."));
+        next(new Error('Database problem.'));
         return;
     }
 
@@ -163,7 +163,7 @@ router.get('/:gitBranch/:identifier', async (req, res, next) => {
     try {
         req.downloads = await db.promiseQuery(`
             SELECT CONCAT(?, b.filePath, '/', b.fileName) AS \`url\`,
-                   b.fileSize, b.fileHash,
+                   b.fileName, b.fileSize, b.fileHash, SUBSTRING(\`b\`.\`fileHash\`, 1, 7) AS \`fileHashShort\`, b.status,
                    f.platform AS flavourPlatform, f.architecture AS flavourArchitecture,
                    f.name as flavourName, f.category AS category, f.categoryReason AS categoryReason
             FROM downloadsBuilds b
@@ -176,6 +176,20 @@ router.get('/:gitBranch/:identifier', async (req, res, next) => {
         return;
     }
 
+    //Categorize downloads
+    const categories = new Map();
+    for (const download of req.downloads) {
+        const platform = download.flavourPlatform && download.category !== 'misc' ? download.flavourPlatform : 'misc';
+        let downloads;
+        if (!categories.has(platform)) {
+            downloads = new Set();
+            categories.set(platform, downloads);
+        } else
+            downloads = categories.get(platform);
+
+        downloads.add(download);
+    }
+
     const template = require('../views/downloadsView.marko');
     res.marko(template, {
         page: {
@@ -184,7 +198,7 @@ router.get('/:gitBranch/:identifier', async (req, res, next) => {
             path: App.getExpressPath(req.baseUrl, req.path)
         },
         download: req.download,
-        downloads: req.downloads,
+        categories,
         latest: req.latest
     });
 });
