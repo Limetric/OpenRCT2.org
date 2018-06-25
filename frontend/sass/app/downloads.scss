@@ -10,26 +10,26 @@ main.downloads {
         justify-content: space-between;
       }
 
-      $hover-color: grey;
+
 
       > a {
         box-sizing: border-box;
-        border: 1px solid $header-h3-bg-color;
+        border: 1px solid $button-color;
         text-decoration: none;
         width: calc(50% - 5px);
         color: $body-text-color;
 
         &:hover {
-          border-color: $hover-color;
+          border-color: $button-active-color;
 
           > h3 {
-            background-color: $hover-color;
-            color: $header-h1-text-color;
+            background-color: $button-active-color;
+            color: $button-text-color;
           }
 
           > p.buttonContainer > button {
-            background-color: $hover-color;
-            color: white;
+            background-color: $button-active-color;
+            color: $button-active-text-color;
           }
         }
 
@@ -52,15 +52,15 @@ main.downloads {
           }
 
           > button {
+            border-width: 0;
             display: block;
             cursor: pointer;
-            border: 1px solid $hover-color;
-            background-color: transparent;
+            background-color: $button-color;
             border-radius: 5px;
             padding: 10px 20px;
             margin: 0 auto;
             line-height: 1.2;
-            color: $hover-color;
+            color: $button-text-color;
             font-weight: 600;
           }
         }

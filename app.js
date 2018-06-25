@@ -167,6 +167,7 @@ class App {
         this.express.use('/', require('./routes/staticPages'));
         this.express.use('/changelog', require('./routes/changelogPage'));
         this.express.use('/downloads', require('./routes/downloadsPage'));
+        this.express.use('/quickstart', require('./routes/quickstartPages'));
 
         //Error Handler is our last stop
         this.express.use((req, res, next) => {

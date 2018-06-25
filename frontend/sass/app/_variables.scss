@@ -21,6 +21,16 @@ $body-text-color: #272A34;
 $body-link-color: #5A89BE;
 $body-link-hover-color: #4171A4;
 
+//Button
+$button-color: darkgrey;
+$button-active-color: grey;
+$button-active-text-color: white;
+$button-text-color: $button-active-text-color;
+
+//Code
+$code-text-color: #EEE;
+$code-bg-color: #000;
+
 /*
 $header-h1-bg-color: $primary-dark-color;
 $header-h1-text-color: white;

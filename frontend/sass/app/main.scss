@@ -62,11 +62,11 @@ main {
     }
   }
 
-  p, ul, table, video {
+  p, ul, ol, table, video {
     margin: 1em 0;
   }
 
-  p, ul {
+  p, ul, ol {
     line-height: 1.5;
   }
 
@@ -88,6 +88,11 @@ main {
     text-align: center;
   }
 
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   pre {
     display: inline;
     font-size: inherit;
@@ -103,5 +108,49 @@ main {
         font-weight: 600;
       }
     }
+  }
+
+  .button {
+    margin: 0.5em auto;
+    cursor: pointer;
+    &:not(.colored) {
+      border: 1px solid $button-color;
+      background-color: transparent;
+    }
+    border-radius: 5px;
+    padding: 10px 20px;
+    line-height: 1.2;
+    color: $button-color;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+    > img {
+      margin-right: 0.5em;
+    }
+
+    &.colored {
+      background-color: $button-color;
+    }
+
+    &.colored, &:hover {
+      color: $button-active-text-color;
+    }
+
+    &:hover {
+      background-color: $button-active-color;
+      border-color: $button-active-color;
+    }
+  }
+
+  .code {
+    background-color: $code-bg-color;
+    font-family: monospace, monospace;
+    color: $code-text-color;
+    border-radius: 0.5em;
+    line-height: 1em;
+    padding: 0.7em;
+    display: inline-block;
   }
 }
