@@ -70,7 +70,7 @@ router.get('/', async (req, res, next) => {
     });
 });
 
-router.param('gitBranch', (request, response, next, gitBranch) => {
+router.param('gitBranch', (req, res, next, gitBranch) => {
     if (gitBranch.length > 50) {
         next(new Error('Invalid branch.'));
         return;

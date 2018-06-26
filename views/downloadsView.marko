@@ -27,7 +27,7 @@ $ {
     <h1>${data.latest ? `Latest OpenRCT2 ${data.download.version}-${data.download.gitBranch} download` : `Download OpenRCT2 ${data.download.version}-${data.download.gitBranch} build ${data.download.gitHashShort}`}</h1>
     <ul>
         <li>Branch: ${data.download.gitBranch}</li>
-        <li>Git hash: <a href="https://github.com/OpenRCT2/OpenRCT2/commit/${data.download.gitHash}" title="View commit ${data.download.gitHash.substr(0, 7)} on GitHub" rel="nofollow" target="_blank"><pre>${data.download.gitHash.substr(0, 7)}</pre></a></li>
+        <li>Git hash: <a href="https://github.com/OpenRCT2/OpenRCT2/commit/${data.download.gitHash}" title="View commit ${data.download.gitHash.substr(0, 7)} on GitHub" rel="nofollow" target="_blank"><span class="monospace">${data.download.gitHash.substr(0, 7)}</span></a></li>
         <li>Available since <span class="fromNow" data-date="${data.download.addedTime.toISOString()}" data-without-suffix="true" data-format="llll">${fromNowDate(data.download.addedTime, true)}</span>: <span class="date" data-date="${data.download.addedTime.toISOString()}" data-format="llll">${formatDate(data.download.addedTime, 'llll')}</span></li>
     </ul>
 $ {
@@ -70,7 +70,7 @@ $ const downloads = Array.from(setDownloads)
         <for(download in downloads)>
                 <tr>
                     <td>${download.flavourName}</td>
-                    <td><a href="${download.url}" title="Download ${download.fileName}">${download.fileName}</a></td>
+                    <td><a href="${download.url}" title="Download ${download.fileName}" class="monospace">${download.fileName}</a></td>
                     <td title="SHA-256 checksum: ${download.fileHash}">${download.fileHashShort}…</td>
                     <td>${formatBytes(download.fileSize)}</td>
                 </tr>

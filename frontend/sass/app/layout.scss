@@ -23,6 +23,7 @@ header {
   width: 100%;
 
   > nav {
+    padding: 0.5em 0;
     //align-items: center;
     display: flex;
     flex-wrap: wrap;
@@ -31,9 +32,9 @@ header {
     > a, > span {
       display: flex;
       align-items: center;
+      margin: 0 0.2em;
 
       &.brand {
-        padding: 3px 0;
         &, > img {
           $logo-size: 64px;
           width: $logo-size;
@@ -56,6 +57,11 @@ header {
         width: 2px;
         background-color: $nav-item-color;
         align-self: center;
+      }
+
+      .icon {
+        width: 24px;
+        height: 24px;
       }
     }
 

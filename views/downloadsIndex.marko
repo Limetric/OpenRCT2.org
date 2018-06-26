@@ -48,7 +48,7 @@ $ {
         <for(download in data.history)>
                 <tr>
                     <td title="${download.status && download.status !== 'unknown' ? download.status.charAt(0).toUpperCase() + download.status.slice(1) : 'Unknown status'}, ${download.gitHash}" class="status ${download.status}">${download.gitBranch}</td>
-                    <td><a href="/downloads/${download.gitBranch}/${(data.latestDevelop && data.latestDevelop.gitHashShort === download.gitHashShort) || (data.latestMaster && data.latestMaster.gitHashShort === download.gitHashShort) ? 'latest' : download.gitHashShort}" title="Download ${download.version} build ${download.gitHashShort}">${download.version} build <pre>${download.gitHashShort}</pre></a></td>
+                    <td><a href="/downloads/${download.gitBranch}/${(data.latestDevelop && data.latestDevelop.gitHashShort === download.gitHashShort) || (data.latestMaster && data.latestMaster.gitHashShort === download.gitHashShort) ? 'latest' : download.gitHashShort}" title="Download ${download.version} build ${download.gitHashShort}">${download.version} build <span class="monospace">${download.gitHashShort}</span></a></td>
                     <td class="fromNow titleDate" data-date="${download.addedTime.toISOString()}" data-format="llll">${fromNowDate(download.addedTime)}</td>
                 </tr>
         </for>
