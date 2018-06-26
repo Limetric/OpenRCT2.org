@@ -23,7 +23,7 @@ $ {
                 <p>Throroughly tested releases with minimal bugs and crashes.</p>
                 <p class="buttonContainer">
                     <button>Download latest release</button>
-                    <span>$!{data.latestMaster ? `${data.latestMaster.version} build <span title="${data.latestMaster.gitHash}">${data.latestMaster.gitHashShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.latestMaster.addedTime.toISOString()}" data-format="llll">(${fromNowDate(data.latestMaster.addedTime)})</span>` : 'Last build info unknown'}</span>
+                    <span>$!{data.latestMaster ? `${data.latestMaster.version} build <span class="monospace" title="${data.latestMaster.gitHash}">${data.latestMaster.gitHashShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.latestMaster.addedTime.toISOString()}" data-format="llll">(${fromNowDate(data.latestMaster.addedTime)})</span>` : 'Last build info unknown'}</span>
                 </p>
             </a>
             <a href="/downloads/develop/latest" title="Latest download in unstable develop branch">
@@ -31,7 +31,7 @@ $ {
                 <p>Updated often containing latest features and fixes. More popular for online multiplayer.</p>
                 <p class="buttonContainer">
                     <button>Download latest development build</button>
-                    <span>$!{data.latestDevelop ? `${data.latestDevelop.version} build <span title="${data.latestDevelop.gitHash}">${data.latestDevelop.gitHashShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.latestDevelop.addedTime.toISOString()}" data-format="llll">(${fromNowDate(data.latestDevelop.addedTime)})</span>` : 'Last build info unknown'}</span>
+                    <span>$!{data.latestDevelop ? `${data.latestDevelop.version} build <span class="monospace" title="${data.latestDevelop.gitHash}">${data.latestDevelop.gitHashShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.latestDevelop.addedTime.toISOString()}" data-format="llll">(${fromNowDate(data.latestDevelop.addedTime)})</span>` : 'Last build info unknown'}</span>
                 </p>
             </a>
         </div>

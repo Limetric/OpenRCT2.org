@@ -71,7 +71,7 @@ $ const downloads = Array.from(setDownloads)
                 <tr>
                     <td>${download.flavourName}</td>
                     <td><a href="${download.url}" title="Download ${download.fileName}" class="monospace">${download.fileName}</a></td>
-                    <td title="SHA-256 checksum: ${download.fileHash}">${download.fileHashShort}…</td>
+                    <td title="SHA-256 checksum: ${download.fileHash}"><span class="monospace">${download.fileHashShort}</span>…</td>
                     <td>${formatBytes(download.fileSize)}</td>
                 </tr>
         </for>
