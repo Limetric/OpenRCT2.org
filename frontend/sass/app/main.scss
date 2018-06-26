@@ -1,0 +1,158 @@
+@import 'variables';
+
+main {
+  &.flex {
+    @media only screen and (min-width: 760px) {
+      display: flex;
+      justify-content: space-between;
+
+      > section {
+        width: calc(70% - 20px);
+      }
+
+      > aside {
+        width: 30%;
+      }
+    }
+  }
+
+  h1, h2, h3 {
+    margin: 1.5em 0 0.5em 0;
+    font-weight: 300;
+    padding: 0.8em;
+    display: flex;
+    align-items:center;
+
+    &.important {
+      background-color: $header-important-bg-color;
+      color: $header-important-text-color;
+    }
+
+    &:first-child {
+      margin-top: 1em;
+    }
+
+    .icon {
+      margin-right: 0.5em;
+    }
+  }
+
+  h1, h2.h1, h3.h1 {
+    &, a {
+      background-color: $header-h1-bg-color;
+      color: $header-h1-text-color;
+      font-size: $header-h1-text-size;
+      font-weight: 600;
+    }
+  }
+
+  h2 {
+    &, a {
+      background-color: $header-h2-bg-color;
+      color: $header-h2-text-color;
+      font-size: $header-h2-text-size;
+    }
+  }
+
+  h3 {
+    &, a {
+      background-color: $header-h3-bg-color;
+      color: $header-h3-text-color;
+      font-size: $header-h3-text-size;
+    }
+  }
+
+  p, ul, ol, table, video {
+    margin: 1em 0;
+  }
+
+  p, ul, ol {
+    line-height: 1.5;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  color: $body-text-color;
+
+  a {
+    color: $body-link-color;
+
+    &:hover {
+      color: $body-link-hover-color;
+    }
+  }
+
+  .textCenter {
+    text-align: center;
+  }
+
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  pre {
+    font-size: inherit;
+  }
+
+  .code, .monospace {
+    font-family: monospace, monospace;
+  }
+
+  .code {
+    background-color: $code-bg-color;
+    color: $code-text-color;
+    border-radius: 0.5em;
+    padding: 0.3em 0.7em;
+    white-space: pre-line;
+    word-wrap: break-word;
+  }
+
+  table {
+    border-collapse: separate;
+    border-spacing: 3px;
+    width: 100%;
+
+    > thead {
+      td {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .button {
+    margin: 0.5em auto;
+    cursor: pointer;
+    &:not(.colored) {
+      border: 1px solid $button-color;
+      background-color: transparent;
+    }
+    border-radius: 5px;
+    padding: 10px 20px;
+    line-height: 1.2;
+    color: $button-color;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+
+    > img {
+      margin-right: 0.5em;
+    }
+
+    &.colored {
+      background-color: $button-color;
+    }
+
+    &.colored, &:hover {
+      color: $button-active-text-color;
+    }
+
+    &:hover {
+      background-color: $button-active-color;
+      border-color: $button-active-color;
+    }
+  }
+}

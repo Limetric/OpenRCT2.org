@@ -1,0 +1,109 @@
+@import 'variables';
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: $body-font-size;
+}
+
+main,
+nav,
+footer > div {
+  width: calc(100% - 20px);
+  max-width: 936px;
+  margin: 0 auto 0 auto;
+}
+
+header {
+  background: linear-gradient(90deg, $primary-dark-color 0%, $primary-color 100%);
+  width: 100%;
+
+  > nav {
+    //align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    > a, > span {
+      display: flex;
+      align-items: center;
+
+      margin: 0 0.2em;
+      padding: 0.3em 0;
+
+      &.brand {
+        &, > img {
+          $logo-size: 64px;
+          width: $logo-size;
+          height: $logo-size;
+        }
+      }
+
+      &:not(.brand) {
+        align-self: stretch;
+      }
+      color: $nav-item-color;
+      //margin-left: 20px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &.separator {
+        height: 26px;
+        width: 2px;
+        background-color: $nav-item-color;
+        align-self: center;
+      }
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    > a {
+      border-bottom: 2px solid transparent;
+      text-decoration: none;
+
+      &:hover {
+        border-bottom-color: $nav-item-color;
+      }
+    }
+  }
+}
+
+main {
+}
+
+footer {
+  margin: 15px auto 15px auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $footer-text-size;
+
+  > * {
+    margin-left: 10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  .separator {
+    height: calc(#{$footer-text-size} + 4px);
+    width: 1px;
+    background-color: $footer-text-color;
+    align-self: center;
+  }
+
+  > a, > span {
+    color: $footer-text-color;
+  }
+}

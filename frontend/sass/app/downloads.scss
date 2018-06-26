@@ -1,0 +1,141 @@
+@import 'variables';
+
+main.downloads {
+  &.downloadsIndex {
+    div.branchSelection {
+      margin: 1em 0;
+
+      &.flex {
+        display: flex;
+        justify-content: space-between;
+      }
+
+
+
+      > a {
+        box-sizing: border-box;
+        border: 1px solid $button-color;
+        text-decoration: none;
+        width: calc(50% - 5px);
+        color: $body-text-color;
+
+        &:hover {
+          border-color: $button-active-color;
+
+          > h3 {
+            background-color: $button-active-color;
+            color: $button-text-color;
+          }
+
+          > p.buttonContainer > button {
+            background-color: $button-active-color;
+            color: $button-active-text-color;
+          }
+        }
+
+        > h3 {
+          margin-top: 0;
+        }
+
+        > p {
+          padding: 0 10px;
+
+          &, > button {
+            text-align: center;
+          }
+        }
+
+        > p.buttonContainer {
+          > span {
+            display: block;
+            font-size: 0.8em;
+          }
+
+          > button {
+            border-width: 0;
+            display: block;
+            cursor: pointer;
+            background-color: $button-color;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 0 auto;
+            line-height: 1.2;
+            color: $button-text-color;
+            font-weight: 600;
+          }
+        }
+      }
+
+    }
+
+    table {
+      > tbody {
+        > tr {
+          font-size: 0.65em;
+
+          &:first-child {
+            font-size: 1em;
+          }
+
+          &:nth-child(2) {
+            font-size: 0.9em;
+          }
+
+          &:nth-child(3) {
+            font-size: 0.85em;
+          }
+
+          &:nth-child(4) {
+            font-size: 0.80em;
+          }
+
+          &:nth-child(5) {
+            font-size: 0.75em;
+          }
+
+          &:nth-child(6) {
+            font-size: 0.70em;
+          }
+
+          //Hide older history when on a small screen
+          @media only screen and (max-width:760px) {
+            &:nth-child(n+6) {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.downloadsView {
+    .emphasize {
+      border-bottom: 1px dotted $body-text-color;
+    }
+
+    table > thead > tr > td {
+      &:first-child {
+        width: 27%;
+      }
+
+      &:nth-child(3) {
+        width: 18%;
+      }
+
+      &:last-child {
+        width: 10%;
+      }
+    }
+  }
+
+  .status {
+    border-left: 3px solid grey;
+    padding-left: 3px;
+    &.success {
+      border-color: darkgreen;
+    }
+    &.failed {
+      border-color: darkred;
+    }
+  }
+}
