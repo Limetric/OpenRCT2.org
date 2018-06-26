@@ -112,6 +112,7 @@ class App {
 
         this.express.locals.site = {
             title: this.config.site.title,
+            googleAnalyticsTrackingId: this.config.site.googleAnalyticsTrackingId,
             //description: '',
             publicUrl: this.config.site.publicUrl
         };

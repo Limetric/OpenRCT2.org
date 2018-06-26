@@ -16,6 +16,19 @@
     <title>${data.page && data.page.title ? (data.page.overrideTitle ? data.page.title : data.page.title +' - '+ out.global.site.title) : out.global.site.title}</title>
     <link rel="stylesheet" href="/resources/style.min.css">
     <link rel="shortcut icon" href="/assets/images/logos/icon_x32.png">
+    <!--Google Analytics-->
+    <if(typeof(out.global.site.googleAnalyticsTrackingId) === 'string')>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=${out.global.site.googleAnalyticsTrackingId}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', '${out.global.site.googleAnalyticsTrackingId}', {'anonymize_ip': true});
+        </script>
+    </if>
 </head>
 <body>
     <app-header current="index" />
