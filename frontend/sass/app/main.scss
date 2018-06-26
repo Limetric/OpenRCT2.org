@@ -94,8 +94,26 @@ main {
   }
 
   pre {
-    display: inline;
     font-size: inherit;
+  }
+
+  pre, .code {
+    font-family: monospace, monospace;
+  }
+
+  .code {
+    background-color: $code-bg-color;
+    color: $code-text-color;
+    border-radius: 0.5em;
+    padding: 0.3em 0.7em;
+  }
+
+  div.code, pre.code {
+    //padding: 0.3em;
+  }
+
+  span.code {
+    //padding: 0.3em;
   }
 
   table {
@@ -142,15 +160,5 @@ main {
       background-color: $button-active-color;
       border-color: $button-active-color;
     }
-  }
-
-  .code {
-    background-color: $code-bg-color;
-    font-family: monospace, monospace;
-    color: $code-text-color;
-    border-radius: 0.5em;
-    line-height: 1em;
-    padding: 0.7em;
-    display: inline-block;
   }
 }
