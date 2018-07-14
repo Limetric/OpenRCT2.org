@@ -39,7 +39,7 @@ speexdsp-devel libcurl-devel \
 cmake fontconfig-devel freetype-devel \
 libpng-devel libzip-devel mesa-libGL-devel</pre>
         <h2>Build the game</h2>
-        <pre class="code">git clone https://github.com/OpenRCT2/OpenRCT2.git && cd ./OpenRCT2 && mkdir build && cd build && cmake ../ && make</pre>
+        <pre class="code">git clone --depth=1 https://github.com/OpenRCT2/OpenRCT2.git && cd ./OpenRCT2 && mkdir build && cd build && cmake ../ && make</pre>
         <h2>Set up the files</h2>
         <pre class="code">cp -r ../data/ ./data/ && make g2 && mv ./g2.dat ./data/g2.dat</pre>
     </else-if>
