@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   height="24"
+   width="22.925579"
+   version="1.1"
+   viewBox="0 0 22.925579 24"
+   data-name="Layer 1"
+   id="Layer_1">
+  <metadata
+     id="metadata3737">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Glitch_White_RGB</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3728">
+    <style
+       id="style3726">.cls-1{fill:#fff;fill-rule:evenodd;}</style>
+  </defs>
+  <title
+     id="title3730">Glitch_White_RGB</title>
+  <path
+     style="fill:#ffffff;fill-rule:evenodd;stroke-width:0.17910719"
+     id="path3732"
+     d="M 1.611948,0 0,4.1196 v 16.836 H 5.7313195 V 24 H 8.95524 L 12,20.9556 h 4.6567 l 6.268879,-6.2688 V 0 Z m 19.164012,13.6116 -3.582,3.5832 h -5.7312 L 8.41788,20.238 V 17.1948 H 3.58212 V 2.1492 h 17.19384 z m -3.582,-7.34303 v 6.26806 h -2.1492 V 6.26857 Z m -5.7312,0 v 6.26806 H 9.3134036 V 6.26857 Z"
+     class="cls-1" />
+</svg>
