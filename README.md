@@ -2,7 +2,7 @@
 The website runs on a Node.js app. Contributions are welcome.
 
 ## Run local server
-*Make sure you have npm package `gulp` installed and in your path.*
+*Make sure you have npm global packages `gulp` and `bunyan` installed and in your path.*
 1. Set environment to development by setting environment variable `NODE_ENV` to `development`.
 2. Install dependencies by running `npm install`.
 3. Copy `config/env.sample.json` to `config/env.json` and make changes when necessary.

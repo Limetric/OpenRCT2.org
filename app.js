@@ -124,7 +124,7 @@ class App {
 
     static listenExpress() {
         return new Promise((resolve, reject) => {
-            this.server.listen(this.config.host.port, this.config.host.address);
+            this.server.listen(this.config.http.port, this.config.http.address);
             this.server.on('error', (error) => {
                 if (error.syscall !== 'listen')
                     throw error;
