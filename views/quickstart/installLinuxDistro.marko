@@ -4,10 +4,8 @@
     <h1><img src="/assets/images/icons/linux.svg" alt="Linux icon"> <span><b>Install OpenRCT2 on ${data.distro.title}</b> - Quickstart Guide</span></h1>
     <if(data.distroIdentifier === 'arch-linux')>
         <h2>Install OpenRCT2</h2>
-        <p>If you want to install the latest release - stable, well-tested, but might have fewer features than the latest development build, install the standard package by running the following command.</p>
-        <pre class="code">yaourt -S openrct2</pre>
-        <p>Alternatively, if you want the latest development build, install the -git package from the AUR. The development builds are analogous to beta versions - they should work, but don't expect everything to be perfect.</p>
-        <pre class="code">yaourt -S openrct2-git</pre>
+        <p>If you want to install the latest release - stable, well-tested, but might have fewer features than the latest development build, <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages">install</a> the <span class="monospace"><a href="https://aur.archlinux.org/packages/openrct2/">openrct2</a></span> package from the <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository">AUR</a>.</p>
+        <p>Alternatively, if you want the latest development build, <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages">install</a> the <span class="monospace"><a href="https://aur.archlinux.org/packages/openrct2-git">openrct2-git</a></span> package from the <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository">AUR</a>. The development builds are analogous to beta versions - they should work, but don't expect everything to be perfect.</p>
     </if>
     <else-if(data.distroIdentifier === 'openSUSE')>
         <h2>Install OpenRCT2</h2>
