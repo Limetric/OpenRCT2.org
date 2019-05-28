@@ -1,6 +1,6 @@
 import HTTPServer from '../http/';
 
-export default class StaticRoute {
+export default class StaticRouter {
     #router;
 
     get router() {

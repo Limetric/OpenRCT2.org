@@ -1,8 +1,9 @@
 import RPN from 'request-promise-native';
-import log from '../utils/log';
-import Paths from '../utils/paths';
+import log from '../../utils/log';
+import Paths from '../../utils/paths';
 import Path from 'path';
 import JSONFile from 'jsonfile';
+import FS from 'fs';
 
 export default class Changelog {
     /**

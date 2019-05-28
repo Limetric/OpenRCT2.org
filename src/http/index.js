@@ -3,7 +3,10 @@ import Express from 'express';
 import Path from 'path';
 import Config from '../config';
 import SingletonClass from '../misc/singletonClass';
-import StaticRoute from '../routes/static';
+import StaticRouter from '../routes/static';
+import DownloadsRouter from '../routes/downloads/router';
+import ChangelogRouter from '../routes/changelog/router';
+import QuickstartRouter from '../routes/quickstart/router';
 
 export default class HTTPServer extends SingletonClass {
     /**
@@ -138,10 +141,10 @@ export default class HTTPServer extends SingletonClass {
                 next();
         });
 
-        this.express.use('/', new StaticRoute(this).router);
-        this.express.use('/changelog', require('../routes/changelogPage'));
-        this.express.use('/downloads', require('../routes/downloads/router'));
-        this.express.use('/quickstart', require('../routes/quickstart/router'));
+        this.express.use('/', new StaticRouter(this).router);
+        this.express.use('/downloads', new DownloadsRouter(this).router);
+        this.express.use('/changelog', new ChangelogRouter(this).router);
+        this.express.use('/quickstart', new QuickstartRouter(this).router);
 
         //Error Handler is our last stop
         this.express.use((req, res, next) => {
