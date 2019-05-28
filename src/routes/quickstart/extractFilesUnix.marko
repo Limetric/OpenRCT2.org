@@ -3,7 +3,8 @@ $ {
     const icon = data.os === 'linux'? 'linux' : 'apple';
 }
 
-<include('../../layouts/layout.marko', data)>
+import Layout from '../../layouts/layout.marko';
+<${Layout} ...data>
     <@body>
 <main>
         <h1><img src="/assets/images/icons/${icon}.svg" alt="${os} icon"> <span><b>Extract RCT2 files on ${os}</b> - Quickstart Guide</span></h1>
@@ -37,4 +38,4 @@ mv "$EXTRACTDIR/Minimum" "$EXTRACTDIR/RCT2"</pre>
         <p class="flex"><a href="../install/${data.os}" class="button colored">Continue Guide: Install OpenRCT2 on ${os}</a></p>
 </main>
     </@body>
-</include>
+</>

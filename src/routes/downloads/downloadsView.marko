@@ -21,7 +21,8 @@ $ {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     };
 }
-<include('../layouts/layout.marko', data)>
+import Layout from '../../layouts/layout.marko';
+<${Layout} ...data>
     <@body>
 <main class="downloads downloadsView">
     <h1>${data.latest ? `Latest OpenRCT2 ${data.download.version}-${data.download.gitBranch} download` : `Download OpenRCT2 ${data.download.version}-${data.download.gitBranch} build ${data.download.gitHashShort}`}</h1>
@@ -80,4 +81,4 @@ $ const downloads = Array.from(setDownloads)
     </for>
 </main>
     </@body>
-</include>
+</>

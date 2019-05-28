@@ -9,7 +9,8 @@ $ {
         return moment(date).fromNow(withoutSuffix);
     };
 }
-<include('../layouts/layout.marko', data)>
+import Layout from '../../layouts/layout.marko';
+<${Layout} ...data>
     <@body>
 <main class="flex downloads downloadsIndex">
     <section>
@@ -73,4 +74,4 @@ $ {
     </aside>
 </main>
     </@body>
-</include>
+</>

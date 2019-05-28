@@ -1,4 +1,5 @@
-<include('../layouts/layout.marko', data)>
+import Layout from '../layouts/layout.marko';
+<${Layout} ...data>
     <@body>
 <main>
         <h1>About OpenRCT2</h1>
@@ -11,4 +12,4 @@
         </p>
 </main>
     </@body>
-</include>
+</>

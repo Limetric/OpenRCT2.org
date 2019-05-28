@@ -10,7 +10,7 @@
     <meta property="og:description" content="${data.page && data.page.description ? data.page.description : out.global.site.description}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="${out.global.site.publicUrl + data.page.path}">
-    <meta property="og:site_name" content="${out.global.site.title}">
+    <meta property="og:site_name" content=out.global.site.title>
     <meta property="og:locale" content="en_GB">
     <meta name="theme-color" content="#71ABED">
     <title>${data.page && data.page.title ? (data.page.overrideTitle ? data.page.title : data.page.title +' - '+ out.global.site.title) : out.global.site.title}</title>
@@ -25,7 +25,6 @@
                 dataLayer.push(arguments);
             }
             gtag('js', new Date());
-
             gtag('config', '${out.global.site.googleAnalyticsTrackingId}', {'anonymize_ip': true});
         </script>
     </if>
@@ -33,7 +32,7 @@
 <body>
     <app-header current="index" />
     <if(input.body)>
-        <include(input.body)/>
+        <${input.body}/>
     </if>
     <else>
         <main role="main" class="container">

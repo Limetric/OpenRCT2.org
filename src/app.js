@@ -113,7 +113,7 @@ class App {
 
         //Deal with errors
         this.express.use((error, req, res, next) => {
-            log.warn(`Express: ${JSON.stringify(error)}`);
+            //log.warn(`Express: ${JSON.stringify(error)}`);
 
             if (!error.status)
                 error.status = 500;
