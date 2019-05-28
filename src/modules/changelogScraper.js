@@ -1,13 +1,16 @@
 import rpn from 'request-promise-native';
+import log from '../utils/log';
+import Paths from '../utils/paths';
+import JSONFile from 'jsonfile';
 
 export default class ChangelogScraper {
     /**
-     *
-     * @returns {Promise<void>}
+     * Fetch changelog
+     * @returns {void}
      */
-    static async run() {
+    static async fetch() {
         setTimeout(() => {
-            this.run();
+            this.fetch();
         }, 3600 * 1000);
 
         let saved;
@@ -96,17 +99,15 @@ export default class ChangelogScraper {
      */
     static save(file, obj) {
         return new Promise((resolve, reject) => {
-            const jsonfile = require('jsonfile');
-
             //Check if we already have the same content stored
-            jsonfile.readFile(file, (error, readObj) => {
+            JSONFile.readFile(file, (error, readObj) => {
                 if (!error && JSON.stringify(obj) === JSON.stringify(readObj)) {
                     resolve(false);
                     return;
                 }
 
                 //Write new file
-                jsonfile.writeFile(file, obj, error => {
+                JSONFile.writeFile(file, obj, error => {
                     if (error)
                         reject(error);
                     else
@@ -122,8 +123,8 @@ export default class ChangelogScraper {
      */
     static getFilename() {
         const path = require('path');
-        return path.join(App.paths.data, 'changelog.json');
+        return path.join(Paths.data, 'changelog.json');
     }
 }
 
-ChangelogScraper.run();
+ChangelogScraper.fetch();

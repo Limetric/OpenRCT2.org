@@ -27,7 +27,5 @@
     ]
   },
   "globals": {
-    "log": true,
-    "App": true
   }
 }

@@ -8,92 +8,19 @@ console.log('#############################');
 import '@babel/polyfill';
 import 'source-map-support/register';
 
-//import './modules/changelogScraper';
+import log from './utils/log';
+import Config from './config';
+
+(async () => {
+    log.info(`Current environment: ${Config.environment}`);
+})();
 
 class App {
-    static initLog() {
-        const bunyan = require('bunyan');
-        global.log = bunyan.createLogger({
-            name: 'OpenRCT2.org',
-            streams: [
-                {
-                    level: this.isDevelopment ? 'trace' : 'info',
-                    stream: process.stdout
-                },
-                /*{
-                    type: 'rotating-file',
-                    path: 'logs/trace.log',
-                    level: 'trace',
-                    period: '1d',
-                    count: 5
-                },*/
-                {
-                    type: 'rotating-file',
-                    path: 'logs/info.log',
-                    level: 'info',
-                    period: '1d',
-                    count: 5
-                },
-                {
-                    type: 'rotating-file',
-                    path: 'logs/error.log',
-                    level: 'warn',
-                    period: '1d',
-                    count: 5
-                },
-                {
-                    type: 'rotating-file',
-                    path: 'logs/fatal.log',
-                    level: 'fatal',
-                    period: '1d',
-                    count: 5
-                }
-            ],
-            src: false
-        });
-    }
-
-    static initConfig() {
-        const _ = require('lodash');
-        const module = '../config/env.json';
-        delete require.cache[require.resolve(module)];
-        const env = require(module);
-
-        if (typeof(env[this.env]) !== 'object') {
-            log.warn('No custom environment config set!');
-            this.config = env['base'];
-        } else
-            this.config = _.defaultsDeep(_.clone(env[this.env]), env['base']);
-
-        if (!this.config.configReloadTimeSeconds)
-            return log.warn('No config reload time set. Will not reload.');
-
-        setTimeout(() => {
-            log.debug('Reloading server configuration');
-            this.initConfig();
-        }, this.config.configReloadTimeSeconds * 1000);
-    }
-
-    static initDatabase() {
-        return new Promise(async (resolve, reject) => {
-            const dbConfig = this.config.database;
-            const Database = require('./base/database');
-            global.db = new Database(dbConfig.socket, dbConfig.host, dbConfig.port, dbConfig.user, dbConfig.password, dbConfig.databaseName, dbConfig.connectionLimit);
-            try {
-                await db.connect();
-            } catch (error) {
-                return reject(error);
-            }
-
-            resolve();
-        });
-    }
-
     static initExpress() {
         const Express = require('express');
         this.express = Express();
         this.express.set('x-powered-by', false);
-        this.express.set('trust proxy', this.config.http.trustProxy ? 1 : 0);
+        this.express.set('trust proxy', Config.http['trustProxy'] ? 1 : 0);
 
         this.server = require('http').createServer(this.express);
 
@@ -116,10 +43,10 @@ class App {
         this.express.locals.layout = '/views/layouts/defaultLayout.marko';
 
         this.express.locals.site = {
-            title: this.config.site.title,
-            googleAnalyticsTrackingId: this.config.site.googleAnalyticsTrackingId,
+            title: Config.site.title,
+            googleAnalyticsTrackingId: Config.site.googleAnalyticsTrackingId,
             //description: '',
-            publicUrl: this.config.site.publicUrl
+            publicUrl: Config.site.publicUrl
         };
         this.express.locals.author = {
             name: 'OpenRCT2 Webmaster',
@@ -129,7 +56,7 @@ class App {
 
     static listenExpress() {
         return new Promise((resolve, reject) => {
-            this.server.listen(this.config.http.port, this.config.http.address);
+            this.server.listen(Config.http['port'], Config.http['address']);
             this.server.on('error', (error) => {
                 if (error.syscall !== 'listen')
                     throw error;
@@ -234,39 +161,8 @@ class App {
         return baseUrl.replace(/\/$/, '') + path.replace(/\/$/, '')
     }
 
-    static initPaths() {
-        const path = require('path');
-
-        this.paths = {
-            data: path.join(__dirname, '..', 'data')
-        };
-    }
-
     static async init() {
-        this.env = process.env.NODE_ENV;
-        this.isDevelopment = process.env.NODE_ENV === 'development';
-
-
-        this.initLog();
-        this.initConfig();
-        log.info(`Current environment: ${this.env} (debug: %s}`, this.isDevelopment);
-
-        this.initPaths();
-
-        //Display detailed info about Unhandled Promise rejections and Uncaught Exceptions
-        process.on('unhandledRejection', (reason, p) => log.fatal('Unhandled Rejection at:', p, 'reason:', reason));
-        process.on('uncaughtException', error => log.fatal('Uncaught Exception:', error));
-
-        try {
-            await this.initDatabase();
-        } catch (error) {
-            log.error(error);
-            process.exit(1);
-            return;
-        }
-
         this.initExpress();
-
         this.initRoutes();
 
         try {
@@ -282,9 +178,4 @@ class App {
 }
 
 global.App = App;
-
-//Display detailed info about Unhandled Promise rejections and Uncaught Exceptions
-process.on('unhandledRejection', (reason, p) => console.error('Unhandled Rejection at:', p, 'reason:', reason));
-process.on('uncaughtException', error => console.error('Uncaught Exception:', error));
-
 App.init();

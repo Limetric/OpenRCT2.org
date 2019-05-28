@@ -26,9 +26,5 @@
     ]
   },
   "globals": {
-    "App": true,
-    "log": true,
-    "global": false,
-    "db": true
   }
 }
