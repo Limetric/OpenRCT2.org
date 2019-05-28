@@ -15,7 +15,7 @@ for (const el of document.querySelectorAll('.date')) {
 }
 for (const el of document.querySelectorAll('.fromNow')) {
     const parentheses = el.classList.contains('parentheses');
-    const withoutSuffix = el.dataset.withoutSuffix === 'true';
+    const withoutSuffix = el.dataset.withoutSuffix === true.toString();
     const moment = Moment(new Date(el.dataset.date || el.textContent));
     el.textContent = (parentheses ? '(' : '') + moment.fromNow(withoutSuffix) + (parentheses ? ')' : '');
 

@@ -2,7 +2,7 @@ const Express = require('express');
 const router = Express.Router();
 
 router.get('/', (req, res, next) => {
-    const template = require('../views/index.marko');
+    const template = require('./index.marko');
     res.marko(template, {
         page: {
             title: 'OpenRCT2 project',
@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/about', (req, res, next) => {
-    const template = require('../views/about.marko');
+    const template = require('./about.marko');
     res.marko(template, {
         page: {
             title: 'About',
@@ -25,7 +25,7 @@ router.get('/about', (req, res, next) => {
 });
 
 router.get('/faq', (req, res, next) => {
-    const template = require('../views/faq.marko');
+    const template = require('./faq.marko');
     res.marko(template, {
         page: {
             title: 'FAQ',
@@ -36,7 +36,7 @@ router.get('/faq', (req, res, next) => {
 });
 
 router.get('/features', (req, res, next) => {
-    const template = require('../views/features.marko');
+    const template = require('./features.marko');
     res.marko(template, {
         page: {
             title: 'Features',
@@ -47,7 +47,7 @@ router.get('/features', (req, res, next) => {
 });
 
 router.get('/download-demo', (req, res, next) => {
-    const template = require('../views/downloadDemo.marko');
+    const template = require('./downloadDemo.marko');
     res.marko(template, {
         page: {
             title: 'Download RCT2 Demo',

@@ -2,7 +2,7 @@ const Express = require('express');
 const router = Express.Router();
 
 router.get('/', (req, res, next) => {
-    const template = require('../views/quickstart/index.marko');
+    const template = require('./index.marko');
     res.marko(template, {
         page: {
             title: 'Quickstart Guide',
@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/extract-rct2-files/windows', (req, res, next) => {
-    const template = require('../views/quickstart/extractFilesWindows.marko');
+    const template = require('./extractFilesWindows.marko');
     res.marko(template, {
         page: {
             title: 'Extract RCT2 files on Windows - Quickstart Guide',
@@ -24,7 +24,7 @@ router.get('/extract-rct2-files/windows', (req, res, next) => {
 });
 
 router.get('/extract-rct2-files/macOS', (req, res, next) => {
-    const template = require('../views/quickstart/extractFilesUnix.marko');
+    const template = require('./extractFilesUnix.marko');
     res.marko(template, {
         page: {
             title: 'Extract RCT2 files on macOS - Quickstart Guide',
@@ -36,7 +36,7 @@ router.get('/extract-rct2-files/macOS', (req, res, next) => {
 });
 
 router.get('/extract-rct2-files/linux', (req, res, next) => {
-    const template = require('../views/quickstart/extractFilesUnix.marko');
+    const template = require('./extractFilesUnix.marko');
     res.marko(template, {
         page: {
             title: 'Extract RCT2 files on Linux - Quickstart Guide',
@@ -48,7 +48,7 @@ router.get('/extract-rct2-files/linux', (req, res, next) => {
 });
 
 router.get('/install/windows', (req, res, next) => {
-    const template = require('../views/quickstart/installWindows.marko');
+    const template = require('./installWindows.marko');
     res.marko(template, {
         page: {
             title: 'Install on Windows - Quickstart Guide',
@@ -59,7 +59,7 @@ router.get('/install/windows', (req, res, next) => {
 });
 
 router.get('/install/macOS', (req, res, next) => {
-    const template = require('../views/quickstart/installMacOS.marko');
+    const template = require('./installMacOS.marko');
     res.marko(template, {
         page: {
             title: 'Install on macOS - Quickstart Guide',
@@ -70,7 +70,7 @@ router.get('/install/macOS', (req, res, next) => {
 });
 
 router.get('/install/linux', (req, res, next) => {
-    const template = require('../views/quickstart/installLinux.marko');
+    const template = require('./installLinux.marko');
     res.marko(template, {
         page: {
             title: 'Install on Linux - Quickstart Guide',
@@ -119,7 +119,7 @@ router.param('distroIdentifier', (req, res, next, distroIdentifier) => {
 });
 
 router.get('/install/linux/:distroIdentifier', (req, res, next) => {
-    const template = require('../views/quickstart/installLinuxDistro.marko');
+    const template = require('./installLinuxDistro.marko');
     res.marko(template, {
         page: {
             title: `Install on ${req.distro.title} - Quickstart Guide`,

@@ -30,7 +30,7 @@ router.get('/', async (req, res, next) => {
             return;
         }
 
-        const template = require('../views/changelog.marko');
+        const template = require('./changelog.marko');
         res.marko(template, {
             page: {
                 title: 'Changelog',

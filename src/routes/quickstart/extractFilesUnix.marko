@@ -3,7 +3,7 @@ $ {
     const icon = data.os === 'linux'? 'linux' : 'apple';
 }
 
-<include('../layouts/layout.marko', data)>
+<include('../../layouts/layout.marko', data)>
     <@body>
 <main>
         <h1><img src="/assets/images/icons/${icon}.svg" alt="${os} icon"> <span><b>Extract RCT2 files on ${os}</b> - Quickstart Guide</span></h1>

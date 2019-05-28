@@ -57,7 +57,7 @@ router.get('/', async (req, res, next) => {
         return;
     }
 
-    const template = require('../views/downloadsIndex.marko');
+    const template = require('./downloadsIndex.marko');
     res.marko(template, {
         page: {
             title: 'Downloads',
@@ -190,7 +190,7 @@ router.get('/:gitBranch/:identifier', async (req, res, next) => {
         downloads.add(download);
     }
 
-    const template = require('../views/downloadsView.marko');
+    const template = require('./downloadsView.marko');
     res.marko(template, {
         page: {
             title: req.latest ? `Latest ${req.download.version}-${req.download.gitBranch} download` : `Download ${req.download.version}-${req.download.gitBranch} build ${req.download.gitHashShort}`,

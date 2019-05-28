@@ -172,8 +172,8 @@ class App {
 
         this.express.use('/', require('./routes/staticPages'));
         this.express.use('/changelog', require('./routes/changelogPage'));
-        this.express.use('/downloads', require('./routes/downloadsPage'));
-        this.express.use('/quickstart', require('./routes/quickstartPages'));
+        this.express.use('/downloads', require('./routes/downloads/router'));
+        this.express.use('/quickstart', require('./routes/quickstart/router'));
 
         //Error Handler is our last stop
         this.express.use((req, res, next) => {
@@ -210,7 +210,7 @@ class App {
                 error.message = 'An unknown problem occurred. Please try again later.';
 
             res.status(error.status);
-            const layout = require('./views/error.marko');
+            const layout = require('./routes/error.marko');
             res.marko(layout, {
                 error,
                 isDevelopment: this.isDevelopment,
