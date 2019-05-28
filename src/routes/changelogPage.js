@@ -1,8 +1,10 @@
 const Express = require('express');
 const router = Express.Router();
 
+import ChangelogScraper from '../modules/changelogScraper';
+
 router.get('/', async (req, res, next) => {
-    const filename = App.modules.changelogScraper.getFilename();
+    const filename = ChangelogScraper.getFilename();
 
     let modifiedDate;
     try {

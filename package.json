@@ -3,9 +3,13 @@
   "version": "3.0.0",
   "private": false,
   "scripts": {
-    "start": "cross-env NODE_ENV=development node app.js | bunyan",
-    "startDev": "cross-env NODE_ENV=development node app.js | bunyan",
-    "startProd": "cross-env NODE_ENV=production node app.js | bunyan"
+    "watchFrontend": "webpack --watch --config ./frontend/webpack.config.js",
+    "buildFrontend": "webpack --config ./frontend/webpack.config.js",
+    "buildServer": "babel src --out-dir dist --copy-files --source-maps --ignore *.marko.js",
+    "watchServer": "babel src --out-dir dist --copy-files --source-maps --ignore *.marko.js --watch",
+    "start": "node dist/app.js",
+    "startMon": "nodemon --ignore frontend/ --ignore public/resources/ --ignore src/ --ignore *.marko.js dist/app.js | bunyan",
+    "watch": "concurrently --prefix \"{time} [{name}]\" --timestamp-format \"HH:mm:ss.SSS\" \"npm:watchServer\" \"npm:startMon\" \"npm:watchFrontend\""
   },
   "author": {
     "name": "Jarno Veuger",
@@ -31,6 +35,7 @@
     "request-promise-native": "^1.0.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-proposal-private-methods": "^7.4.4",
@@ -39,11 +44,13 @@
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^2.0.2",
+    "concurrently": "^4.1.0",
     "css-loader": "^2.1.1",
-    "cross-env": "^5.2.0",
     "cssnano": "^4.1.10",
     "mini-css-extract-plugin": "^0.7.0",
+    "moment-locales-webpack-plugin": "^1.0.7",
     "node-sass": "^4.12.0",
+    "nodemon": "^1.19.1",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",

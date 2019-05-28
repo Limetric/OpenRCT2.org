@@ -14,7 +14,7 @@
     <meta property="og:locale" content="en_GB">
     <meta name="theme-color" content="#71ABED">
     <title>${data.page && data.page.title ? (data.page.overrideTitle ? data.page.title : data.page.title +' - '+ out.global.site.title) : out.global.site.title}</title>
-    <link rel="stylesheet" href="/resources/app.min.css">
+    <link rel="stylesheet" href="/resources/main.bundle.min.css">
     <link rel="shortcut icon" href="/assets/images/logos/icon_x32.png">
     <!--Google Analytics-->
     <if(typeof(out.global.site.googleAnalyticsTrackingId) === 'string')>
@@ -41,6 +41,6 @@
         </main>
     </else>
     <app-footer />
-    <script async src="/resources/app.bundle.min.js"></script>
+    <script async src="/resources/main.bundle.min.js"></script>
 </body>
 </html>
