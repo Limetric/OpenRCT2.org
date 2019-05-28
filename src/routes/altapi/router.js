@@ -1,4 +1,5 @@
 import log from '../../utils/log';
+import Releases from '../../modules/releases';
 
 export default class AltApiRouter {
     #router;
@@ -8,20 +9,66 @@ export default class AltApiRouter {
     }
 
     getLatestDownload(req, res) {
-        const gitBranch = req.body.gitBranch || req.params.gitBranch;
-        const flavourId = req.body.flavourId || req.params.flavourId;
-        res.json({
+        let gitBranch = req.body['gitBranch'] || req.query['gitBranch'];
+        if (gitBranch === 'master')
+            gitBranch = 'releases';
+        if (!gitBranch || !['develop', 'releases'].includes(gitBranch)) {
+            res.json({
+                error: 1,
+                errorMessage: 'Invalid branch specified.'
+            });
+            return;
+        }
+
+        const flavourId = parseInt(req.body['flavourId'] || req.query['flavourId'], 10);
+        if (isNaN(flavourId)) {
+            res.json({
+                error: 1,
+                errorMessage: 'Invalid flavour id specified.'
+            });
+            return;
+        }
+
+        const release = Releases.getLastByBranch(gitBranch);
+        if (!release) {
+            res.json({
+                error: 1,
+                errorMessage: 'Error. Download will be fixed within 24 hours.'
+            });
+            return;
+        }
+
+        /*res.json({
             error: 1,
-            errorMessage: 'Download will be fixed in 24h'
+            errorMessage: 'Error. Download will be fixed within 12 hours.'
+        });*/
+
+        const download = release.getDownloadByFlavourId(flavourId);
+        if (!download) {
+            res.json({
+                error: 1,
+                errorMessage: 'No download available.'
+            });
+        }
+
+        res.json({
+            buildId: release.id,
+            downloadId: release.id,
+            fileSize: download.fileSize,
+            url: download.url,
+            //fileHash: '',
+            //gitHash: '',
+            //gitHashShort: '',
+            addedTime: release.published,
+            addedTimeUnix: release.published.getTime() / 1000
+            //`downloadFlavour` is used by OpenRCT2Launcher but wasn't in original AltApi
         });
     }
 
     constructor(httpServer) {
         const router = this.#router = httpServer.newRouter();
         router.get('/', async (req, res, next) => {
-            const command = req.body.command || req.query.command;
-
-            log.debug('Command', command, req.body.command, req.query.command);
+            const command = req.body['command'] || req.query['command'];
 
             if (command === 'push-build') {
                 res.json({

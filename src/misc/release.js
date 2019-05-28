@@ -24,7 +24,7 @@ class Download {
     /**
      * @type {number}
      */
-    #size;
+    #fileSize;
 
     /**
      * @type {string}
@@ -100,7 +100,6 @@ class Download {
             platform = 'misc';
 
 
-
         this.platform = platform;
         return platform;
     }
@@ -168,6 +167,15 @@ class Download {
     }
 
     /**
+     * Get flavour id
+     * @deprecated
+     * @returns {number}
+     */
+    get flavourId() {
+        return 0;
+    }
+
+    /**
      * Set title
      * @param {string} title
      */
@@ -176,19 +184,19 @@ class Download {
     }
 
     /**
-     * Get size
+     * Get file size
      * @returns {number}
      */
-    get size() {
-        return this.#size;
+    get fileSize() {
+        return this.#fileSize;
     }
 
     /**
-     * Set size
-     * @param {number} size
+     * Set file size
+     * @param {number} fileSize
      */
-    set size(size) {
-        this.#size = size;
+    set fileSize(fileSize) {
+        this.#fileSize = fileSize;
     }
 }
 
@@ -451,6 +459,20 @@ export default class Release {
     }
 
     /**
+     * Get download by flavour id
+     * @deprecated
+     * @param {number} flavourId
+     * @returns {Download}
+     */
+    getDownloadByFlavourId(flavourId) {
+        for (const download of this.downloads) {
+            if (download.flavourId === flavourId)
+                return download;
+        }
+        return undefined;
+    }
+
+    /**
      * Parse API data
      * @param {object} data
      */
@@ -469,7 +491,7 @@ export default class Release {
             for (const assetData of data['assets']) {
                 const download = new Download();
                 download.url = assetData['browser_download_url'];
-                download.size = assetData['size'];
+                download.fileSize = assetData['size'];
                 download.fileName = assetData['name'];
 
                 this.downloads.add(download);

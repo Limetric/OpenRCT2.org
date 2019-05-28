@@ -139,11 +139,11 @@ export default class Releases {
 
     /**
      * Get last release by branch
-     * @param branch
+     * @param {string} branch
+     * @returns {Release}
      */
     static getLastByBranch(branch) {
         for (const release of this.releases) {
-            log.debug(release.branch, branch);
             if (release.branch === branch)
                 return release;
         }
