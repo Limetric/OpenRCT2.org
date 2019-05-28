@@ -1,4 +1,1 @@
-*
-*/
-!.gitignore
-!*.sample.json
+*.private.json
