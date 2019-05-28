@@ -38,11 +38,6 @@ export default class AltApiRouter {
             return;
         }
 
-        /*res.json({
-            error: 1,
-            errorMessage: 'Error. Download will be fixed within 12 hours.'
-        });*/
-
         const download = release.getDownloadByFlavourId(flavourId);
         if (!download) {
             res.json({

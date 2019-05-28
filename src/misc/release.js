@@ -2,6 +2,15 @@ import log from '../utils/log';
 
 class Download {
     /**
+     * @type {Release}
+     */
+    #parentRelease;
+
+    constructor(parentRelease) {
+        this.#parentRelease = parentRelease;
+    }
+
+    /**
      * @type {string}
      */
     #fileName;
@@ -172,6 +181,22 @@ class Download {
      * @returns {number}
      */
     get flavourId() {
+        const platform = this.category;
+        const architecture = this.architecture;
+        const title = this.title;
+
+        if (platform === 'windows') {
+            if (architecture === 'x64')
+                return title === 'Portable ZIP' ? 6 : title === 'Installer' ? 7 : 10;
+            else
+                return title === 'Portable ZIP' ? 1 : title === 'Installer' ? 2 : 5;
+        } else if (platform === 'macos')
+            return 3;
+        else if (platform === 'linux')
+            return architecture === 'x86_64' || architecture === 'x64' ? 9 : 4;
+        else if (platform === 'android')
+            return architecture === 'arm' ? 11 : architecture === 'x86' ? 12 : 0;
+
         return 0;
     }
 
@@ -489,7 +514,7 @@ export default class Release {
         //Parse assets
         if (data['assets']) {
             for (const assetData of data['assets']) {
-                const download = new Download();
+                const download = new Download(this);
                 download.url = assetData['browser_download_url'];
                 download.fileSize = assetData['size'];
                 download.fileName = assetData['name'];
