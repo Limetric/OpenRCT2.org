@@ -1,8 +1,8 @@
 //Babel Polyfill must always be first
-require('babel-polyfill');
+import '@babel/polyfill';
 
 //Display dates and fromNow dates
-const Moment = require('moment');
+import Moment from 'moment';
 for (const el of document.querySelectorAll('.date')) {
     const parentheses = el.classList.contains('parentheses');
     const moment = Moment(new Date(el.dataset.date || el.textContent));
@@ -23,3 +23,5 @@ for (const el of document.querySelectorAll('.fromNow')) {
     if (el.classList.contains('titleDate'))
         el.setAttribute('title', moment.format(el.dataset.format));
 }
+
+import './index.scss';

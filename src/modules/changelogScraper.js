@@ -1,4 +1,6 @@
-class ChangelogScraper {
+import rpn from 'request-promise-native';
+
+export default class ChangelogScraper {
     /**
      *
      * @returns {Promise<void>}
@@ -27,17 +29,14 @@ class ChangelogScraper {
      */
     static getFile() {
         return new Promise(async (resolve, reject) => {
-            const remoteUrl = 'https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/distribution/changelog.txt';
-
             const options = {
-                uri: remoteUrl,
+                uri: 'https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/distribution/changelog.txt',
                 qs: {}
             };
 
             let results;
             try {
-                const rp = require('request-promise');
-                results = await rp(options);
+                results = await rpn(options);
             } catch (error) {
                 reject(error);
                 return;
@@ -127,4 +126,4 @@ class ChangelogScraper {
     }
 }
 
-module.exports = ChangelogScraper;
+ChangelogScraper.run();

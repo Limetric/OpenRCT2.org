@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 
+const appVersion = require('../package').version;
 console.log('#############################');
-console.log('OpenRCT2.org');
+console.log(`OpenRCT2.org v${appVersion}`);
 console.log('#############################');
+
+import '@babel/polyfill';
+import 'source-map-support/register';
+
+//import './modules/changelogScraper';
 
 class App {
     static initLog() {
@@ -44,13 +50,12 @@ class App {
                 }
             ],
             src: false
-            //src: this.isDevelopment
         });
     }
 
     static initConfig() {
         const _ = require('lodash');
-        const module = './config/env.json';
+        const module = '../config/env.json';
         delete require.cache[require.resolve(module)];
         const env = require(module);
 
@@ -152,7 +157,7 @@ class App {
     static initRoutes() {
         const express = require('express');
         const path = require('path');
-        this.express.use('/', express.static(path.join(__dirname, 'public'), {
+        this.express.use('/', express.static(path.join(__dirname, '..', 'public'), {
             etag: !App.isDevelopment
         }));
 
@@ -229,18 +234,11 @@ class App {
         return baseUrl.replace(/\/$/, '') + path.replace(/\/$/, '')
     }
 
-    static initModules() {
-        this.modules = {};
-
-        const changelogScraper = this.modules.changelogScraper = require('./modules/changelogScraper');
-        changelogScraper.run();
-    }
-
     static initPaths() {
         const path = require('path');
 
         this.paths = {
-            data: path.join(__dirname, 'data')
+            data: path.join(__dirname, '..', 'data')
         };
     }
 
@@ -270,8 +268,6 @@ class App {
         this.initExpress();
 
         this.initRoutes();
-
-        this.initModules();
 
         try {
             await this.listenExpress();
