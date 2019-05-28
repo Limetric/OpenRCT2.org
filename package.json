@@ -8,7 +8,7 @@
     "buildServer": "babel src --out-dir dist --copy-files --source-maps --ignore *.marko.js",
     "watchServer": "babel src --out-dir dist --copy-files --source-maps --ignore *.marko.js --watch",
     "start": "node dist/app.js",
-    "startMon": "nodemon --ignore frontend/ --ignore public/resources/ --ignore src/ --ignore *.marko.js dist/app.js | bunyan",
+    "startMon": "nodemon --ignore frontend/ --ignore data/ --ignore public/resources/ --ignore src/ --ignore *.marko.js dist/app.js | bunyan",
     "watch": "concurrently --prefix \"{time} [{name}]\" --timestamp-format \"HH:mm:ss.SSS\" \"npm:watchServer\" \"npm:startMon\" \"npm:watchFrontend\""
   },
   "author": {
@@ -20,6 +20,9 @@
     "type": "git",
     "url": "https://github.com/Limetric/OpenRCT2.org.git"
   },
+  "browserslist": [
+    "defaults"
+  ],
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "body-parser": "~1.19.0",

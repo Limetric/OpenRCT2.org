@@ -1,45 +1,33 @@
-const Express = require('express');
+import Express from 'express';
 const router = Express.Router();
 
-import ChangelogScraper from '../modules/changelogScraper';
+import Changelog from '../modules/changelog';
+import log from '../utils/log';
 
 router.get('/', async (req, res, next) => {
-    const filename = ChangelogScraper.getFilename();
-
+    let changelog;
     let modifiedDate;
     try {
-        modifiedDate = await new Promise((resolve, reject) => {
-            const fs = require('fs');
-            fs.stat(filename, (error, stats) => {
-                if (error)
-                    return reject(error);
-
-                resolve(stats.mtime || stats.ctime || stats.birthtime);
-            });
-        });
-    } catch(error) {
+        changelog = await Changelog.content;
+        modifiedDate = await Changelog.modifiedDate;
+    } catch (error) {
         log.error(error);
+
+        const clientError = new Error('Unable to load changelog.');
+        clientError.status = 500;
+        next(clientError);
+        return;
     }
 
-    const jsonfile = require('jsonfile');
-    jsonfile.readFile(filename, (error, changelog) => {
-        if (error) {
-            const error = new Error('Unable to load changelog.');
-            error.status = 500;
-            next(error);
-            return;
-        }
-
-        const template = require('./changelog.marko');
-        res.marko(template, {
-            page: {
-                title: 'Changelog',
-                description: 'An overview of all the OpenRCT2 changes over the years.',
-                path: App.getExpressPath(req.baseUrl, req.path)
-            },
-            lastUpdate: modifiedDate,
-            changelog: changelog
-        });
+    const template = require('./changelog.marko');
+    res.marko(template, {
+        page: {
+            title: 'Changelog',
+            description: 'An overview of all the OpenRCT2 changes over the years.',
+            path: App.getExpressPath(req.baseUrl, req.path)
+        },
+        lastUpdate: modifiedDate,
+        changelog: changelog
     });
 });
 
