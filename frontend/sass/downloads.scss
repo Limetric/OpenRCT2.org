@@ -10,8 +10,6 @@ main.downloads {
         justify-content: space-between;
       }
 
-
-
       > a {
         box-sizing: border-box;
         border: 1px solid $button-color;
@@ -98,7 +96,7 @@ main.downloads {
           }
 
           //Hide older history when on a small screen
-          @media only screen and (max-width:760px) {
+          @media only screen and (max-width: 760px) {
             &:nth-child(n+6) {
               display: none;
             }
@@ -131,9 +129,11 @@ main.downloads {
   .status {
     border-left: 3px solid grey;
     padding-left: 3px;
+
     &.success {
       border-color: darkgreen;
     }
+
     &.failed {
       border-color: darkred;
     }

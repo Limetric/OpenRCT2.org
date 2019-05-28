@@ -21,7 +21,7 @@ main {
     font-weight: 300;
     padding: 0.8em;
     display: flex;
-    align-items:center;
+    align-items: center;
 
     &.important {
       background-color: $header-important-bg-color;
@@ -125,10 +125,12 @@ main {
   .button {
     margin: 0.5em auto;
     cursor: pointer;
+
     &:not(.colored) {
       border: 1px solid $button-color;
       background-color: transparent;
     }
+
     border-radius: 5px;
     padding: 10px 20px;
     line-height: 1.2;
