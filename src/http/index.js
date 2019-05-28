@@ -7,6 +7,7 @@ import StaticRouter from '../routes/static';
 import DownloadsRouter from '../routes/downloads/router';
 import ChangelogRouter from '../routes/changelog/router';
 import QuickstartRouter from '../routes/quickstart/router';
+import AltApiRouter from '../routes/altapi/router';
 
 export default class HTTPServer extends SingletonClass {
     /**
@@ -145,6 +146,7 @@ export default class HTTPServer extends SingletonClass {
         this.express.use('/downloads', new DownloadsRouter(this).router);
         this.express.use('/changelog', new ChangelogRouter(this).router);
         this.express.use('/quickstart', new QuickstartRouter(this).router);
+        this.express.use('/altapi', new AltApiRouter(this).router);
 
         //Error Handler is our last stop
         this.express.use((req, res, next) => {
@@ -155,9 +157,8 @@ export default class HTTPServer extends SingletonClass {
             next(error);
         });
 
-        //Deal with errors
+        //Deal with errors. DO NOT REMOVE THE 4TH PARAMETER!
         this.express.use((error, req, res, next) => {
-            log.info('HERPES', 1);
             if (Config.development)
                 log.warn(error);
             else
@@ -181,12 +182,8 @@ export default class HTTPServer extends SingletonClass {
                     break;
             }
 
-            log.info('HERPES', 2);
-
             if (!error.message)
                 error.message = 'An unknown problem occurred. Please try again later.';
-
-            log.info('HERPES', 3);
 
             res.status(error.status);
             const layout = require('./error.marko');
@@ -199,8 +196,6 @@ export default class HTTPServer extends SingletonClass {
                     path: this.constructor.getExpressPath(req.baseUrl, req.path)
                 }
             });
-
-            log.info('HERPES', 4);
         });
     }
 }

@@ -20,27 +20,33 @@ $ {
 
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     };
+
+    const htmlToText = (html) => {
+        return html.replace(/(\r\n|\n\r|\r|\n)/g, '<br>$1');
+    };
 }
 import Layout from '../../layouts/layout.marko';
 <${Layout} ...data>
     <@body>
 <main class="downloads downloadsView">
-    <h1>${data.latest ? `Latest OpenRCT2 ${data.download.version}-${data.download.gitBranch} download` : `Download OpenRCT2 ${data.download.version}-${data.download.gitBranch} build ${data.download.gitHashShort}`}</h1>
+    <h1>${data.latest ? `Latest OpenRCT2 ${data.release.longTitle} download` : `Download OpenRCT2 ${data.release.longTitle}`}</h1>
     <ul>
-        <li>Branch: ${data.download.gitBranch}</li>
-        <li>Git hash: <a href="https://github.com/OpenRCT2/OpenRCT2/commit/${data.download.gitHash}" title="View commit ${data.download.gitHash.substr(0, 7)} on GitHub" rel="nofollow" target="_blank"><span class="monospace">${data.download.gitHash.substr(0, 7)}</span></a></li>
-        <li>Available since <span class="fromNow" data-date="${data.download.addedTime.toISOString()}" data-without-suffix="true" data-format="llll">${fromNowDate(data.download.addedTime, true)}</span>: <span class="date" data-date="${data.download.addedTime.toISOString()}" data-format="llll">${formatDate(data.download.addedTime, 'llll')}</span></li>
+        <if(data.release.build)>
+        <li>Build: <a href="https://github.com/OpenRCT2/OpenRCT2/commit/${data.release.build}" title="View commit ${data.release.build.substr(0, 7)} on GitHub" rel="nofollow" target="_blank"><span class="monospace">${data.release.build.substr(0, 7)}</span></a></li>
+        </if>
+        <li>Available since <span class="fromNow" data-date=data.release.published.toISOString() data-without-suffix="true" data-format="llll">${fromNowDate(data.release.published, true)}</span>: <span class="date" data-date=data.release.published.toISOString() data-format="llll">${formatDate(data.release.published, 'llll')}</span></li>
     </ul>
 $ {
     const categories = {
         'windows': {
             name: 'Windows',
             icon: 'windows.svg'
-        }, 'linux': {
+        },
+        'linux': {
             name: 'Linux',
             icon: 'linux.svg'
         },
-        'osx': {
+        'macos': {
             name: 'macOS',
             icon: 'apple.svg'
         },
@@ -54,31 +60,35 @@ $ {
         }
     };
 }
-    <for(categoryTag, setDownloads in data.categories)>
-$ const category = categories[categoryTag] || {}
-        <h2>$!{category.icon ? `<img src="/assets/images/icons/${category.icon}" class="icon">` : ''}${category.name} downloads</h2>
-$ const downloads = Array.from(setDownloads)
-        <table>
-            <thead>
-                <tr>
-                    <td>Variant</td>
-                    <td>Filename</td>
-                    <td>SHA-256 Checksum</td>
-                    <td>File Size</td>
-                </tr>
-            </thead>
-            <tbody>
-        <for(download in downloads)>
-                <tr>
-                    <td>${download.flavourName}</td>
-                    <td><a href="${download.url}" title="Download ${download.fileName}" class="monospace">${download.fileName}</a></td>
-                    <td title="SHA-256 checksum: ${download.fileHash}"><span class="monospace">${download.fileHashShort}</span>…</td>
-                    <td>${formatBytes(download.fileSize)}</td>
-                </tr>
-        </for>
-            </tbody>
-        </table>
+    <for|categoryIdentifier, category| in=categories>
+$ const downloads = data.release.getDownloadsByCategory(categoryIdentifier)
+        <if(downloads.size)>
+            <h2>$!{category.icon ? `<img src="/assets/images/icons/${category.icon}" class="icon">` : ''}${category.name} downloads</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Variant</td>
+                        <td>Filename</td>
+                        <td>File Size</td>
+                    </tr>
+                </thead>
+                <tbody>
+            <for|download| of=downloads>
+                    <tr>
+                        <td>${download.platform ? download.platform.charAt(0).toUpperCase() + download.platform.slice(1) : ''} ${download.architecture} ${download.title}</td>
+                        <td><a href=download.url title=`Download ${download.fileName}` class="monospace">${download.fileName}</a></td>
+                        <!--<td title="SHA-256 checksum: ${download.fileHash}"><span class="monospace">${download.fileHashShort}</span>…</td>-->
+                        <td>${formatBytes(download.size)}</td>
+                    </tr>
+            </for>
+                </tbody>
+            </table>
+        </if>
     </for>
+    <if(data.release.notes)>
+        <h2>Release notes</h2>
+        <p>$!{htmlToText(data.release.notes)}</p>
+    </if>
 </main>
     </@body>
 </>

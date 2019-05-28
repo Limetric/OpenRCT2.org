@@ -44,7 +44,7 @@ export default class DownloadsRouter {
         });
 
         //Rewrite wrong latest download link used by some websites
-        router.get('/latest/:gitBranch', (req, res) => {
+        router.get('/latest/:branch', (req, res) => {
             res.redirect(`../${req.params.branch}/latest`);
         });
 
@@ -52,10 +52,10 @@ export default class DownloadsRouter {
             let release;
 
             if (identifier === 'latest') {
-                release = Releases.last;
+                release = Releases.getLastByBranch(req.params.branch);
                 req.latest = true;
             } else {
-                release = Releases.getByVersion(identifier);
+                release = Releases.getByBranchVersion(req.params.branch, identifier);
             }
 
             if (!release) {
@@ -81,26 +81,16 @@ export default class DownloadsRouter {
             res.redirect(`../releases/${req.params.identifier}`);
         });
 
-        router.get('/:gitBranch/:identifier', async (req, res) => {
-            res.send('Poep');
-            /*try {
-                req.downloads = await db.promiseQuery(`
-                    SELECT CONCAT(?, b.filePath, '/', b.fileName) AS \`url\`,
-                           b.fileName, b.fileSize, b.fileHash, SUBSTRING(\`b\`.\`fileHash\`, 1, 7) AS \`fileHashShort\`, b.status,
-                           f.platform AS flavourPlatform, f.architecture AS flavourArchitecture,
-                           f.name as flavourName, f.category AS category, f.categoryReason AS categoryReason
-                    FROM downloadsBuilds b
-                    JOIN downloadFlavours f ON (f.flavourId = b.flavourId)
-                    WHERE parentDownloadId = ?
-                    ORDER BY f.category ASC, f.identifier DESC`, [App.config.downloads.baseUrl, req.download.downloadId]);
-            } catch (error) {
-                log.error(error);
-                next(new Error(`There was a problem with requesting download information.`));
-                return;
-            }
+        //Rewrite legacy `develop` branch links to `development`
+        router.get('/develop/:identifier', (req, res) => {
+            res.redirect(`../development/${req.params.identifier}`);
+        });
+
+        router.get('/:branch/:identifier', async (req, res) => {
+
 
             //Categorize downloads
-            const categories = new Map();
+            /*const categories = new Map();
             for (const download of req.downloads) {
                 const platform = download.flavourPlatform && download.category !== 'misc' ? download.flavourPlatform : 'misc';
                 let downloads;
@@ -111,19 +101,25 @@ export default class DownloadsRouter {
                     downloads = categories.get(platform);
 
                 downloads.add(download);
-            }
+            }*/
+
+            /**
+             * @type {Release}
+             */
+            const release = req.release;
 
             const template = require('./downloadsView.marko');
             res.marko(template, {
                 page: {
-                    title: req.latest ? `Latest ${req.download.version}-${req.download.gitBranch} download` : `Download ${req.download.version}-${req.download.gitBranch} build ${req.download.gitHashShort}`,
-                    description: req.latest ? `Download latest OpenRCT2 ${req.download.version}-${req.download.gitBranch} build of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.` : `Download OpenRCT2 ${req.download.version}-${req.download.gitBranch} build ${req.download.gitHashShort} of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.`,
-                    path: App.getExpressPath(req.baseUrl, req.path)
+                    title: req.latest ? `Latest ${req.release.shortTitle} download` : `Download ${req.release.shortTitle}`,
+                    description: req.latest ? `Download latest OpenRCT2 ${req.release.longTitle} of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.` : `Download OpenRCT2 ${req.release.longTitle} of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.`,
+                    path: HTTPServer.getExpressPath(req.baseUrl, req.path)
                 },
-                download: req.download,
-                categories,
-                latest: req.latest
-            });*/
+                release: release,
+                //download: req.download,
+                //categories,
+                latest: !!req.latest
+            });
         });
     }
 }

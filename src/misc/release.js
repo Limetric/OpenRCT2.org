@@ -1,3 +1,197 @@
+import log from '../utils/log';
+
+class Download {
+    /**
+     * @type {string}
+     */
+    #fileName;
+
+    /**
+     * @type {string}
+     */
+    #url;
+
+    /**
+     * @type {string}
+     */
+    #platform;
+
+    /**
+     * @type {string}
+     */
+    #architecture;
+
+    /**
+     * @type {number}
+     */
+    #size;
+
+    /**
+     * @type {string}
+     */
+    #title;
+
+    /**
+     * Get file name
+     * @returns {string}
+     */
+    get fileName() {
+        return this.#fileName;
+    }
+
+    /**
+     * Set file name
+     * @param {string} fileName
+     */
+    set fileName(fileName) {
+        this.#fileName = fileName;
+    }
+
+    /**
+     * Get GitHub url
+     * @returns {string}
+     */
+    get url() {
+        return this.#url;
+    }
+
+    /**
+     * Set GitHub url
+     * @param {string} value
+     */
+    set url(value) {
+        this.#url = value;
+    }
+
+    /**
+     * Get category
+     * @returns {string}
+     */
+    get category() {
+        let category = this.platform;
+
+        if (this.fileName.includes('-symbols') || this.fileName.includes('-debugsymbols'))
+            category = 'misc';
+
+        return category;
+    }
+
+    /**
+     * Get platform
+     * @returns {string}
+     */
+    get platform() {
+        if (this.#platform)
+            return this.#platform;
+
+        if (!this.fileName)
+            return undefined;
+
+        let platform;
+        if (this.fileName.includes('-windows'))
+            platform = 'windows';
+        else if (this.fileName.includes('-macos'))
+            platform = 'macos';
+        else if (this.fileName.includes('-linux'))
+            platform = 'linux';
+        else if (this.fileName.includes('-android'))
+            platform = 'android';
+        else
+            platform = 'misc';
+
+
+
+        this.platform = platform;
+        return platform;
+    }
+
+    /**
+     * Set platform
+     * @param {string} platform
+     */
+    set platform(platform) {
+        this.#platform = platform;
+    }
+
+    /**
+     * Get architecture
+     * @returns {string}
+     */
+    get architecture() {
+        if (this.#architecture)
+            return this.#architecture;
+
+        if (!this.fileName)
+            return undefined;
+
+        let architecture;
+        if (this.fileName.includes('-x64') || this.fileName.includes('-win64'))
+            architecture = 'x64';
+        else if (this.fileName.includes('-x86_64'))
+            architecture = 'x86_64';
+        else if (this.fileName.includes('-x86') || this.fileName.includes('-win32'))
+            architecture = 'x86';
+
+        this.architecture = architecture;
+        return architecture;
+    }
+
+    /**
+     * Set architecture
+     * @param {string} architecture
+     */
+    set architecture(architecture) {
+        this.#architecture = architecture;
+    }
+
+    /**
+     * Get title
+     * @returns {string}
+     */
+    get title() {
+        if (this.#title)
+            return this.#title;
+
+        if (!this.fileName)
+            return undefined;
+
+        let title;
+        if (this.fileName.includes('-installer'))
+            title = 'Installer';
+        else if (this.fileName.includes('-portable'))
+            title = 'Portable ZIP';
+        else if (this.fileName.includes('-symbols') || this.fileName.includes('-debugsymbols'))
+            title = 'Debug Symbols';
+
+        this.title = title;
+        return title;
+    }
+
+    /**
+     * Set title
+     * @param {string} title
+     */
+    set title(title) {
+        this.#title = title;
+    }
+
+    /**
+     * Get size
+     * @returns {number}
+     */
+    get size() {
+        return this.#size;
+    }
+
+    /**
+     * Set size
+     * @param {number} size
+     */
+    set size(size) {
+        this.#size = size;
+    }
+}
+
 export default class Release {
     /**
      * @type {number}
@@ -35,6 +229,21 @@ export default class Release {
     #notes;
 
     /**
+     * @type {string}
+     */
+    #branch;
+
+    /**
+     * @type {string}
+     */
+    #build;
+
+    /**
+     * @type {Set<Download>}
+     */
+    #downloads = new Set();
+
+    /**
      * Get GitHub ID
      * @returns {number}
      */
@@ -55,6 +264,9 @@ export default class Release {
      * @returns {string}
      */
     get name() {
+        if (!this.#name)
+            return this.version;
+
         return this.#name;
     }
 
@@ -152,10 +364,97 @@ export default class Release {
     }
 
     /**
+     * Get branch
+     * @returns {string}
+     */
+    get branch() {
+        return this.#branch;
+    }
+
+    /**
+     * Set branch
+     * @param {string} branch
+     */
+    set branch(branch) {
+        this.#branch = branch;
+    }
+
+    /**
+     * Get build
+     * @returns {string}
+     */
+    get build() {
+        return this.#build;
+    }
+
+    /**
+     * Set build
+     * @param {string} value
+     */
+    set build(value) {
+        this.#build = value;
+    }
+
+    /**
+     * Get long release title
+     */
+    get longTitle() {
+        const branch = this.branch === 'releases' ? 'release' : this.branch;
+
+        return `${this.name} ${branch}`;
+    }
+
+    /**
+     * Get short release title
+     * @returns {string}
+     */
+    get shortTitle() {
+        const branch = this.branch === 'releases' ? 'release' : this.branch;
+
+        return `${this.version} ${branch}`;
+    }
+
+    /**
+     * Get downloads
+     * @returns {Set<Download>}
+     */
+    get downloads() {
+        return this.#downloads;
+    }
+
+    /**
+     * Get downloads by platform
+     * @param {string} platform
+     * @returns {Set<Download>}
+     */
+    getDownloadsByPlatform(platform) {
+        const output = new Set();
+        for (const download of this.downloads) {
+            if (download.platform === platform)
+                output.add(download);
+        }
+        return output;
+    }
+
+    /**
+     * Get downloads by category
+     * @param {string} category
+     * @returns {Set<Download>}
+     */
+    getDownloadsByCategory(category) {
+        const output = new Set();
+        for (const download of this.downloads) {
+            if (download.category === category)
+                output.add(download);
+        }
+        return output;
+    }
+
+    /**
      * Parse API data
      * @param {object} data
      */
-    parseAPIData(data) {
+    parseGitHubAPIReleaseData(data) {
         this.id = data['id'];
         this.name = data['name'];
         this.version = data['tag_name'];
@@ -163,7 +462,18 @@ export default class Release {
         this.published = data['published_at'];
         this.url = data['html_url'];
         this.notes = data['body'];
+        this.branch = 'releases';
 
-        console.log('Parsed published', this.published);
+        //Parse assets
+        if (data['assets']) {
+            for (const assetData of data['assets']) {
+                const download = new Download();
+                download.url = assetData['browser_download_url'];
+                download.size = assetData['size'];
+                download.fileName = assetData['name'];
+
+                this.downloads.add(download);
+            }
+        }
     }
 }

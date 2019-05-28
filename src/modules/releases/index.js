@@ -28,7 +28,7 @@ export default class Releases {
 
         if (saved)
             log.debug('Saved new releases data');
-    }
+    }//
 
     /**
      * Get json data
@@ -71,7 +71,7 @@ export default class Releases {
                 continue;
 
             const release = new Release();
-            release.parseAPIData(jsonReleaseData);
+            release.parseGitHubAPIReleaseData(jsonReleaseData);
             releases.push(release);
         }
 
@@ -126,7 +126,7 @@ export default class Releases {
     static get releases() {
         return this.#releases;
     }
-
+//
     /**
      * Get last release
      * @returns {Release}
@@ -135,6 +135,33 @@ export default class Releases {
         const releases = this.releases;
         //ToDo: Sort by published date
         return releases.length >= 1 ? releases[0] : undefined;
+    }
+
+    /**
+     * Get last release by branch
+     * @param branch
+     */
+    static getLastByBranch(branch) {
+        for (const release of this.releases) {
+            log.debug(release.branch, branch);
+            if (release.branch === branch)
+                return release;
+        }
+    }
+
+    /**
+     * Get release by branch and version
+     * @param {string} branch
+     * @param {string} version
+     * @returns {Release}
+     */
+    static getByBranchVersion(branch, version) {
+        for (const release of this.releases) {
+            if (release.version === version && release.branch === branch)
+                return release;
+        }
+
+        return undefined;
     }
 
     /**
