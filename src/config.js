@@ -55,17 +55,17 @@ class Config {
         const config = require(baseConfigFilePath);
 
         //Private config
-        const privateConfigFilePath = Path.join(__dirname, `../../config/${type}.private.json`);
+        const privateConfigFilePath = Path.join(__dirname, `../config/${type}.private.json`);
         if (FS.existsSync(privateConfigFilePath))
             Object.assign(config, require(privateConfigFilePath));
 
         //Environment config
-        const envConfigFilePath = Path.join(__dirname, `../../config/${type}.${this.environment}.json`);
+        const envConfigFilePath = Path.join(__dirname, `../config/${type}.${this.environment}.json`);
         if (FS.existsSync(envConfigFilePath))
             Object.assign(config, require(envConfigFilePath));
 
         //Private environment config
-        const privateEnvConfigFilePath = Path.join(__dirname, `../../config/${type}.${this.environment}.private.json`);
+        const privateEnvConfigFilePath = Path.join(__dirname, `../config/${type}.${this.environment}.private.json`);
         if (FS.existsSync(privateEnvConfigFilePath))
             Object.assign(config, require(privateEnvConfigFilePath));
 
