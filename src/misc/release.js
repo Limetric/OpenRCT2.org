@@ -116,8 +116,6 @@ export default class Release {
         if (typeof (value) === 'string' && value)
             value = new Date(value);
 
-        console.log('PUBLISHED', value, typeof(value));
-
         this.#published = value;
     }
 

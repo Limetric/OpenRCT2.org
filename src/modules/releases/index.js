@@ -3,7 +3,7 @@ import log from '../../utils/log';
 import Paths from '../../utils/paths';
 import Path from 'path';
 import JSONFile from 'jsonfile';
-import Release from './release';
+import Release from '../../misc/release';
 
 export default class Releases {
     /**
@@ -135,6 +135,20 @@ export default class Releases {
         const releases = this.releases;
         //ToDo: Sort by published date
         return releases.length >= 1 ? releases[0] : undefined;
+    }
+
+    /**
+     * Get release by version
+     * @param {string} version
+     * @returns {Release}
+     */
+    static getByVersion(version) {
+        for (const release of this.releases) {
+            if (release.version === version)
+                return release;
+        }
+
+        return undefined;
     }
 }
 

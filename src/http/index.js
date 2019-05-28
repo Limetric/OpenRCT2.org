@@ -156,7 +156,8 @@ export default class HTTPServer extends SingletonClass {
         });
 
         //Deal with errors
-        this.express.use((error, req, res) => {
+        this.express.use((error, req, res, next) => {
+            log.info('HERPES', 1);
             if (Config.development)
                 log.warn(error);
             else
@@ -180,8 +181,12 @@ export default class HTTPServer extends SingletonClass {
                     break;
             }
 
+            log.info('HERPES', 2);
+
             if (!error.message)
                 error.message = 'An unknown problem occurred. Please try again later.';
+
+            log.info('HERPES', 3);
 
             res.status(error.status);
             const layout = require('./error.marko');
@@ -194,105 +199,8 @@ export default class HTTPServer extends SingletonClass {
                     path: this.constructor.getExpressPath(req.baseUrl, req.path)
                 }
             });
+
+            log.info('HERPES', 4);
         });
-
-        /*this.#express.use('/', Express.static('./public', {
-            etag: !App.isDevelopment
-        }));
-
-        //Get medium by domain
-        this.#express.use(async (req, res, next) => {
-            const medium = req.medium = Media.getByDomain(req.hostname);
-            if (!medium || !medium.enabled) {
-                res.setHeader('Content-Type', 'text/plain');
-                res.status(404).send('The Globalis chat website you requested is currently not available.');
-                log.warn(`Domain '${req.hostname}' requested but not configured`);
-                return;
-            }
-
-            next();
-        });
-
-        //Force secure and/or domain
-        this.#express.use((req, res, next) => {
-            const host = req.get('host');
-
-            const realDomain = new Map(Object.entries(Config.http.redirectDomains)).get(host);
-            if (realDomain) {
-                res.redirect(301, `https://${realDomain + req.url}`);
-                return;
-            } else if (Config.http.forceSecure && !req.secure && req.get('x-forwarded-proto') !== 'https') {
-                res.redirect(301, `https://${host + req.url}`);
-                return;
-            }
-
-            next();
-        });
-
-        this.#express.use('/', new StaticRoute(this).router);
-
-        //Strict routing redirects
-        this.#express.get(['/chats'], (req, res) => {
-            const query = req.url.slice(req.path.length);
-            res.redirect(301, req.path + '/' + query);
-        });
-
-        //Remove trailing slash if not found
-        this.#express.use((req, res, next) => {
-            const pathLength = req.path.length;
-            if (pathLength > 1 && req.path.lastIndexOf('/') === (pathLength - 1)) {
-                const query = req.url.slice(pathLength);
-                res.redirect(301, req.path.slice(0, -1) + query);
-            } else
-                next();
-        });
-
-        //Error Handler is our last stop
-        this.#express.use((req, res, next) => {
-            const error = new Error('Not Found');
-            error.originalUrl = req.originalUrl;
-            error.path = req.path;
-            error.status = 404;
-            next(error);
-        });
-
-        //Deal with errors
-        this.#express.use((error, req, res) => {
-            log.info(`Express: ${JSON.stringify(error)}`);
-
-            if (!error.status)
-                error.status = 500;
-
-            switch (error.status) {
-                case 403:
-                    error.statusMessage = 'No permission';
-                    break;
-                case 404:
-                    error.statusMessage = 'Not found';
-                    break;
-                case 500:
-                    error.statusMessage = 'An internal server error occurred';
-                    break;
-                default:
-                    error.statusMessage = 'A server error occurred';
-                    break;
-            }
-
-            if (!error.message)
-                error.message = 'An unknown problem occurred. Please try again later.';
-
-            res.status(error.status);
-            const layout = require('./error.marko');
-            res.marko(layout, {
-                medium: req.medium,
-                error,
-                isDevelopment: this.isDevelopment,
-                page: {
-                    title: error.message,
-                    description: error.statusMessage,
-                    path: this.getExpressPath(req.baseUrl, req.path)
-                }
-            });
-        });*/
     }
 }

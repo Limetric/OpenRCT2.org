@@ -31,15 +31,11 @@ export default class DownloadsRouter {
                     path: HTTPServer.getExpressPath(req.baseUrl, req.path)
                 },
                 lastRelease
-                //history,
-                //latestMaster,
-                //latestDevelop
             });
         });
 
-        /*
-        router.param('gitBranch', (req, res, next, gitBranch) => {
-            if (gitBranch.length > 50) {
+        router.param('branch', (req, res, next, branch) => {
+            if (branch.length > 50) {
                 next(new Error('Invalid branch.'));
                 return;
             }
@@ -48,76 +44,46 @@ export default class DownloadsRouter {
         });
 
         //Rewrite wrong latest download link used by some websites
-        router.get('/latest/:gitBranch', (req, res, next) => {
-            res.redirect(`../${req.params.gitBranch}/latest`);
+        router.get('/latest/:gitBranch', (req, res) => {
+            res.redirect(`../${req.params.branch}/latest`);
         });
 
         router.param('identifier', async (req, res, next, identifier) => {
-            let downloads;
+            let release;
 
             if (identifier === 'latest') {
-                try {
-                    downloads = await db.promiseQuery(`
-                    SELECT
-                        \`downloadId\`,
-                        \`version\`,
-                        \`gitBranch\`,
-                        \`gitHash\`,
-                        SUBSTRING(\`gitHash\`, 1, 7) AS \`gitHashShort\`,
-                        \`addedTime\`
-                    FROM \`downloads\`
-                    WHERE \`gitBranch\` = ?
-                    ORDER BY \`downloadId\` DESC
-                    LIMIT 0,1`, [req.params.gitBranch]);
-                } catch (error) {
-                    log.error(error);
-                    next(new Error(`Invalid download requested.`));
-                    return;
-                }
-
+                release = Releases.last;
                 req.latest = true;
             } else {
-                try {
-                    downloads = await db.promiseQuery(`
-                    SELECT
-                        \`downloadId\`,
-                        \`version\`,
-                        \`gitBranch\`,
-                        \`gitHash\`,
-                        SUBSTRING(\`gitHash\`, 1, 7) AS \`gitHashShort\`,
-                        \`addedTime\`
-                    FROM \`downloads\`
-                    WHERE (\`gitHash\` LIKE ? OR
-                        \`version\` = ?) AND \`gitBranch\` = ?
-                    ORDER BY \`downloadId\` DESC
-                    LIMIT 0,1`, [`${identifier}%`, identifier, req.params.gitBranch]);
-                } catch (error) {
-                    log.error(error);
-                    next(new Error(`Invalid download requested.`));
-                    return;
-                }
+                release = Releases.getByVersion(identifier);
             }
 
-            if (!downloads || !downloads.length) {
-                const error = new Error('Unable to find requested download.');
-                error.status = '404';
-                next(error);
+            if (!release) {
+                const clientError = new Error('Requested download is not available.');
+                clientError.status = '404';
+                next(clientError);
                 return;
             }
 
-            const download = req.download = downloads[0];
+            req.release = release;
 
             //Always redirect to gitHashShort link
-            if (identifier !== 'latest' && identifier !== download.gitHashShort) {
+            /*if (identifier !== 'latest' && identifier !== download.gitHashShort) {
                 res.redirect(`../${download.gitBranch}/${download.gitHashShort}`);
                 return;
-            }
+            }*/
 
             next();
         });
 
-        router.get('/:gitBranch/:identifier', async (req, res, next) => {
-            try {
+        //Rewrite legacy `master` branch links to `releases`
+        router.get('/master/:identifier', (req, res) => {
+            res.redirect(`../releases/${req.params.identifier}`);
+        });
+
+        router.get('/:gitBranch/:identifier', async (req, res) => {
+            res.send('Poep');
+            /*try {
                 req.downloads = await db.promiseQuery(`
                     SELECT CONCAT(?, b.filePath, '/', b.fileName) AS \`url\`,
                            b.fileName, b.fileSize, b.fileHash, SUBSTRING(\`b\`.\`fileHash\`, 1, 7) AS \`fileHashShort\`, b.status,
@@ -157,7 +123,7 @@ export default class DownloadsRouter {
                 download: req.download,
                 categories,
                 latest: req.latest
-            });
-        });*/
+            });*/
+        });
     }
 }
