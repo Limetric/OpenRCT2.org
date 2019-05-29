@@ -8,42 +8,35 @@ const log = Bunyan.createLogger({
     streams: []
 });
 
-if (process.env.NODE_ENV === 'production') {
-    log.addStream({
-        level: 'warn',
-        stream: process.stderr,
-    });
-    log.addStream({
-        level: 'info',
-        stream: process.stdout
-    });
-} else {
-    log.addStream({
-        level: 'trace',
-        stream: process.stdout
-    });
-    log.addStream({
-        type: 'rotating-file',
-        path: 'logs/info.log',
-        level: 'info',
-        period: '1d',
-        count: 5
-    });
-    log.addStream({
-        type: 'rotating-file',
-        path: 'logs/error.log',
-        level: 'warn',
-        period: '1d',
-        count: 5
-    });
-    log.addStream({
-        type: 'rotating-file',
-        path: 'logs/fatal.log',
-        level: 'fatal',
-        period: '1d',
-        count: 5
-    });
-}
+log.addStream({
+    type: 'rotating-file',
+    path: 'logs/info.log',
+    level: 'info',
+    period: '1d',
+    count: 5
+});
+log.addStream({
+    type: 'rotating-file',
+    path: 'logs/error.log',
+    level: 'warn',
+    period: '1d',
+    count: 5
+});
+log.addStream({
+    type: 'rotating-file',
+    path: 'logs/fatal.log',
+    level: 'fatal',
+    period: '1d',
+    count: 5
+});
+log.addStream({
+    level: 'warn',
+    stream: process.stderr,
+});
+log.addStream({
+    level: process.env.NODE_ENV === 'development' ? 'trace' : 'info',
+    stream: process.stdout
+});
 
 //Log detailed info about unhandled Promise rejections and uncaught Exceptions
 process.on('unhandledRejection', (reason, p) => log.fatal('Unhandled Rejection at:', p, 'reason:', reason));

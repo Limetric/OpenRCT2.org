@@ -48,6 +48,18 @@ export default class DownloadsRouter {
             res.redirect(`../${req.params.branch}/latest`);
         });
 
+        //Rewrite legacy `master` branch links to `releases`
+        //Note: `branch` is actually an `identifier`
+        router.get('/master/:branch', (req, res, next) => {
+            res.redirect(`../releases/${req.params.branch}`);
+        });
+
+        //Rewrite legacy `develop` branch links to `development`
+        //Note: `branch` is actually an `identifier`
+        router.get('/develop/:branch', (req, res, next) => {
+            res.redirect(`../development/${req.params.branch}`);
+        });
+
         router.param('identifier', async (req, res, next, identifier) => {
             let release;
 
@@ -76,33 +88,7 @@ export default class DownloadsRouter {
             next();
         });
 
-        //Rewrite legacy `master` branch links to `releases`
-        router.get('/master/:identifier', (req, res) => {
-            res.redirect(`../releases/${req.params.identifier}`);
-        });
-
-        //Rewrite legacy `develop` branch links to `development`
-        router.get('/develop/:identifier', (req, res) => {
-            res.redirect(`../development/${req.params.identifier}`);
-        });
-
-        router.get('/:branch/:identifier', async (req, res) => {
-
-
-            //Categorize downloads
-            /*const categories = new Map();
-            for (const download of req.downloads) {
-                const platform = download.flavourPlatform && download.category !== 'misc' ? download.flavourPlatform : 'misc';
-                let downloads;
-                if (!categories.has(platform)) {
-                    downloads = new Set();
-                    categories.set(platform, downloads);
-                } else
-                    downloads = categories.get(platform);
-
-                downloads.add(download);
-            }*/
-
+        router.get('/:branch/:identifier', async (req, res, next) => {
             /**
              * @type {Release}
              */

@@ -8,7 +8,13 @@ export default class AltApiRouter {
         return this.#router;
     }
 
-    getLatestDownload(req, res) {
+    /**
+     *
+     * @param req
+     * @param res
+     * @returns {void}
+     */
+    async getLatestDownload(req, res) {
         let gitBranch = req.body['gitBranch'] || req.query['gitBranch'];
         if (gitBranch === 'master')
             gitBranch = 'releases';
@@ -33,7 +39,7 @@ export default class AltApiRouter {
         if (!release) {
             res.json({
                 error: 1,
-                errorMessage: 'Error. Download will be fixed within 24 hours.'
+                errorMessage: 'Error. Develop downloads will be fixed on Thursday.'
             });
             return;
         }
@@ -44,6 +50,14 @@ export default class AltApiRouter {
                 error: 1,
                 errorMessage: 'No download available.'
             });
+            return;
+        }
+
+        let fileHash;
+        try {
+            fileHash = await download.fileHash
+        } catch(error) {
+            log.warn(error);
         }
 
         res.json({
@@ -51,7 +65,7 @@ export default class AltApiRouter {
             downloadId: release.id,
             fileSize: download.fileSize,
             url: download.url,
-            //fileHash: '',
+            fileHash,
             //gitHash: '',
             //gitHashShort: '',
             addedTime: release.published,

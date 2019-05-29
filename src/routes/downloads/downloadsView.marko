@@ -32,7 +32,7 @@ import Layout from '../../layouts/layout.marko';
     <h1>${data.latest ? `Latest OpenRCT2 ${data.release.longTitle} download` : `Download OpenRCT2 ${data.release.longTitle}`}</h1>
     <ul>
         <if(data.release.build)>
-        <li>Build: <a href="https://github.com/OpenRCT2/OpenRCT2/commit/${data.release.build}" title="View commit ${data.release.build.substr(0, 7)} on GitHub" rel="nofollow" target="_blank"><span class="monospace">${data.release.build.substr(0, 7)}</span></a></li>
+        <li>Build: <a href=`https://github.com/OpenRCT2/OpenRCT2/commit/${data.release.build}` title=`View commit ${data.release.build.substr(0, 7)} on GitHub` rel="nofollow" target="_blank"><span class="monospace">${data.release.build.substr(0, 7)}</span></a></li>
         </if>
         <li>Available since <span class="fromNow" data-date=data.release.published.toISOString() data-without-suffix="true" data-format="llll">${fromNowDate(data.release.published, true)}</span>: <span class="date" data-date=data.release.published.toISOString() data-format="llll">${formatDate(data.release.published, 'llll')}</span></li>
     </ul>

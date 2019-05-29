@@ -1,4 +1,5 @@
 import log from '../utils/log';
+import UrlHashes from '../modules/urlHashes';
 
 class Download {
     /**
@@ -9,6 +10,11 @@ class Download {
     constructor(parentRelease) {
         this.#parentRelease = parentRelease;
     }
+
+    /**
+     * @type {number}
+     */
+    #id;
 
     /**
      * @type {string}
@@ -39,6 +45,27 @@ class Download {
      * @type {string}
      */
     #title;
+
+    /**
+     * @type {string}
+     */
+    #fileHash;
+
+    /**
+     * Get GitHub asset ID
+     * @returns {number}
+     */
+    get id() {
+        return this.#id;
+    }
+
+    /**
+     * Set GitHub asset ID
+     * @param {number} value
+     */
+    set id(value) {
+        this.#id = value;
+    }
 
     /**
      * Get file name
@@ -223,6 +250,44 @@ class Download {
     set fileSize(fileSize) {
         this.#fileSize = fileSize;
     }
+
+    /**
+     * Get file hash sum
+     * @returns {Promise<string>}
+     */
+    get fileHash() {
+        return new Promise(async (resolve, reject) => {
+            if (this.#fileHash) {
+                resolve(this.#fileHash);
+                return;
+            }
+
+            if (!this.url) {
+                reject(new Error('No url to get file hash from'));
+                return;
+            }
+
+            let hashSum;
+            try {
+                hashSum = await UrlHashes.getHash(this.url);
+            } catch(error) {
+                reject(error);
+                return;
+            }
+
+            this.fileHash = hashSum;
+
+            resolve(hashSum);
+        });
+    }
+
+    /**
+     * Set file size
+     * @param {string} fileHash
+     */
+    set fileHash(fileHash) {
+        this.#fileHash = fileHash;
+    }
 }
 
 export default class Release {
@@ -277,7 +342,7 @@ export default class Release {
     #downloads = new Set();
 
     /**
-     * Get GitHub ID
+     * Get GitHub release ID
      * @returns {number}
      */
     get id() {
@@ -285,7 +350,7 @@ export default class Release {
     }
 
     /**
-     * Set GitHub ID
+     * Set GitHub release ID
      * @param {number} value
      */
     set id(value) {
@@ -515,10 +580,10 @@ export default class Release {
         if (data['assets']) {
             for (const assetData of data['assets']) {
                 const download = new Download(this);
+                download.id = assetData['id'];
                 download.url = assetData['browser_download_url'];
                 download.fileSize = assetData['size'];
                 download.fileName = assetData['name'];
-
                 this.downloads.add(download);
             }
         }
