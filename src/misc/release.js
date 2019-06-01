@@ -1,7 +1,7 @@
 import log from '../utils/log';
 import UrlHashes from '../modules/urlHashes';
 
-class Download {
+class Asset {
     /**
      * @type {Release}
      */
@@ -84,7 +84,7 @@ class Download {
     }
 
     /**
-     * Get GitHub url
+     * Get GitHub download url
      * @returns {string}
      */
     get url() {
@@ -92,7 +92,7 @@ class Download {
     }
 
     /**
-     * Set GitHub url
+     * Set GitHub download url
      * @param {string} value
      */
     set url(value) {
@@ -270,7 +270,7 @@ class Download {
             let hashSum;
             try {
                 hashSum = await UrlHashes.getHash(this.url);
-            } catch(error) {
+            } catch (error) {
                 reject(error);
                 return;
             }
@@ -337,9 +337,9 @@ export default class Release {
     #build;
 
     /**
-     * @type {Set<Download>}
+     * @type {Set<Asset>}
      */
-    #downloads = new Set();
+    #assets = new Set();
 
     /**
      * Get GitHub release ID
@@ -513,79 +513,93 @@ export default class Release {
     }
 
     /**
-     * Get downloads
-     * @returns {Set<Download>}
+     * Get assets
+     * @returns {Set<Asset>}
      */
-    get downloads() {
-        return this.#downloads;
+    get assets() {
+        return this.#assets;
     }
 
     /**
-     * Get downloads by platform
+     * @param {FirebaseFirestore.QueryDocumentSnapshot} snapshot
+     * @returns {Promise<void>}
+     */
+    parseSnapshot(snapshot) {
+        return new Promise(async (resolve, reject) => {
+            const data = snapshot.data();
+            this.#id = data['id'];
+            this.#name = data['name'];
+            this.#version = data['version'];
+            this.#created = data['created'] ? data['created'].toDate() : undefined;
+            this.#published = data['published'] ? data['published'].toDate() : undefined;
+            this.#url = data['url'];
+            this.#notes = data['notes'];
+            this.#branch = data['branch'];
+
+            //Parse assets
+            let assetsSnapshot;
+            try {
+                assetsSnapshot = await snapshot.ref.collection('assets').get();
+            } catch (error) {
+                reject(error);
+                return;
+            }
+
+            this.assets.clear();
+            for (const assetSnapshot of assetsSnapshot.docs) {
+                const assetData = assetSnapshot.data();
+
+                const asset = new Asset();
+                asset.id = assetData['id'];
+                asset.url = assetData['url'];
+                asset.fileSize = assetData['fileSize'];
+                asset.fileName = assetData['fileName'];
+                this.assets.add(asset);
+            }
+
+            resolve();
+        });
+    }
+
+    /**
+     * Get assets by platform
      * @param {string} platform
-     * @returns {Set<Download>}
+     * @returns {Set<Asset>}
      */
-    getDownloadsByPlatform(platform) {
+    getAssetsByPlatform(platform) {
         const output = new Set();
-        for (const download of this.downloads) {
-            if (download.platform === platform)
-                output.add(download);
+        for (const asset of this.assets) {
+            if (asset.platform === platform)
+                output.add(asset);
         }
         return output;
     }
 
     /**
-     * Get downloads by category
+     * Get assets by category
      * @param {string} category
-     * @returns {Set<Download>}
+     * @returns {Set<Asset>}
      */
-    getDownloadsByCategory(category) {
+    getAssetsByCategory(category) {
         const output = new Set();
-        for (const download of this.downloads) {
-            if (download.category === category)
-                output.add(download);
+        for (const asset of this.assets) {
+            if (asset.category === category)
+                output.add(asset);
         }
         return output;
     }
 
     /**
-     * Get download by flavour id
+     * Get asset by flavour id
      * @deprecated
      * @param {number} flavourId
-     * @returns {Download}
+     * @returns {Asset}
      */
-    getDownloadByFlavourId(flavourId) {
-        for (const download of this.downloads) {
-            if (download.flavourId === flavourId)
-                return download;
+    getAssetByFlavourId(flavourId) {
+        for (const asset of this.assets) {
+            if (asset.flavourId === flavourId)
+                return asset;
         }
         return undefined;
-    }
-
-    /**
-     * Parse API data
-     * @param {object} data
-     */
-    parseGitHubAPIReleaseData(data) {
-        this.id = data['id'];
-        this.name = data['name'];
-        this.version = data['tag_name'];
-        this.created = data['created_at'];
-        this.published = data['published_at'];
-        this.url = data['html_url'];
-        this.notes = data['body'];
-        this.branch = 'releases';
-
-        //Parse assets
-        if (data['assets']) {
-            for (const assetData of data['assets']) {
-                const download = new Download(this);
-                download.id = assetData['id'];
-                download.url = assetData['browser_download_url'];
-                download.fileSize = assetData['size'];
-                download.fileName = assetData['name'];
-                this.downloads.add(download);
-            }
-        }
     }
 }

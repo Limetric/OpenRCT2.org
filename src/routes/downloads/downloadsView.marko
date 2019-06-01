@@ -61,7 +61,7 @@ $ {
     };
 }
     <for|categoryIdentifier, category| in=categories>
-$ const downloads = data.release.getDownloadsByCategory(categoryIdentifier)
+$ const downloads = data.release.getAssetsByCategory(categoryIdentifier)
         <if(downloads.size)>
             <h2>$!{category.icon ? `<img src="/assets/images/icons/${category.icon}" class="icon">` : ''}${category.name} downloads</h2>
             <table>

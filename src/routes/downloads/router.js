@@ -1,6 +1,6 @@
 import log from '../../utils/log';
 import HTTPServer from '../../http/';
-import Releases from '../../modules/releases/';
+import Releases from '../../misc/releases';
 
 export default class DownloadsRouter {
     #router;
@@ -15,13 +15,11 @@ export default class DownloadsRouter {
         router.get('/', async (req, res) => {
             let lastRelease;
             try {
-                lastRelease = Releases.last;
+                lastRelease = await Releases.getLastByBranch('releases');
             } catch (error) {
                 log.warn(error);
                 lastRelease = {};
             }
-
-            //log.debug('lastRelease', lastRelease);
 
             const template = require('./downloadsIndex.marko');
             res.marko(template, {
@@ -63,11 +61,15 @@ export default class DownloadsRouter {
         router.param('identifier', async (req, res, next, identifier) => {
             let release;
 
-            if (identifier === 'latest') {
-                release = Releases.getLastByBranch(req.params.branch);
-                req.latest = true;
-            } else {
-                release = Releases.getByBranchVersion(req.params.branch, identifier);
+            try {
+                if (identifier === 'latest') {
+                    release = await Releases.getLastByBranch(req.params.branch);
+                    req.latest = true;
+                } else {
+                    release = await Releases.getByBranchVersion(req.params.branch, identifier);
+                }
+            } catch(error) {
+                log.error(error);
             }
 
             if (!release) {

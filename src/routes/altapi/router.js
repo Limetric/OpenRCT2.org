@@ -1,5 +1,5 @@
 import log from '../../utils/log';
-import Releases from '../../modules/releases';
+import Releases from '../../misc/releases';
 
 export default class AltApiRouter {
     #router;
@@ -35,7 +35,12 @@ export default class AltApiRouter {
             return;
         }
 
-        const release = Releases.getLastByBranch(gitBranch);
+        let release;
+        try {
+            release = await Releases.getLastByBranch(gitBranch);
+        } catch(error) {
+            log.warn(error);
+        }
         if (!release) {
             res.json({
                 error: 1,
@@ -44,7 +49,7 @@ export default class AltApiRouter {
             return;
         }
 
-        const download = release.getDownloadByFlavourId(flavourId);
+        const download = release.getAssetByFlavourId(flavourId);
         if (!download) {
             res.json({
                 error: 1,

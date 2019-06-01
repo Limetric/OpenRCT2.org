@@ -10,7 +10,7 @@ console.log('#############################');
 import log from './utils/log';
 import Config from './config';
 import HTTPServer from './http/';
-//import Releases from './modules/releases/';
+import Releases from './modules/releasesParser/';
 
 (async () => {
     log.info(`Current environment: ${Config.environment}`);

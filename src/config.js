@@ -24,9 +24,18 @@ class Config {
         return this.#map.get('http') || {};
     }
 
+    /**
+     * Get firestore configuration
+     * @returns {Object}
+     */
+    get firestore() {
+        return this.#map.get('firestore') || {};
+    }
+
     constructor() {
         this.#load('site');
         this.#load('http');
+        this.#load('firestore');
     }
 
     /**
