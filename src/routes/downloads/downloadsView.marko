@@ -61,24 +61,25 @@ $ {
     };
 }
     <for|categoryIdentifier, category| in=categories>
-$ const downloads = data.release.getAssetsByCategory(categoryIdentifier)
-        <if(downloads.size)>
+$ const assets = data.release.getAssetsByCategory(categoryIdentifier)
+        <if(assets.size)>
             <h2>$!{category.icon ? `<img src="/assets/images/icons/${category.icon}" class="icon">` : ''}${category.name} downloads</h2>
             <table>
                 <thead>
                     <tr>
                         <td>Variant</td>
                         <td>Filename</td>
+                        <td>SHA-256 Checksum</td>
                         <td>File Size</td>
                     </tr>
                 </thead>
                 <tbody>
-            <for|download| of=downloads>
+            <for|asset| of=assets>
                     <tr>
-                        <td>${download.platform ? download.platform.charAt(0).toUpperCase() + download.platform.slice(1) : ''} ${download.architecture} ${download.title}</td>
-                        <td><a href=download.url title=`Download ${download.fileName}` class="monospace">${download.fileName}</a></td>
-                        <!--<td title="SHA-256 checksum: ${download.fileHash}"><span class="monospace">${download.fileHashShort}</span>…</td>-->
-                        <td>${formatBytes(download.fileSize)}</td>
+                        <td>${asset.platform ? asset.platform.charAt(0).toUpperCase() + asset.platform.slice(1) : ''} ${asset.architecture} ${asset.title}</td>
+                        <td><a href=asset.url title=`Download ${asset.fileName}` class="monospace">${asset.fileName}</a></td>
+                        <td title=`SHA-256 checksum: ${asset.fileHash}`><span class="monospace">${asset.fileHash.substr(0, 7)}</span>…</td>
+                        <td>${formatBytes(asset.fileSize)}</td>
                     </tr>
             </for>
                 </tbody>

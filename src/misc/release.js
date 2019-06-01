@@ -1,6 +1,3 @@
-import log from '../utils/log';
-import UrlHashes from '../modules/urlHashes';
-
 class Asset {
     /**
      * @type {Release}
@@ -252,37 +249,15 @@ class Asset {
     }
 
     /**
-     * Get file hash sum
-     * @returns {Promise<string>}
+     * Get file SHA-256 hash sum
+     * @returns {string}
      */
     get fileHash() {
-        return new Promise(async (resolve, reject) => {
-            if (this.#fileHash) {
-                resolve(this.#fileHash);
-                return;
-            }
-
-            if (!this.url) {
-                reject(new Error('No url to get file hash from'));
-                return;
-            }
-
-            let hashSum;
-            try {
-                hashSum = await UrlHashes.getHash(this.url);
-            } catch (error) {
-                reject(error);
-                return;
-            }
-
-            this.fileHash = hashSum;
-
-            resolve(hashSum);
-        });
+        return this.#fileHash;
     }
 
     /**
-     * Set file size
+     * Set file SHA-256 hash sum
      * @param {string} fileHash
      */
     set fileHash(fileHash) {
@@ -554,6 +529,7 @@ export default class Release {
                 asset.url = assetData['url'];
                 asset.fileSize = assetData['fileSize'];
                 asset.fileName = assetData['fileName'];
+                asset.fileHash = assetData['fileHash'];
                 this.assets.add(asset);
             }
 

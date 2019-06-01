@@ -1,6 +1,7 @@
 import RPN from 'request-promise-native';
 import log from '../../utils/log';
 import Firestore from '../../misc/firestore';
+import UrlHandler from '../urlHandler';
 
 export default class ReleasesParser {
     /**
@@ -96,11 +97,13 @@ export default class ReleasesParser {
                     try {
                         const assetResult = await assetDocRef.get();
                         if (!assetResult.exists) {
+                            const url = assetData['browser_download_url'];
                             await assetDocRef.set({
                                 id: assetData['id'],
-                                url: assetData['browser_download_url'],
+                                url,
                                 fileSize: assetData['size'],
-                                fileName: assetData['name']
+                                fileName: assetData['name'],
+                                fileHash: await UrlHandler.getHash(url)
                             });
                         }
                     } catch (error) {
