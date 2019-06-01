@@ -14,7 +14,7 @@ export default class AltApiRouter {
      * @param res
      * @returns {void}
      */
-    async getLatestDownload(req, res) {
+    async #getLatestDownload(req, res) {
         let gitBranch = req.body['gitBranch'] || req.query['gitBranch'];
         if (gitBranch === 'master')
             gitBranch = 'releases';
@@ -44,13 +44,13 @@ export default class AltApiRouter {
         if (!release) {
             res.json({
                 error: 1,
-                errorMessage: 'Error. Develop downloads will be fixed on Thursday.'
+                errorMessage: 'Error. Develop downloads will be fixed soon.'
             });
             return;
         }
 
-        const download = release.getAssetByFlavourId(flavourId);
-        if (!download) {
+        const asset = release.getAssetByFlavourId(flavourId);
+        if (!asset) {
             res.json({
                 error: 1,
                 errorMessage: 'No download available.'
@@ -58,19 +58,12 @@ export default class AltApiRouter {
             return;
         }
 
-        let fileHash;
-        try {
-            fileHash = await download.fileHash
-        } catch(error) {
-            log.warn(error);
-        }
-
         res.json({
             buildId: release.id,
             downloadId: release.id,
-            fileSize: download.fileSize,
-            url: download.url,
-            fileHash,
+            fileSize: asset.fileSize,
+            url: asset.url,
+            fileHash: asset.fileHash,
             //gitHash: '',
             //gitHashShort: '',
             addedTime: release.published,
@@ -90,7 +83,7 @@ export default class AltApiRouter {
                     errorMessage: 'Pushing is currently disabled.'
                 });
             } else if (command === 'get-latest-download') {
-                this.getLatestDownload(req, res);
+                this.#getLatestDownload(req, res);
             } else {
                 res.json({
                     error: 1,
