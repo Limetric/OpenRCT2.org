@@ -15,12 +15,14 @@
 runtime: nodejs10
 
 instance_class: F1
+default_expiration: "7d"
 
 handlers:
   - url: /assets
     static_dir: public/assets
 
   - url: /resources
+    expiration: "48h"
     static_dir: public/resources
 
   - url: /.*
