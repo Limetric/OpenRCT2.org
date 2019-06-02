@@ -26,7 +26,7 @@ export default class ChangelogRouter {
                 if (!snapshot.empty) {
                     for (const doc of snapshot.docs) {
                         const docData = doc.data();
-                        const updated = docData['updated'];
+                        const updated = docData['updated'] ? docData['updated'].toDate() : undefined;
                         if (updated instanceof Date && (!lastUpdated || updated > lastUpdated))
                             lastUpdated = updated;
 
