@@ -1,6 +1,5 @@
 import HTTPServer from '../../http/';
 import log from '../../utils/log';
-import Changelog from '../../modules/changelog/';
 
 export default class ChangelogRouter {
     #router;
@@ -15,8 +14,8 @@ export default class ChangelogRouter {
             let changelog;
             let modifiedDate;
             try {
-                changelog = await Changelog.content;
-                modifiedDate = await Changelog.modifiedDate;
+                changelog; //= await Changelog.content;
+                modifiedDate; //= await Changelog.modifiedDate;
             } catch (error) {
                 log.error(error);
 

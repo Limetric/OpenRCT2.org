@@ -2,20 +2,19 @@ import RPN from 'request-promise-native';
 import log from '../../utils/log';
 import Firestore from '../../misc/firestore';
 import UrlHandler from '../urlHandler';
+import FirestoreUtils from '../../utils/firestore';
 
 export default class ReleasesParser {
     /**
-     * Fetch GitHub API
-     * @param {boolean} [forceParse=false]
+     * Check for new releases
      * @returns {void}
      */
-    static async fetch(forceParse) {
+    static async checkUpdate() {
         //Schedule next fetch
-        setTimeout(this.fetch.bind(this), 3600 * 1000);
+        setTimeout(this.checkUpdate.bind(this), 3600 * 1000);
 
         const options = {
             url: 'https://api.github.com/repos/OpenRCT2/OpenRCT2/releases',
-            qs: {},
             json: true,
             headers: {
                 'User-Agent': 'OpenRCT2.org'
@@ -27,6 +26,7 @@ export default class ReleasesParser {
             await this.parse(jsonData);
         } catch (error) {
             log.error(error);
+            return;
         }
 
         log.debug('Fetched releases');
@@ -57,15 +57,21 @@ export default class ReleasesParser {
     }
 
     /**
+     * @type {FirebaseFirestore.CollectionReference}
+     */
+    static #collection = Firestore.collection('releases');
+
+    /**
      * Parse release data
      * @param data
+     * @returns {Promise<void>}
      */
     static async parseReleaseData(data) {
         return new Promise(async (resolve, reject) => {
             const branch = 'releases';
 
             const docPath = `${branch}-${data['id']}`;
-            const releaseDoc = Firestore.collection('releases').doc(docPath);
+            const releaseDoc = this.#collection.doc(docPath);
             try {
                 if (!(await releaseDoc.get()).exists) {
                     await releaseDoc.set({
@@ -113,7 +119,7 @@ export default class ReleasesParser {
             } else {
                 //Delete all documents from collection
                 try {
-                    await Firestore.deleteCollection(assetsCol, 10);
+                    await FirestoreUtils.deleteCollection(assetsCol, 10);
                 } catch (error) {
                     log.warn(error);
                 }
@@ -124,5 +130,3 @@ export default class ReleasesParser {
         });
     }
 }
-
-ReleasesParser.fetch(true);

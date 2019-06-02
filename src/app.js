@@ -10,10 +10,14 @@ console.log('#############################');
 import log from './utils/log';
 import Config from './config';
 import HTTPServer from './http/';
-import Releases from './modules/releasesParser/';
+import ReleasesParser from './modules/releasesParser/';
+import ChangelogParser from './modules/changelogParser/';
 
 (async () => {
     log.info(`Current environment: ${Config.environment}`);
+
+    ReleasesParser.checkUpdate();
+    ChangelogParser.checkUpdate();
 
     try {
         await HTTPServer.instance.listen();

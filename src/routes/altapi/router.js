@@ -58,7 +58,7 @@ export default class AltApiRouter {
             return;
         }
 
-        const supportsRedirects = req.body['redirects'] || req.query['redirects'];
+        const supportsRedirects = typeof(req.body['redirects']) !== 'undefined' || typeof(req.query['redirects']) !== 'undefined';
         let url = asset.url;
         if (!supportsRedirects) {
             try {

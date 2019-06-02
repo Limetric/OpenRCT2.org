@@ -1,4 +1,6 @@
 import HTTPServer from '../http/';
+import log from '../utils/log';
+import Config from '../config';
 
 export default class StaticRouter {
     #router;
@@ -63,6 +65,12 @@ export default class StaticRouter {
                     path: HTTPServer.getExpressPath(req.baseUrl, req.path)
                 }
             });
+        });
+
+        //Redirect legacy forums links to new ones
+        const forumsPath = '/forums';
+        router.get([forumsPath, `${forumsPath}*`], (req, res, next) => {
+            res.redirect(301, `${Config.site['forumsPublicUrl']}${req.url.substring(forumsPath.length)}`);
         });
     }
 }
