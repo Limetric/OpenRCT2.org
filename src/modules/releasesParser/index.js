@@ -14,7 +14,7 @@ export default class ReleasesParser {
         setTimeout(this.fetch.bind(this), 3600 * 1000);
 
         const options = {
-            uri: 'https://api.github.com/repos/OpenRCT2/OpenRCT2/releases',
+            url: 'https://api.github.com/repos/OpenRCT2/OpenRCT2/releases',
             qs: {},
             json: true,
             headers: {

@@ -1,3 +1,6 @@
+import Request from 'request';
+import log from '../utils/log';
+
 class Asset {
     /**
      * @type {Release}
@@ -86,6 +89,37 @@ class Asset {
      */
     get url() {
         return this.#url;
+    }
+
+    /**
+     * Get GitHub redirect less url
+     * @returns {Promise<string>}
+     */
+    get redirlessUrl() {
+        return new Promise(async (resolve, reject) => {
+            if (!this.url) {
+                resolve();
+                return;
+            }
+
+            const options = {
+                url: this.url,
+                followRedirect: false,
+                headers: {
+                    'User-Agent': 'OpenRCT2.org'
+                }
+            };
+
+            //Can't promisify due to 302 status code being interpreted as an error
+            Request(options, (error, response, body) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+
+                resolve(response.headers.location);
+            });
+        });
     }
 
     /**
