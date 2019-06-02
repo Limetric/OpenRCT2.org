@@ -32,10 +32,19 @@ class Config {
         return this.#map.get('firestore') || {};
     }
 
+    /**
+     * Get Alt API configuration
+     * @returns {Object}
+     */
+    get altApi() {
+        return this.#map.get('altApi') || {};
+    }
+
     constructor() {
         this.#load('site');
         this.#load('http');
         this.#load('firestore');
+        this.#load('altApi');
     }
 
     /**
