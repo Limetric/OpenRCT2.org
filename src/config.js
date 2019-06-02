@@ -1,6 +1,5 @@
 import FS from 'fs';
 import Path from 'path';
-import log from './utils/log';
 
 class Config {
     /**
@@ -66,7 +65,7 @@ class Config {
     #load(type) {
         const baseConfigFilePath = Path.join(__dirname, `../config/${type}.json`);
         if (!FS.existsSync(baseConfigFilePath)) {
-            log.error(new Error(`Required config file '${baseConfigFilePath}' is not available`));
+            console.error(new Error(`Required config file '${baseConfigFilePath}' is not available`));
             return;
         }
 
