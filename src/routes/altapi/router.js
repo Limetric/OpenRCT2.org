@@ -58,13 +58,13 @@ export default class AltApiRouter {
             return;
         }
 
-        const redir = req.body['redir'] || req.query['redir'];
-        let redirlessUrl;
-        if (!redir) {
+        const supportsRedirects = req.body['redirects'] || req.query['redirects'];
+        let url = asset.url;
+        if (!supportsRedirects) {
             try {
-                redirlessUrl = await asset.redirlessUrl;
+                url = await asset.redirlessUrl;
             } catch(error) {
-                log.error(error);
+                log.warn(error);
             }
         }
 
@@ -72,7 +72,7 @@ export default class AltApiRouter {
             buildId: release.id,
             downloadId: release.id,
             fileSize: asset.fileSize,
-            url: redir ? asset.url : redirlessUrl,
+            url,
             fileHash: asset.fileHash,
             //gitHash: '',
             //gitHashShort: '',
