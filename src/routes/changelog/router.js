@@ -1,5 +1,6 @@
 import HTTPServer from '../../http/';
 import log from '../../utils/log';
+import Firestore from '../../misc/firestore';
 
 export default class ChangelogRouter {
     #router;
@@ -8,14 +9,35 @@ export default class ChangelogRouter {
         return this.#router;
     }
 
+    /**
+     * @type {FirebaseFirestore.CollectionReference}
+     */
+    #collection = Firestore.collection('changesets');
+
     constructor(httpServer) {
         const router = this.#router = httpServer.newRouter();
         router.get('/', async (req, res, next) => {
-            let changelog;
-            let modifiedDate;
+
+
+            const changelog = [];
+            let lastUpdated;
             try {
-                changelog; //= await Changelog.content;
-                modifiedDate; //= await Changelog.modifiedDate;
+                const snapshot = await this.#collection.orderBy('created', 'desc').get();
+                if (!snapshot.empty) {
+                    for (const doc of snapshot.docs) {
+                        const docData = doc.data();
+                        const updated = docData['updated'];
+                        if (updated instanceof Date && (!lastUpdated || updated > lastUpdated))
+                            lastUpdated = updated;
+
+                        changelog.push({
+                            versionName: docData['versionName'],
+                            changes: docData['changes'],
+                            created: docData['created'],
+                            updated
+                        });
+                    }
+                }
             } catch (error) {
                 log.error(error);
 
@@ -32,7 +54,7 @@ export default class ChangelogRouter {
                     description: 'An overview of all the OpenRCT2 changes over the years.',
                     path: HTTPServer.getExpressPath(req.baseUrl, req.path)
                 },
-                lastUpdate: modifiedDate,
+                lastUpdated,
                 changelog: changelog
             });
         });
