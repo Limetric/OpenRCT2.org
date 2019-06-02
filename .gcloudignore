@@ -1,0 +1,7 @@
+.gcloudignore
+.git
+.gitignore
+src
+frontend
+#!include:.gitignore
+!dist
