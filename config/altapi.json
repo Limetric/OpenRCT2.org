@@ -1,8 +1,10 @@
 {
-  "pushKeys": [
-    {
-      "key": "EXAMPLE-KEY-AWD7cy7axcgh23WDAIJ",
-      "description": "Example key to push builds to AltApi"
-    }
-  ]
+  "accessKeys": {
+    "EXAMPLE-KEY-AWD7cy7axcgh23WDAIJ": "Example key to push builds to AltApi"
+  },
+  "gitHub": {
+    "owner": "Limetric",
+    "repo": "OpenRCT2-binaries",
+    "personalAccessToken": null
+  }
 }
