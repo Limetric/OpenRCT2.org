@@ -81,7 +81,7 @@ export default class HTTPServer extends SingletonClass {
 
     listen() {
         return new Promise((resolve, reject) => {
-            this.#server.listen(Config.http.port, Config.http.address);
+            this.#server.listen(process.env.PORT || Config.http.port, Config.http.address);
             this.#server.on('error', (error) => {
                 if (error.syscall !== 'listen')
                     throw error;

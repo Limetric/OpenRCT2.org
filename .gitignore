@@ -79,5 +79,4 @@ typings/
 .dynamodb/
 
 # Project
-*.marko.js
-dist
+dist/

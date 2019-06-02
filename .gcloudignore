@@ -1,7 +1,8 @@
 .gcloudignore
 .git
 .gitignore
-src
-frontend
+src/
+frontend/
+logs/
 #!include:.gitignore
-!dist
+!dist/
