@@ -76,25 +76,32 @@ export default class HTTPServer extends SingletonClass {
         };
 
         //Find JS and CSS bundles
-        glob(`./public/resources/main.${Config.development ? 'dev' : '*'}.bundle.min.+(js|css)`, (error, files) => {
-            if (error) {
-                log.error(error);
-                return;
-            }
-
-            let jsBundle, cssBundle;
-            for (const file of files) {
-                if (file.includes('.js'))
-                    jsBundle = Path.basename(file);
-                else if (file.includes('.css'))
-                    cssBundle = Path.basename(file);
-            }
-
+        if (Config.development) {
             express.locals.resources = {
-                jsBundle,
-                cssBundle
+                jsBundle: 'main.dev.bundle.min.js',
+                cssBundle: 'main.dev.bundle.min.css'
             };
-        });
+        } else {
+            glob(`./public/resources/main.*.bundle.min.+(js|css)`, (error, files) => {
+                if (error) {
+                    log.error(error);
+                    return;
+                }
+
+                let jsBundle, cssBundle;
+                for (const file of files) {
+                    if (file.includes('.js'))
+                        jsBundle = Path.basename(file);
+                    else if (file.includes('.css'))
+                        cssBundle = Path.basename(file);
+                }
+
+                express.locals.resources = {
+                    jsBundle,
+                    cssBundle
+                };
+            });
+        }
 
         express.locals.author = {
             name: 'OpenRCT2 Webmaster',
@@ -164,6 +171,20 @@ export default class HTTPServer extends SingletonClass {
             } else
                 next();
         });
+
+        //Force use of the main domain
+        if (Config.http['forcePrimaryDomain']) {
+            const primaryDomain = Config.http['primaryDomain'];
+            if (!primaryDomain)
+                log.warn(new Error('Forcing primary domain without specifying'));
+
+            this.express.use((req, res, next) => {
+                if (req.hostname && req.hostname !== primaryDomain)
+                    res.redirect(301, `https://${primaryDomain}${req.url}`);
+                else
+                    next();
+            });
+        }
 
         this.express.use('/', new StaticRouter(this).router);
         this.express.use('/downloads', new DownloadsRouter(this).router);
