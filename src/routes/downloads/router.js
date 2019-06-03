@@ -52,12 +52,6 @@ export default class DownloadsRouter {
             res.redirect(`../releases/${req.params.branch}`);
         });
 
-        //Rewrite legacy `develop` branch links to `development`
-        //Note: `branch` is actually an `identifier`
-        router.get('/develop/:branch', (req, res, next) => {
-            res.redirect(`../development/${req.params.branch}`);
-        });
-
         router.param('identifier', async (req, res, next, identifier) => {
             let release;
 
