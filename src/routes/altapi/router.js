@@ -257,17 +257,25 @@ export default class AltApiRouter {
             }
         }
 
+        let commit = release.commit;
+        let commitShort = release.commitShort;
+        const fileHash = asset.fileHash;
+        //Fake commit hashes based on file hash
+        if (!commit) {
+            commit = fileHash.substring(0, 40);
+            commitShort = commit.substring(0, 7);
+        }
+
         res.json({
             buildId: release.id,
-            downloadId: release.id,
+            downloadId: `${release.version}-${release.branch}-${release.commitShort ? release.commitShort : fileHash.substring(0, 7)}`,
             fileSize: asset.fileSize,
             url,
-            fileHash: asset.fileHash,
-            gitHash: release.commit,
-            gitHashShort: release.commitShort,
+            fileHash,
+            gitHash: commit,
+            gitHashShort: commitShort,
             addedTime: release.published,
             addedTimeUnix: release.published.getTime() / 1000
-            //`downloadFlavour` is used by OpenRCT2Launcher but wasn't in original AltApi
         });
     }
 
