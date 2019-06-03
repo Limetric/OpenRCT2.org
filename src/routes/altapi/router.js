@@ -145,7 +145,8 @@ export default class AltApiRouter {
                     repo: ghConfig['repo'],
                     tag_name: versionName,
                     draft: false,
-                    prerelease: false
+                    prerelease: false,
+                    body: req.body['gitHash']
                 });
             } catch (error) {
                 log.error(error);
