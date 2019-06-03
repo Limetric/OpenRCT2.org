@@ -39,6 +39,17 @@ export default class DownloadsRouter {
             });
         });
 
+        router.get('/demo', (req, res) => {
+            const template = require('./downloadDemo.marko');
+            res.marko(template, {
+                page: {
+                    title: 'Download RCT2 Demo',
+                    description: 'By downloading the free RollerCoaster Tycoon 2 TTP Demo you can play the full OpenRCT2 game.',
+                    path: HTTPServer.getExpressPath(req.baseUrl, req.path)
+                }
+            });
+        });
+
         router.param('branch', (req, res, next, branch) => {
             if (branch.length > 50) {
                 next(new Error('Invalid branch.'));
