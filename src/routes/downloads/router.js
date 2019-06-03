@@ -14,8 +14,10 @@ export default class DownloadsRouter {
 
         router.get('/', async (req, res) => {
             let lastRelease;
+            let lastDevelop;
             try {
                 lastRelease = await Releases.getLastByBranch('releases');
+                lastDevelop = await Releases.getLastByBranch('develop');
             } catch (error) {
                 log.warn(error);
                 lastRelease = {};
@@ -28,7 +30,8 @@ export default class DownloadsRouter {
                     description: 'Downloads for the open-source adaption of RollerCoaster Tycoon 2. Free to download.',
                     path: HTTPServer.getExpressPath(req.baseUrl, req.path)
                 },
-                lastRelease
+                lastRelease,
+                lastDevelop
             });
         });
 
@@ -62,7 +65,7 @@ export default class DownloadsRouter {
                 } else {
                     release = await Releases.getByBranchVersion(req.params.branch, identifier);
                 }
-            } catch(error) {
+            } catch (error) {
                 log.error(error);
             }
 

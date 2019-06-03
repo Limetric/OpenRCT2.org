@@ -31,8 +31,8 @@ import Layout from '../../layouts/layout.marko';
 <main class="downloads downloadsView">
     <h1>${data.latest ? `Latest OpenRCT2 ${data.release.longTitle} download` : `Download OpenRCT2 ${data.release.longTitle}`}</h1>
     <ul>
-        <if(data.release.build)>
-        <li>Build: <a href=`https://github.com/OpenRCT2/OpenRCT2/commit/${data.release.build}` title=`View commit ${data.release.build.substr(0, 7)} on GitHub` rel="nofollow" target="_blank"><span class="monospace">${data.release.build.substr(0, 7)}</span></a></li>
+        <if(data.release.commit)>
+        <li>Build: <a href=`https://github.com/OpenRCT2/OpenRCT2/commit/${data.release.commit}` title=`View commit ${data.release.commitShort} on GitHub` rel="nofollow" target="_blank"><span class="monospace">${data.release.commitShort}</span></a></li>
         </if>
         <li>Available since <span class="fromNow" data-date=data.release.published.toISOString() data-without-suffix="true" data-format="llll">${fromNowDate(data.release.published, true)}</span>: <span class="date" data-date=data.release.published.toISOString() data-format="llll">${formatDate(data.release.published, 'llll')}</span></li>
     </ul>
@@ -76,7 +76,7 @@ $ const assets = data.release.getAssetsByCategory(categoryIdentifier)
                 <tbody>
             <for|asset| of=assets>
                     <tr>
-                        <td>${asset.platform ? asset.platform.charAt(0).toUpperCase() + asset.platform.slice(1) : ''} ${asset.architecture} ${asset.title}</td>
+                        <td>${asset.platform} ${asset.architecture} ${asset.title}</td>
                         <td><a href=asset.url title=`Download ${asset.fileName}` class="monospace">${asset.fileName}</a></td>
                         <td title=`SHA-256 checksum: ${asset.fileHash}`><span class="monospace">${asset.fileHash.substr(0, 7)}</span>…</td>
                         <td>${formatBytes(asset.fileSize)}</td>

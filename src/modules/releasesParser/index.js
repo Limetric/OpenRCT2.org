@@ -3,6 +3,7 @@ import log from '../../utils/log';
 import Firestore from '../../misc/firestore';
 import UrlHandler from '../urlHandler';
 import FirestoreUtils from '../../utils/firestore';
+import StringUtils from '../../utils/string';
 
 export default class ReleasesParser {
     /**
@@ -13,20 +14,29 @@ export default class ReleasesParser {
         //Schedule next fetch
         setTimeout(this.checkUpdate.bind(this), 3600 * 1000);
 
-        const options = {
-            url: 'https://api.github.com/repos/OpenRCT2/OpenRCT2/releases',
-            json: true,
-            headers: {
-                'User-Agent': 'OpenRCT2.org'
-            }
-        };
+        /**
+         * @type {Map<string, string>}
+         */
+        const urls = new Map();
+        urls.set('https://api.github.com/repos/OpenRCT2/OpenRCT2/releases', 'releases');
+        urls.set('https://api.github.com/repos/Limetric/OpenRCT2-binaries/releases', '*');
 
-        try {
-            const jsonData = await RPN(options);
-            await this.parse(jsonData);
-        } catch (error) {
-            log.error(error);
-            return;
+        for (const [url, type] of urls) {
+            const options = {
+                url,
+                json: true,
+                headers: {
+                    'User-Agent': 'OpenRCT2.org'
+                }
+            };
+
+            try {
+                const jsonData = await RPN(options);
+                await this.parse(jsonData, type);
+            } catch (error) {
+                log.error(error);
+                return;
+            }
         }
 
         log.debug('Fetched releases');
@@ -35,9 +45,10 @@ export default class ReleasesParser {
     /**
      * Parse content
      * @param {Object} jsonData
+     * @param {string} type
      * @returns {Promise<void>}
      */
-    static parse(jsonData) {
+    static parse(jsonData, type) {
         return new Promise(async (resolve, reject) => {
             for (const jsonReleaseData of jsonData) {
                 //Skip drafts
@@ -45,8 +56,8 @@ export default class ReleasesParser {
                     continue;
 
                 try {
-                    await this.parseReleaseData(jsonReleaseData);
-                } catch(error) {
+                    await this.parseReleaseData(jsonReleaseData, type);
+                } catch (error) {
                     log.warn(error);
                 }
 
@@ -64,11 +75,32 @@ export default class ReleasesParser {
     /**
      * Parse release data
      * @param data
+     * @param {string} type
      * @returns {Promise<void>}
      */
-    static async parseReleaseData(data) {
+    static async parseReleaseData(data, type) {
         return new Promise(async (resolve, reject) => {
-            const branch = 'releases';
+            let commit;
+            let branch = type;
+            let notes;
+
+            //Get commit and branch from release body
+            if (type === '*') {
+                /**
+                 * @type {string}
+                 */
+                const bodyStr = data['body'];
+                if (typeof (bodyStr) !== 'string' || !bodyStr.includes(';'))
+                    throw new Error('Invalid body');
+
+                const body = bodyStr.split(';');
+                if (body.length !== 2)
+                    throw new Error('Unexpected body length');
+
+                commit = StringUtils.substringBetween(body[0], '`', '`').toLowerCase();
+                branch = StringUtils.substringBetween(body[1], '`', '`').toLowerCase();
+            } else
+                notes = data['body'];
 
             const docPath = `${branch}-${data['id']}`;
             const releaseDoc = this.#collection.doc(docPath);
@@ -76,13 +108,14 @@ export default class ReleasesParser {
                 if (!(await releaseDoc.get()).exists) {
                     await releaseDoc.set({
                         id: data['id'],
-                        name: data['name'],
+                        name: data['name'] ? data['name'] : null,
                         version: data['tag_name'],
-                        created: data['created_at'] ? new Date(data['created_at']) : undefined,
-                        published: data['published_at'] ? new Date(data['published_at']) : undefined,
+                        created: data['created_at'] ? new Date(data['created_at']) : null,
+                        published: data['published_at'] ? new Date(data['published_at']) : null,
                         url: data['html_url'],
-                        notes: data['body'],
-                        branch
+                        commit: commit ? commit : null,
+                        notes: notes ? notes : null,
+                        branch: branch ? branch : null
                     }, {
                         merge: true
                     });
@@ -124,7 +157,6 @@ export default class ReleasesParser {
                     log.warn(error);
                 }
             }
-
 
             resolve();
         });

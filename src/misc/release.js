@@ -1,5 +1,6 @@
 import Request from 'request';
 import log from '../utils/log';
+import StringUtils from '../utils/string';
 
 class Asset {
     /**
@@ -135,9 +136,9 @@ class Asset {
      * @returns {string}
      */
     get category() {
-        let category = this.platform;
+        let category = this.platform.toLowerCase();
 
-        if (this.fileName.includes('-symbols') || this.fileName.includes('-debugsymbols'))
+        if (this.isDebugSymbols)
             category = 'misc';
 
         return category;
@@ -156,13 +157,13 @@ class Asset {
 
         let platform;
         if (this.fileName.includes('-windows'))
-            platform = 'windows';
+            platform = 'Windows';
         else if (this.fileName.includes('-macos'))
-            platform = 'macos';
+            platform = 'macOS';
         else if (this.fileName.includes('-linux'))
-            platform = 'linux';
+            platform = 'Linux';
         else if (this.fileName.includes('-android'))
-            platform = 'android';
+            platform = 'Android';
         else
             platform = 'misc';
 
@@ -222,15 +223,45 @@ class Asset {
             return undefined;
 
         let title;
-        if (this.fileName.includes('-installer'))
+        if (this.isInstaller)
             title = 'Installer';
-        else if (this.fileName.includes('-portable'))
+        else if (this.isPortableZIP)
             title = 'Portable ZIP';
-        else if (this.fileName.includes('-symbols') || this.fileName.includes('-debugsymbols'))
+        else if (this.isDebugSymbols)
             title = 'Debug Symbols';
 
         this.title = title;
         return title;
+    }
+
+    /**
+     * Is installer
+     * @returns {boolean}
+     */
+    get isInstaller() {
+        return this.fileName.includes('-installer') || this.fileName.includes('.exe');
+    }
+
+    /**
+     * Is debug symbols file
+     * @returns {boolean}
+     */
+    get isDebugSymbols() {
+        if (!this.fileName)
+            return false;
+
+        return this.fileName.includes('-symbols') || this.fileName.includes('-debugsymbols');
+    }
+
+    /**
+     * Is portable ZIP file
+     * @returns {boolean}
+     */
+    get isPortableZIP() {
+        if (!this.fileName)
+            return false;
+
+        return this.fileName.includes('-portable') || (this.fileName.includes('.zip') && !this.isDebugSymbols);
     }
 
     /**
@@ -239,20 +270,19 @@ class Asset {
      * @returns {number}
      */
     get flavourId() {
-        const platform = this.category;
+        const category = this.category.toLowerCase();
         const architecture = this.architecture;
-        const title = this.title;
 
-        if (platform === 'windows') {
+        if (category === 'windows') {
             if (architecture === 'x64')
-                return title === 'Portable ZIP' ? 6 : title === 'Installer' ? 7 : 10;
+                return this.isPortableZIP ? 6 : this.isInstaller ? 7 : 10;
             else
-                return title === 'Portable ZIP' ? 1 : title === 'Installer' ? 2 : 5;
-        } else if (platform === 'macos')
+                return this.isPortableZIP ? 1 : this.isInstaller ? 2 : 5;
+        } else if (category === 'macos')
             return 3;
-        else if (platform === 'linux')
+        else if (category === 'linux')
             return architecture === 'x86_64' || architecture === 'x64' ? 9 : 4;
-        else if (platform === 'android')
+        else if (category === 'android')
             return architecture === 'arm' ? 11 : architecture === 'x86' ? 12 : 0;
 
         return 0;
@@ -343,7 +373,7 @@ export default class Release {
     /**
      * @type {string}
      */
-    #build;
+    #commit;
 
     /**
      * @type {Set<Asset>}
@@ -487,19 +517,30 @@ export default class Release {
     }
 
     /**
-     * Get build
+     * Get commit
      * @returns {string}
      */
-    get build() {
-        return this.#build;
+    get commit() {
+        return this.#commit;
     }
 
     /**
-     * Set build
+     * Get commit short
+     * @returns {string}
+     */
+    get commitShort() {
+        if (!this.#commit)
+            return undefined;
+
+        return this.#commit.substr(0, 7);
+    }
+
+    /**
+     * Set commit
      * @param {string} value
      */
-    set build(value) {
-        this.#build = value;
+    set commit(value) {
+        this.#commit = value;
     }
 
     /**
@@ -538,9 +579,16 @@ export default class Release {
             const data = snapshot.data();
             this.#id = data['id'];
             this.#name = data['name'];
-            this.#version = data['version'];
+            /**
+             * @type {string}
+             */
+            let version = data['version'];
+            if (version && version.includes('-'))
+                version = StringUtils.substringBefore(version, '-');
+            this.#version = version;
             this.#created = data['created'] ? data['created'].toDate() : undefined;
             this.#published = data['published'] ? data['published'].toDate() : undefined;
+            this.#commit = data['commit'];
             this.#url = data['url'];
             this.#notes = data['notes'];
             this.#branch = data['branch'];

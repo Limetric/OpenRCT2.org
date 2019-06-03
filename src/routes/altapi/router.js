@@ -146,7 +146,7 @@ export default class AltApiRouter {
                     tag_name: versionName,
                     draft: false,
                     prerelease: false,
-                    body: req.body['gitHash']
+                    body: `\`${req.body['gitHash']}\`;\`${req.body['gitBranch']}\``
                 });
             } catch (error) {
                 log.error(error);
@@ -204,10 +204,10 @@ export default class AltApiRouter {
      * @returns {void}
      */
     static async #getLatestDownload(req, res) {
-        let gitBranch = req.body['gitBranch'] || req.query['gitBranch'];
-        if (gitBranch === 'master')
-            gitBranch = 'releases';
-        if (!gitBranch || !['develop', 'releases'].includes(gitBranch)) {
+        let branch = req.body['gitBranch'] || req.query['gitBranch'];
+        if (branch === 'master')
+            branch = 'releases';
+        if (!branch || !['develop', 'releases'].includes(branch)) {
             res.json({
                 error: 1,
                 errorMessage: 'Invalid branch specified.'
@@ -226,14 +226,14 @@ export default class AltApiRouter {
 
         let release;
         try {
-            release = await Releases.getLastByBranch(gitBranch);
+            release = await Releases.getLastByBranch(branch);
         } catch (error) {
             log.warn(error);
         }
         if (!release) {
             res.json({
                 error: 1,
-                errorMessage: 'Error. Develop downloads will be fixed soon.'
+                errorMessage: 'No branch release available.'
             });
             return;
         }
@@ -263,8 +263,8 @@ export default class AltApiRouter {
             fileSize: asset.fileSize,
             url,
             fileHash: asset.fileHash,
-            //gitHash: '',
-            //gitHashShort: '',
+            gitHash: release.commit,
+            gitHashShort: release.commitShort,
             addedTime: release.published,
             addedTimeUnix: release.published.getTime() / 1000
             //`downloadFlavour` is used by OpenRCT2Launcher but wasn't in original AltApi

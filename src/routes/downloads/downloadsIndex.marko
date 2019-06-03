@@ -31,7 +31,7 @@ $ {
                 <p>Updated often containing latest features and fixes. More popular for online multiplayer.</p>
                 <p class="buttonContainer">
                     <button>Download latest development build</button>
-                    <span>$!{data.latestDevelop ? `${data.latestDevelop.version} build <span class="monospace" title="${data.latestDevelop.gitHash}">${data.latestDevelop.gitHashShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.latestDevelop.addedTime.toISOString()}" data-format="llll">(${fromNowDate(data.latestDevelop.addedTime)})</span>` : 'Last build info unknown'}</span>
+                    <span>$!{data.lastDevelop ? `${data.lastDevelop.version} build <span class="monospace" title="${data.lastDevelop.commit}">${data.lastDevelop.commitShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.lastDevelop.published.toISOString()}" data-format="llll">(${fromNowDate(data.lastDevelop.published)})</span>` : 'Last build info unknown'}</span>
                 </p>
             </a>
         </div>
