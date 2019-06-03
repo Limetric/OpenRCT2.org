@@ -82,6 +82,10 @@ main {
     &:hover {
       color: $body-link-hover-color;
     }
+
+    &.emphasize {
+      font-weight: 600;
+    }
   }
 
   .textCenter {

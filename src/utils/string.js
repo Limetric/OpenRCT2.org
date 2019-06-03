@@ -21,4 +21,13 @@ export default class StringUtils {
     static substringBefore(str, delimiter) {
         return str.substring(0, str.indexOf(delimiter));
     }
+
+    /**
+     * Uppercase first letter
+     * @param {string} str
+     * @returns {string}
+     */
+    static uppercaseFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 }

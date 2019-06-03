@@ -579,13 +579,7 @@ export default class Release {
             const data = snapshot.data();
             this.#id = data['id'];
             this.#name = data['name'];
-            /**
-             * @type {string}
-             */
-            let version = data['version'];
-            if (version && version.includes('-'))
-                version = StringUtils.substringBefore(version, '-');
-            this.#version = version;
+            this.#version = data['version'];
             this.#created = data['created'] ? data['created'].toDate() : undefined;
             this.#published = data['published'] ? data['published'].toDate() : undefined;
             this.#commit = data['commit'];

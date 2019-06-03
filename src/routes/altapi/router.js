@@ -122,7 +122,7 @@ export default class AltApiRouter {
             return;
         }
 
-        const versionName = `v${req.body['version']}-${req.body['gitBranch']}-${req.body['gitHash'].substr(0, 7)}`;
+        const versionName = `v${req.body['version']}-${req.body['gitHash'].substr(0, 7)}`;
 
         const ghConfig = Config.altApi['gitHub'];
 
@@ -226,7 +226,8 @@ export default class AltApiRouter {
 
         let release;
         try {
-            release = await Releases.getLastByBranch(branch);
+            const releases = await Releases.getLastByBranch(branch, 1);
+            release = releases.length ? releases[0] : undefined;
         } catch (error) {
             log.warn(error);
         }

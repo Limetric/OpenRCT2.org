@@ -13,52 +13,39 @@ $ {
     <@body>
 <main class="downloads downloadsIndex">
     <section>
-        <h1>Downloads for OpenRCT2</h1>
+        <h1>OpenRCT2 Downloads</h1>
         <p class="lead">OpenRCT2 has frequent stable releases. However, it is also possible to download unstable <i>development</i> builds and playtest <a href="/changelog" title="Read about the latest features and changes on the changelog page">the latest features and changes</a>.</p>
         <p>Are you a new OpenRCT2 player? Read the <a href="/quickstart">Quickstart Guide</a> to get your OpenRCT2 copy up and running.</p>
         <p>Please note that the original RollerCoaster Tycoon 2 game files are required in order to play OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from <a href="http://www.jdoqocy.com/click-8977721-10912384?url=https%3A%2F%2Fwww.greenmangaming.com%2Fgames%2Frollercoaster-tycoon-2-triple-thrill-pack%2F" target="_blank" rel="nofollow">Green Man Gaming</a>, <a href="https://www.g2a.com/r/openrct2" target="_blank" rel="nofollow">G2A</a> and <a href="http://www.gog.com/game/rollercoaster_tycoon_2" target="_blank" rel="nofollow">GOG</a>.</p>
-        <div class="branchSelection flex">
-            <a href="/downloads/releases/latest" title="Latest release download">
-                <h3>Releases</h3>
-                <p>Throroughly tested releases with minimal bugs and crashes.</p>
-                <p class="buttonContainer">
-                    <button>Download latest release</button>
-                    <span>$!{data.lastRelease ? `${data.lastRelease.version} <span class="fromNow parentheses titleDate" data-date="${data.lastRelease.published.toISOString()}" data-format="llll">(${fromNowDate(data.lastRelease.published)})</span>` : 'Release info currently not available'}</span>
-                </p>
-            </a>
-            <a href="/downloads/develop/latest" title="Latest download in unstable develop branch">
-                <h3>Development builds</h3>
-                <p>Updated often containing latest features and fixes. More popular for online multiplayer.</p>
-                <p class="buttonContainer">
-                    <button>Download latest development build</button>
-                    <span>$!{data.lastDevelop ? `${data.lastDevelop.version} build <span class="monospace" title="${data.lastDevelop.commit}">${data.lastDevelop.commitShort}</span> <span class="fromNow parentheses titleDate" data-date="${data.lastDevelop.published.toISOString()}" data-format="llll">(${fromNowDate(data.lastDevelop.published)})</span>` : 'Last build info unknown'}</span>
-                </p>
-            </a>
-        </div>
-        <!--<h2>Download history</h2>
-        <table>
-            <thead>
-                <tr>
-                    <td>Branch</td>
-                    <td>Version and build hash</td>
-                    <td>Added</td>
-                </tr>
-            </thead>
-            <tbody>
-        <for(download in data.history)>
-                <tr>
-                    <td title="${download.status && download.status !== 'unknown' ? download.status.charAt(0).toUpperCase() + download.status.slice(1) : 'Unknown status'}, ${download.gitHash}" class="status ${download.status}">${download.gitBranch}</td>
-                    <td><a href="/downloads/${download.gitBranch}/${(data.latestDevelop && data.latestDevelop.gitHashShort === download.gitHashShort) || (data.latestMaster && data.latestMaster.gitHashShort === download.gitHashShort) ? 'latest' : download.gitHashShort}" title="Download ${download.version} build ${download.gitHashShort}">${download.version} build <span class="monospace">${download.gitHashShort}</span></a></td>
-                    <td class="fromNow titleDate" data-date="${download.addedTime.toISOString()}" data-format="llll">${fromNowDate(download.addedTime)}</td>
-                </tr>
-        </for>
-            </tbody>
-        </table>-->
-        <h2>Automatic updates</h2>
+        <div class="grid">
+            <if(data.lastRelease)>
+                <div>
+                    <h2>Releases</h2>
+                    <p>Throroughly tested releases with minimal bugs and crashes. ${data.lastRelease.version} released <span class="fromNow titleDate" data-date=data.lastRelease.published.toISOString() data-format="llll">${fromNowDate(data.lastRelease.published)}</span>.</p>
+                    <p class="textCenter">
+                        <a href=`/downloads/${data.lastRelease.branch}/latest` title=`Latest OpenRCT2 ${data.lastRelease.branch} download: ${data.lastRelease.name}` class="emphasize">Download ${data.lastRelease.name}</a><br>
+                        <a href=`/downloads/${data.lastRelease.branch}`>All releases</a>
+                    </p>
+                </div>
+            </if>
+            <if(data.lastDevelop)>
+                <div>
+                    <h2>Development builds</h2>
+                    <p>Updated often containing latest features and fixes. More popular for online multiplayer. Published last build <span class="fromNow titleDate" data-date=data.lastDevelop.published.toISOString() data-format="llll">${fromNowDate(data.lastDevelop.published)}</span>.</p>
+                    <p class="textCenter">
+                        <a href=`/downloads/${data.lastDevelop.branch}/latest` title=`Latest OpenRCT2 ${data.lastDevelop.branch} download: ${data.lastDevelop.name}` class="emphasize">Download ${data.lastDevelop.name}</a><br>
+                        <a href=`/downloads/${data.lastDevelop.branch}`>All recent develop builds</a>
+                    </p>
+                </div>
+            </if>
+            <div>
+                <h2>Automatic updates</h2>
                 <p>The community provides a launcher which auto-updates OpenRCT2 whenever an update is made available.</p>
                 <p class="textCenter">
-                    <a href="https://github.com/LRFLEW/OpenRCT2Launcher/releases/latest" target="_blank">Download launcher for macOS, Windows or Linux</a>
+                    <a href="https://github.com/LRFLEW/OpenRCT2Launcher/releases/latest" target="_blank">Launcher for Windows, macOS or Linux</a>
                 </p>
+            </div>
+            <div>
                 <h2>Linux Packages</h2>
                 <p>Linux packages are provided to make sure you always run the latest develop update of OpenRCT2.</p>
                 <p class="textCenter">
@@ -66,8 +53,10 @@ $ {
                     <a href="https://aur.archlinux.org/packages/openrct2-git" target="_blank">AUR package for Arch</a><br>
                     <a href="https://software.opensuse.org/download.html?project=games&amp;package=openrct2" target="_blank">RPM package for openSUSE</a>
                 </p>
-                <h3>About OpenRCT2</h3>
-                <p>OpenRCT2 is a free open-source remake of RollerCoaster Tycoon 2. The developers have taken the original game, decompiled it and eventually rewrote everything. This allows developers to extend the gameplay, alter the game, and even port the game to other platforms. At this moment, the game is playable on Windows, Linux, macOS and Android.</p>
+            </div>
+        </div>
+        <h3>About OpenRCT2</h3>
+        <p>OpenRCT2 is a free open-source remake of RollerCoaster Tycoon 2. The developers have taken the original game, decompiled it and eventually rewrote everything. This allows developers to extend the gameplay, alter the game, and even port the game to other platforms. At this moment, the game is playable on Windows, Linux, macOS and Android.</p>
     </section>
 </main>
     </@body>

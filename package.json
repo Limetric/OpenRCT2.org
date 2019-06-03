@@ -33,6 +33,7 @@
     "bunyan": "^1.8.12",
     "cookie-parser": "~1.4.4",
     "express": "~4.17.1",
+    "glob": "^7.1.4",
     "jsonfile": "^5.0.0",
     "marko": "^4.17.3",
     "moment": "^2.24.0",

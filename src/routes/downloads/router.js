@@ -1,6 +1,7 @@
 import log from '../../utils/log';
 import HTTPServer from '../../http/';
 import Releases from '../../misc/releases';
+import StringUtils from '../../utils/string';
 
 export default class DownloadsRouter {
     #router;
@@ -16,11 +17,14 @@ export default class DownloadsRouter {
             let lastRelease;
             let lastDevelop;
             try {
-                lastRelease = await Releases.getLastByBranch('releases');
-                lastDevelop = await Releases.getLastByBranch('develop');
+                let releases = await Releases.getLastByBranch('releases', 1);
+                lastRelease = releases.length ? releases[0] : undefined;
+                releases = await Releases.getLastByBranch('develop', 1);
+                lastDevelop = releases.length ? releases[0] : undefined;
             } catch (error) {
                 log.warn(error);
                 lastRelease = {};
+                lastDevelop = {};
             }
 
             const template = require('./downloadsIndex.marko');
@@ -55,12 +59,48 @@ export default class DownloadsRouter {
             res.redirect(`../releases/${req.params.branch}`);
         });
 
+        router.get('/:branch', async (req, res, next) => {
+            /**
+             * @type {string}
+             */
+            const branch = req.params.branch;
+
+            let releases;
+            try {
+                releases = await Releases.getLastByBranch(branch, 30);
+            } catch (error) {
+                log.warn(error);
+                releases = [];
+            }
+
+            if (!releases.length) {
+                const clientError = new Error('Requested branch has no downloads.');
+                clientError.status = '404';
+                next(clientError);
+                return;
+            }
+
+            const uflBranch = StringUtils.uppercaseFirstLetter(branch);
+
+            const template = require('./downloadsBranchIndex.marko');
+            res.marko(template, {
+                page: {
+                    title: `${uflBranch} downloads`,
+                    description: `Latest ${releases.length} OpenRCT2 downloads in the ${uflBranch} branch.`,
+                    path: HTTPServer.getExpressPath(req.baseUrl, req.path)
+                },
+                branch: uflBranch,
+                releases
+            });
+        });
+
         router.param('identifier', async (req, res, next, identifier) => {
             let release;
 
             try {
                 if (identifier === 'latest') {
-                    release = await Releases.getLastByBranch(req.params.branch);
+                    const releases = await Releases.getLastByBranch(req.params.branch, 1);
+                    release = releases.length ? releases[0] : undefined;
                     req.latest = true;
                 } else {
                     release = await Releases.getByBranchVersion(req.params.branch, identifier);

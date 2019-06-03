@@ -11,39 +11,43 @@ export default class Releases {
     /**
      * Get last release by branch
      * @param {string} branch
-     * @returns {Promise<Release>}
+     * @param {number} [limit=1]
+     * @returns {Promise<Release[]>}
      */
-    static getLastByBranch(branch) {
+    static getLastByBranch(branch, limit) {
         return new Promise(async (resolve, reject) => {
+            if (typeof(limit) !== 'number')
+                limit = 1;
+
             /**
              * @type {FirebaseFirestore.QuerySnapshot}
              */
             let releaseDoc;
             try {
-                releaseDoc = await this.#collection.where('branch', '==', branch).orderBy('published', 'desc').limit(1).get()
+                releaseDoc = await this.#collection.where('branch', '==', branch).orderBy('published', 'desc').limit(limit).get()
             } catch(error) {
                 reject(error);
                 return;
             }
 
-            if (releaseDoc.empty || releaseDoc.size !== 1) {
-                resolve();
+            if (releaseDoc.empty) {
+                resolve([]);
                 return;
             }
 
-            const snapshot = releaseDoc.docs[0];
-            if (!snapshot.exists) {
-                resolve();
-                return;
+            const releases = [];
+            for (const snapshot of releaseDoc.docs) {
+                const release = new Release();
+                try {
+                    await release.parseSnapshot(snapshot);
+                } catch(error) {
+                    log.warn(error);
+                    continue;
+                }
+                releases.push(release);
             }
-            const release = new Release();
-            try {
-                await release.parseSnapshot(snapshot);
-            } catch(error) {
-                reject(error);
-                return;
-            }
-            resolve(release);
+
+            resolve(releases);
         });
     }
 

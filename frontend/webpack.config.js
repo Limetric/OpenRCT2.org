@@ -1,27 +1,20 @@
 const path = require('path');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const webpack = require('webpack');
-
 const WebpackNotifierPlugin = require('webpack-notifier');
-
-const bundleName = 'app';
-
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
-module.exports = [];
+const devMode = process.env.NODE_ENV !== 'production';
 
-const distPath = path.resolve(__dirname, `../public/resources`);
-
-module.exports.push({
+module.exports = {
     entry: path.resolve(__dirname, `index.js`),
     mode: process.env.NODE_ENV,
     devtool: 'source-map',
     output: {
-        //filename: '[name].[contenthash].bundle.min.js',
-        filename: '[name].bundle.min.js',
-        path: distPath
+        filename: `[name].${devMode ? 'dev' : '[contenthash]'}.bundle.min.js`,
+        chunkFilename: `[name].${devMode ? 'dev' : '[chunkhash]'}.chunk.min.js`,
+        path: path.resolve(__dirname, `../public/resources`)
     },
     module: {
         rules: [
@@ -43,11 +36,7 @@ module.exports.push({
                     },
                     'postcss-loader',
                     {
-                        loader: 'sass-loader',
-                        options: {
-                            //data: `$brand: ${bundleName};`,
-                            includePaths: [path.resolve(`./frontend/brands/${bundleName}/`)]
-                        }
+                        loader: 'sass-loader'
                     }
                 ]
             }
@@ -55,15 +44,7 @@ module.exports.push({
     },
     plugins: [
         new MomentLocalesPlugin(),
-        /*new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),*/
         new CleanWebpackPlugin({}),
-        new webpack.DefinePlugin({
-            BRAND: JSON.stringify(bundleName),
-        }),
         new BundleAnalyzerPlugin({
             analyzerMode: 'static',
             openAnalyzer: false
@@ -72,7 +53,8 @@ module.exports.push({
             alwaysNotify: true
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].bundle.min.css'
+            filename: `[name].${devMode ? 'dev' : '[hash]'}.bundle.min.css`,
+            chunkFilename: `[name].${devMode ? 'dev' : '[hash]'}.bundle.min.css`
         })
     ],
     optimization: {
@@ -83,4 +65,4 @@ module.exports.push({
     performance: {
         hints: false
     }
-});
+};

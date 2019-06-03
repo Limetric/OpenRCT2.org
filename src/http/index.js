@@ -8,6 +8,7 @@ import DownloadsRouter from '../routes/downloads/router';
 import ChangelogRouter from '../routes/changelog/router';
 import QuickstartRouter from '../routes/quickstart/router';
 import AltApiRouter from '../routes/altapi/router';
+import glob from 'glob';
 
 export default class HTTPServer extends SingletonClass {
     /**
@@ -73,6 +74,28 @@ export default class HTTPServer extends SingletonClass {
             //description: '',
             publicUrl: Config.site['publicUrl']
         };
+
+        //Find JS and CSS bundles
+        glob('./public/resources/main.*.bundle.min.+(js|css)', (error, files) => {
+            if (error) {
+                log.error(error);
+                return;
+            }
+
+            let jsBundle, cssBundle;
+            for (const file of files) {
+                if (file.includes('.js'))
+                    jsBundle = Path.basename(file);
+                else if (file.includes('.css'))
+                    cssBundle = Path.basename(file);
+            }
+
+            express.locals.resources = {
+                jsBundle,
+                cssBundle
+            };
+        });
+
         express.locals.author = {
             name: 'OpenRCT2 Webmaster',
             emailAddress: 'mail@openrct2.org'
@@ -99,7 +122,7 @@ export default class HTTPServer extends SingletonClass {
             });
             this.#server.on('listening', () => {
                 const addr = this.#server.address();
-                const bind = typeof(addr.port) === 'string' ? `pipe ${addr.port}` : `port ${addr.port}`;
+                const bind = typeof (addr.port) === 'string' ? `pipe ${addr.port}` : `port ${addr.port}`;
                 log.info(`Listening on ${addr.address} ${bind} (${addr.family})`);
                 resolve();
             });
@@ -125,7 +148,7 @@ export default class HTTPServer extends SingletonClass {
      * @returns {string}
      */
     static getExpressPath(baseUrl, path) {
-        return baseUrl.replace(/\/$/, '') + path.replace(/\/$/, '')
+        return baseUrl.replace(/\/$/, '') + path.replace(/\/$/, '');
     }
 
     #setupRoutes() {
