@@ -76,7 +76,7 @@ export default class HTTPServer extends SingletonClass {
         };
 
         //Find JS and CSS bundles
-        glob('./public/resources/main.*.bundle.min.+(js|css)', (error, files) => {
+        glob(`./public/resources/main.${Config.development ? 'dev' : '*'}.bundle.min.+(js|css)`, (error, files) => {
             if (error) {
                 log.error(error);
                 return;
