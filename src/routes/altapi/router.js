@@ -248,7 +248,8 @@ export default class AltApiRouter {
             return;
         }
 
-        const supportsRedirects = typeof (req.body['redirects']) !== 'undefined' || typeof (req.query['redirects']) !== 'undefined';
+        //User agent "Mozilla/5.0" is used by launcher, which doesn't support redirect URLs
+        const supportsRedirects = req.get('User-Agent') !== 'Mozilla/5.0' || typeof (req.body['redirects']) !== 'undefined' || typeof (req.query['redirects']) !== 'undefined';
         let url = asset.url;
         if (!supportsRedirects) {
             try {
