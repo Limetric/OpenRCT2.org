@@ -13,10 +13,8 @@
 
 # [START gae_quickstart_yaml]
 runtime: nodejs10
-
 instance_class: F1
 default_expiration: "28d"
-
 handlers:
   - url: /assets
     static_dir: public/assets
