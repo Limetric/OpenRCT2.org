@@ -5,17 +5,17 @@
   "scripts": {
     "watchFrontend": "webpack --watch --config ./frontend/webpack.config.js",
     "buildFrontend": "webpack --config ./frontend/webpack.config.js",
-    "buildServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps --ignore *.marko.js",
-    "watchServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps --ignore *.marko.js --watch",
+    "buildServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps",
+    "watchServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps --watch",
     "build": "npm run buildServer && npm run buildFrontend",
     "deploy": "cross-env-shell NODE_ENV=production npm run build && gcloud app deploy",
     "start": "node dist/app.js",
-    "startMon": "nodemon --ignore frontend/ --ignore data/ --ignore public/resources/ --ignore src/ --ignore *.marko.js dist/app.js | bunyan",
+    "startMon": "nodemon --ignore frontend/ --ignore public/resources/ --ignore src/ dist/app.js | bunyan",
     "watch": "concurrently --prefix \"{time} [{name}]\" --timestamp-format \"HH:mm:ss.SSS\" \"npm:watchServer\" \"npm:startMon\" \"npm:watchFrontend\""
   },
   "author": {
     "name": "Jarno Veuger",
-    "email": "jarno@limetric.com",
+    "email": "jarno+openrct2@limetric.com",
     "url": "https://limetric.com"
   },
   "repository": {
