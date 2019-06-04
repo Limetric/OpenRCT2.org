@@ -1,13 +1,13 @@
-module.exports = {
+module.exports = ({file, options, env}) => ({
     plugins: [
         require('postcss-flexbugs-fixes'),
         require('autoprefixer'),
-        require('cssnano')({
+        env === 'production' ? require('cssnano')({
             preset: ['default', {
                 discardComments: {
                     removeAll: true,
                 }
             }]
-        })
+        }) : undefined
     ]
-};
+});
