@@ -1,12 +1,18 @@
-import log from '../../utils/log';
 import Releases from '../../misc/releases';
-import Multiparty from 'multiparty';
+import Multer from 'multer';
 import Config from '../../config';
 import Octokit from '@octokit/rest';
-import fs from 'fs';
+import log from '../../utils/log';
 
 const octokit = new Octokit({
     auth: Config.altApi['gitHub']['personalAccessToken']
+});
+
+const multer = Multer({
+    storage: Multer.memoryStorage(),
+    limits: {
+        fileSize: 100 * 1024 * 1024
+    }
 });
 
 export default class AltApiRouter {
@@ -33,68 +39,12 @@ export default class AltApiRouter {
     }
 
     /**
-     * Parse form input
-     * @param req
-     * @returns {Promise<void>}
-     */
-    static #parseFormInput(req) {
-        return new Promise((resolve, reject) => {
-            const form = new Multiparty.Form({
-                maxFields: 20
-            });
-            form.parse(req, (error, fields, files) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-
-                //Append form data to body
-                for (const [key, array] of Object.entries(fields)) {
-                    const value = array.length ? array[0] : undefined;
-                    if (!value)
-                        continue;
-
-                    req.body[key] = value;
-                }
-
-                req.body['files'] = [];
-                for (const array of Object.values(files)) {
-                    const file = array.length ? array[0] : undefined;
-                    if (!file)
-                        continue;
-
-                    req.body['files'].push({
-                        filename: file['originalFilename'],
-                        fileSize: file['size'],
-                        path: file['path'],
-                        contentType: file['headers'] ? file['headers']['content-type'] : undefined
-                    });
-                }
-
-                resolve();
-            });
-        });
-    }
-
-    /**
      *
      * @param req
      * @param res
      * @returns {void}
      */
     static async #pushBuild(req, res) {
-        //Parse form input data
-        try {
-            await this.#parseFormInput(req);
-        } catch (error) {
-            log.error(error);
-            res.json({
-                error: 1,
-                errorMessage: 'Failed to parse input'
-            });
-            return;
-        }
-
         //Check input validity
         if (!req.body['key'] || !req.body['version'] || !req.body['gitHash'] || !req.body['gitBranch'] || !req.body['fileName']) {
             res.json({
@@ -105,7 +55,7 @@ export default class AltApiRouter {
         }
 
         //Check for file input
-        if (!req.body['files'].length) {
+        if (!req.file) {
             res.json({
                 error: 1,
                 errorMessage: 'Invalid file input'
@@ -126,6 +76,7 @@ export default class AltApiRouter {
 
         const ghConfig = Config.altApi['gitHub'];
 
+        //Get releases by version name
         let ghRelease;
         try {
             ghRelease = await octokit.repos.getReleaseByTag({
@@ -138,6 +89,7 @@ export default class AltApiRouter {
             log.debug(error);
         }
 
+        //Create release if it doesn't exist
         if (!ghRelease || !ghRelease.data) {
             try {
                 ghRelease = await octokit.repos.createRelease({
@@ -161,24 +113,16 @@ export default class AltApiRouter {
             log.debug(`Using existing '${versionName}' GitHub release`);
 
         const uploadUrl = ghRelease && ghRelease.data ? ghRelease.data['upload_url'] : undefined;
-        const file = req.body['files'][0];
 
         try {
-            file.content = await new Promise((resolve, reject) => {
-                fs.readFile(file['path'], (error, data) => {
-                    if (error)
-                        reject(error);
-                    else
-                        resolve(data);
-                });
-            });
+            //Upload asset to GitHub
             await octokit.repos.uploadReleaseAsset({
                 url: uploadUrl,
                 name: req.body['fileName'],
-                file: file.content,
+                file: req.file.buffer,
                 headers: {
-                    'content-length': file.fileSize,
-                    'content-type': file.contentType
+                    'content-length': req.file.size,
+                    'content-type': req.file.mimetype
                 }
             });
         } catch (error) {
@@ -283,7 +227,7 @@ export default class AltApiRouter {
 
     constructor(httpServer) {
         const router = this.#router = httpServer.newRouter();
-        router.all('/', async (req, res, next) => {
+        router.all('/', multer.single('file'), async (req, res, next) => {
             const command = req.body['command'] || req.query['command'];
 
             if (command === 'push-build') {

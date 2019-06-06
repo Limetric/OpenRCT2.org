@@ -64,5 +64,11 @@ module.exports = {
     },
     performance: {
         hints: false
+    },
+    stats: {
+        assets: false,
+        chunks: false,
+        children: false,
+        modules: false
     }
 };

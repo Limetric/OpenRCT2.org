@@ -24,11 +24,11 @@ class Config {
     }
 
     /**
-     * Get firestore configuration
+     * Get cloud configuration
      * @returns {Object}
      */
-    get firestore() {
-        return this.#map.get('firestore') || {};
+    get cloud() {
+        return this.#map.get('cloud') || {};
     }
 
     /**
@@ -42,7 +42,7 @@ class Config {
     constructor() {
         this.#load('site');
         this.#load('http');
-        this.#load('firestore');
+        this.#load('cloud');
         this.#load('altApi');
     }
 
