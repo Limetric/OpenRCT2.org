@@ -10,7 +10,7 @@
     "build": "npm run buildServer && npm run buildFrontend",
     "deploy": "npm run build && gcloud app deploy",
     "start": "node dist/app.js",
-    "startMon": "nodemon -e js,marko --watch dist dist/app.js | bunyan",
+    "startMon": "nodemon -e js,marko,json --watch dist --watch config dist/app.js | bunyan",
     "watch": "concurrently --prefix \"{time} [{name}]\" --timestamp-format \"HH:mm:ss.SSS\" \"npm:watchServer\" \"npm:startMon\" \"npm:watchFrontend\""
   },
   "author": {
