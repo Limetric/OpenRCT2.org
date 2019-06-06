@@ -3,6 +3,7 @@ import Multer from 'multer';
 import Config from '../../config';
 import Octokit from '@octokit/rest';
 import log from '../../utils/log';
+import rpn from 'request-promise-native';
 
 const octokit = new Octokit({
     auth: Config.altApi['gitHub']['personalAccessToken']
@@ -55,10 +56,10 @@ export default class AltApiRouter {
         }
 
         //Check for file input
-        if (!req.file) {
+        if (!req.file && !req.body['url']) {
             res.json({
                 error: 1,
-                errorMessage: 'Invalid file input'
+                errorMessage: 'Invalid file/url input'
             });
             return;
         }
@@ -115,14 +116,19 @@ export default class AltApiRouter {
         const uploadUrl = ghRelease && ghRelease.data ? ghRelease.data['upload_url'] : undefined;
 
         try {
+            const fileBuffer = req.file ? req.file.buffer : await rpn({
+                url: req.body['url'],
+                encoding: null
+            });
+
             //Upload asset to GitHub
             await octokit.repos.uploadReleaseAsset({
                 url: uploadUrl,
                 name: req.body['fileName'],
-                file: req.file.buffer,
+                file: fileBuffer,
                 headers: {
-                    'content-length': req.file.size,
-                    'content-type': req.file.mimetype
+                    'content-length': req.file ? req.file.size : Buffer.byteLength(fileBuffer),
+                    'content-type': req.file ? req.file.mimetype : 'application/octet-stream'
                 }
             });
         } catch (error) {
@@ -227,7 +233,7 @@ export default class AltApiRouter {
 
     constructor(httpServer) {
         const router = this.#router = httpServer.newRouter();
-        router.all('/', multer.single('file'), async (req, res, next) => {
+        router.all('/', multer.single('file'), async (req, res) => {
             const command = req.body['command'] || req.query['command'];
 
             if (command === 'push-build') {
