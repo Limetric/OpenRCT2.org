@@ -1,5 +1,4 @@
 import HTTPServer from '../http/';
-import log from '../utils/log';
 import Config from '../config';
 
 export default class StaticRouter {

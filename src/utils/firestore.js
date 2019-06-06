@@ -41,7 +41,7 @@ export default class FirestoreUtils {
             // Recurse on the next process tick, to avoid
             // exploding the stack.
             process.nextTick(() => {
-                deleteQueryBatch(db, query, batchSize, resolve, reject);
+                this.#deleteQueryBatch(db, query, batchSize, resolve, reject);
             });
         })
             .catch(reject);
