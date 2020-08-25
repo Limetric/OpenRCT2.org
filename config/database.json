@@ -1,0 +1,5 @@
+{
+  "connectionLimit": 15,
+  "debug": false,
+  "timezone": "local"
+}

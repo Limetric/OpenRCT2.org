@@ -1,0 +1,10 @@
+{
+  "accessKeys": {
+    "AAZ7cTrd9jtGV5gcSjL6jn9At74A2EwpUxU3AEXRLrdWLvE5": "Example key"
+  },
+  "gitHub": {
+    "owner": "Limetric",
+    "repo": "OpenRCT2-binaries",
+    "personalAccessToken": null
+  }
+}
