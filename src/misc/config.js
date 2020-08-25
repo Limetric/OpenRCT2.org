@@ -15,11 +15,7 @@ export default class Config {
    * @returns {object} Config
    */
   static get(type) {
-    const config = this.#map.get(type) ?? this.#load(type);
-    if (typeof (config) !== 'object') {
-      throw new Error(`Unable to load config '${type}'`);
-    }
-    return config;
+    return this.#map.get(type) ?? this.#load(type);
   }
 
   /**
@@ -49,23 +45,28 @@ export default class Config {
   static #load(type) {
     const baseConfigFilePath = path.join(__dirname, `../../config/${type}.json`);
     if (!fs.existsSync(baseConfigFilePath)) {
-      console.error(new Error(`Required config file '${baseConfigFilePath}' is not available`));
-      return undefined;
+      throw new Error(`Required config file '${baseConfigFilePath}' is not available`);
     }
 
     const config = require(baseConfigFilePath);
 
     // Private config
     const privateConfigFilePath = path.join(__dirname, `../../config/${type}.private.json`);
-    if (fs.existsSync(privateConfigFilePath)) { lodash.merge(config, require(privateConfigFilePath)); }
+    if (fs.existsSync(privateConfigFilePath)) {
+      lodash.merge(config, require(privateConfigFilePath));
+    }
 
     // Environment config
     const envConfigFilePath = path.join(__dirname, `../../config/${type}.${this.environment}.json`);
-    if (fs.existsSync(envConfigFilePath)) { lodash.merge(config, require(envConfigFilePath)); }
+    if (fs.existsSync(envConfigFilePath)) {
+      lodash.merge(config, require(envConfigFilePath));
+    }
 
     // Private environment config
     const privateEnvConfigFilePath = path.join(__dirname, `../../config/${type}.${this.environment}.private.json`);
-    if (fs.existsSync(privateEnvConfigFilePath)) { lodash.merge(config, require(privateEnvConfigFilePath)); }
+    if (fs.existsSync(privateEnvConfigFilePath)) {
+      lodash.merge(config, require(privateEnvConfigFilePath));
+    }
 
     this.#map.set(type, config);
     return config;
