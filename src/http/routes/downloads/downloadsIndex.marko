@@ -1,0 +1,89 @@
+import moment from 'moment'
+import Layout from '../../layouts/layout.marko'
+
+$ {
+  const formatDate = (date, format) => {
+    return moment(date).format(format);
+  };
+
+  const fromNowDate = (date, withoutSuffix) => {
+    return moment(date).fromNow(withoutSuffix);
+  };
+}
+<${Layout} ...data>
+  <@body>
+    <main class="downloads downloadsIndex">
+      <section>
+        <h1>OpenRCT2 Downloads</h1>
+        <p class="lead">
+          OpenRCT2 has frequent stable releases. However, it is also possible to download unstable
+          <i>development</i>
+          builds and playtest
+          <a href="/changelog" title="Read about the latest features and changes on the changelog page">the latest features and changes</a>.
+        </p>
+        <p>
+          Are you a new OpenRCT2 player? Read the
+          <a href="/quickstart">Quickstart Guide</a>
+          to get your OpenRCT2 copy up and running.
+        </p>
+        <p>
+          Please note that the original RollerCoaster Tycoon 2 game files are required in order to play OpenRCT2. RCT2, with expansions, is cheap nowadays and can be bought from
+          <a href="https://catchylink.eu/links/OpenRCT2.org/G2A" target="_blank" rel="nofollow">G2A</a>,
+          <a href="https://catchylink.eu/links/OpenRCT2.org/GreenManGaming" target="_blank" rel="nofollow">Green Man Gaming</a>
+          and
+          <a href="https://catchylink.eu/links/OpenRCT2.org/GOG" target="_blank" rel="nofollow">GOG</a>.
+        </p>
+        <div class="grid">
+          <if(data.lastRelease)>
+            <div>
+              <h2>Releases</h2>
+              <p>
+                Thoroughly tested releases with minimal bugs and crashes. ${data.lastRelease.version} released
+                <span class="fromNow titleDate" data-date=data.lastRelease.published.toISOString() data-format="llll">${fromNowDate(data.lastRelease.published)}</span>.
+              </p>
+              <p class="textCenter">
+                <a href=`/downloads/${data.lastRelease.branch}/latest` title=`Latest OpenRCT2 ${data.lastRelease.branch} download: ${data.lastRelease.name}` class="emphasize">Download ${data.lastRelease.name}</a>
+                <br/>
+                <a href=`/downloads/${data.lastRelease.branch}`>All releases</a>
+              </p>
+            </div>
+          </if>
+          <if(data.lastDevelop)>
+            <div>
+              <h2>Development builds</h2>
+              <p>
+                Updated often containing latest features and fixes. More popular for online multiplayer. Published last build
+                <span class="fromNow titleDate" data-date=data.lastDevelop.published.toISOString() data-format="llll">${fromNowDate(data.lastDevelop.published)}</span>.
+              </p>
+              <p class="textCenter">
+                <a href=`/downloads/${data.lastDevelop.branch}/latest` title=`Latest OpenRCT2 ${data.lastDevelop.branch} download: ${data.lastDevelop.name}` class="emphasize">Download ${data.lastDevelop.name}</a>
+                <br/>
+                <a href=`/downloads/${data.lastDevelop.branch}`>All recent develop builds</a>
+              </p>
+            </div>
+          </if>
+          <div>
+            <h2>Automatic updates</h2>
+            <p>The community provides a launcher which auto-updates OpenRCT2 whenever an update is made available.</p>
+            <p class="textCenter">
+              <a href="https://github.com/LRFLEW/OpenRCT2Launcher/releases/latest" target="_blank">Launcher for Windows, macOS or Linux</a>
+            </p>
+          </div>
+          <div>
+            <h2>Linux Packages</h2>
+            <p>Linux packages are provided to make sure you always run the latest develop update of OpenRCT2.</p>
+            <p class="textCenter">
+              <a href="https://launchpad.net/~openrct2/+archive/ubuntu/nightly" target="_blank">PPA package for Ubuntu</a>
+              <br/>
+              <a href="https://aur.archlinux.org/packages/openrct2-git" target="_blank">AUR package for Arch</a>
+              <br/>
+              <a href="https://software.opensuse.org/download.html?project=games&amp;package=openrct2" target="_blank">RPM package for openSUSE</a>
+            </p>
+          </div>
+        </div>
+        <h3>About OpenRCT2</h3>
+        <p>OpenRCT2 is a free open-source remake of RollerCoaster Tycoon 2. The developers have taken the original game, decompiled it and eventually rewrote everything. This allows developers to extend the gameplay, alter the game, and even port the game to other platforms. At this moment, the game is playable on Windows, Linux, macOS and Android.</p>
+      </section>
+    </main>
+  </@body>
+</>

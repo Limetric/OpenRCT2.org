@@ -78,5 +78,8 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+# IntelliJ IDEA
+.idea/
+
 # Project
 dist/

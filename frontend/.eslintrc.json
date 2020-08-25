@@ -1,31 +1,16 @@
 {
-  "root": true,
+  "root": false,
   "env": {
-    "commonjs": true,
-    "browser": true,
-    "es6": true
-  },
-  "extends": "eslint:recommended",
-  "rules": {
-    "indent": [
-      "error",
-      4,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "quotes": [
-      "error",
-      "single",
-      {
-        "allowTemplateLiterals": true
-      }
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
+    "es2020": true,
+    "browser": true
   },
   "globals": {
+    "APP_VERSION": "readonly",
+    "APP_ENVIRONMENT": "readonly",
+    "BRAND": "readonly",
+    "gtag": "readonly"
+  },
+  "rules": {
+    "no-script-url": "warn"
   }
 }

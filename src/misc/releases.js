@@ -1,93 +1,48 @@
-import Firestore from './firestore';
-import log from '../utils/log';
 import Release from './release';
+import Database from './database';
+import log from '../utils/log';
 
 export default class Releases {
-    /**
-     * @type {FirebaseFirestore.CollectionReference}
-     */
-    static #collection = Firestore.collection('releases');
+  /**
+   * Get last release by branch
+   *
+   * @param {string} branch Branch
+   * @param {number} [limit=1] Limit
+   * @returns {Promise<Release[]>} Releases
+   */
+  static async getLastByBranch(branch, limit = 1) {
+    const records = await Database.instance.query('SELECT * FROM `releases` WHERE `branch` = ? ORDER BY `published` DESC LIMIT 0,?', [branch, limit]) ?? [];
 
-    /**
-     * Get last release by branch
-     * @param {string} branch
-     * @param {number} [limit=1]
-     * @returns {Promise<Release[]>}
-     */
-    static getLastByBranch(branch, limit) {
-        return new Promise(async (resolve, reject) => {
-            if (typeof(limit) !== 'number')
-                limit = 1;
-
-            /**
-             * @type {FirebaseFirestore.QuerySnapshot}
-             */
-            let releaseDoc;
-            try {
-                releaseDoc = await this.#collection.where('branch', '==', branch).orderBy('published', 'desc').limit(limit).get()
-            } catch(error) {
-                reject(error);
-                return;
-            }
-
-            if (releaseDoc.empty) {
-                resolve([]);
-                return;
-            }
-
-            const releases = [];
-            for (const snapshot of releaseDoc.docs) {
-                const release = new Release();
-                try {
-                    await release.parseSnapshot(snapshot);
-                } catch(error) {
-                    log.warn(error);
-                    continue;
-                }
-                releases.push(release);
-            }
-
-            resolve(releases);
-        });
+    const releases = [];
+    for (const record of records) {
+      const release = new Release();
+      try {
+        await release.parseRecord(record);
+      } catch (error) {
+        log.warn(error);
+        continue;
+      }
+      releases.push(release);
     }
 
-    /**
-     * Get release by branch and version
-     * @param {string} branch
-     * @param {string} version
-     * @returns {Promise<Release>}
-     */
-    static getByBranchVersion(branch, version) {
-        return new Promise(async (resolve, reject) => {
-            /**
-             * @type {FirebaseFirestore.QuerySnapshot}
-             */
-            let releaseDoc;
-            try {
-                releaseDoc = await this.#collection.where('branch', '==', branch).where('version', '==', version).limit(1).get()
-            } catch(error) {
-                reject(error);
-                return;
-            }
+    return releases;
+  }
 
-            if (releaseDoc.empty || releaseDoc.size !== 1) {
-                resolve();
-                return;
-            }
-
-            const snapshot = releaseDoc.docs[0];
-            if (!snapshot.exists) {
-                resolve();
-                return;
-            }
-            const release = new Release();
-            try {
-                await release.parseSnapshot(snapshot);
-            } catch(error) {
-                reject(error);
-                return;
-            }
-            resolve(release);
-        });
+  /**
+   * Get release by branch and version
+   *
+   * @param {string} branch Branch
+   * @param {string} version Version
+   * @returns {Promise<Release>} Release
+   */
+  static async getByBranchVersion(branch, version) {
+    const record = (await Database.instance.query('SELECT * FROM `releases` WHERE `branch` = ? AND `version` = ? LIMIT 0,1', [branch, version]))?.[0];
+    if (!record) {
+      return undefined;
     }
+
+    const release = new Release();
+    await release.parseRecord(record);
+    return release;
+  }
 }

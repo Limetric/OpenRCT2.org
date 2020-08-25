@@ -1,0 +1,29 @@
+import Layout from '../../layouts/layout.marko'
+
+<${Layout} ...data>
+  <@body>
+    <main>
+      <h1>
+        <img src="/assets/images/icons/apple.svg" alt="Apple icon"/>
+        <span>
+          <b>Install OpenRCT2 on macOS</b> - Quickstart Guide
+        </span>
+      </h1>
+      <h2>Install OpenRCT2</h2>
+      <p>Use the links below to download OpenRCT2. The latest release is a stable, well-tested build, but may have fewer features than the latest development builds. The development builds are analogous to beta versions - they should work, but don't expect everything to be perfect.</p>
+      <p class="flex">
+        <a href="/downloads/releases/latest#macOS" class="button colored" title="Download latest OpenRCT2 release" target="_blank">Download latest release</a>
+        <a href="/downloads/develop/latest#macOS" class="button colored" title="Download latest OpenRCT2 development build" target="_blank">Download latest development build</a>
+      </p>
+      <p>Note: If you wish to play online, it is recommended to download the latest development build, as most servers will be running this; you cannot connect to a server running a different version.</p>
+      <h2>Select your RCT2 game files location</h2>
+      <p>When OpenRCT2 first launches, you will be prompted to select the directory where you installed RollerCoaster Tycoon 2. You can also set the RCT2 path from the command line should you wish - use the command below.</p>
+      <pre class="code">openrct2 set-rct2 /path/to/rct2-install</pre>
+      <h2>End of Quickstart Guide</h2>
+      <p>
+        This concludes the Quickstart Guide. It's time to play OpenRCT2. If you have any questions, don't hesitate to ask for help on
+        <a href="https://forums.openrct2.org">the forums</a>.
+      </p>
+    </main>
+  </@body>
+</>

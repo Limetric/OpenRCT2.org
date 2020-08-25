@@ -1,27 +1,32 @@
-//Babel Polyfill must always be first
-import '@babel/polyfill';
+// Babel Polyfill must always be first
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
-//Display dates and fromNow dates
-import Moment from 'moment';
+// CSS
+import './index.scss';
+
+// Display dates and fromNow dates
+import momentClass from 'moment';
+
 for (const el of document.querySelectorAll('.date')) {
-    const parentheses = el.classList.contains('parentheses');
-    const moment = Moment(new Date(el.dataset.date || el.textContent));
-    const formattedMoment = moment.format(el.dataset.format);
-    el.textContent = (parentheses ? '(' : '') + formattedMoment + (parentheses ? ')' : '');
+  const parentheses = el.classList.contains('parentheses');
+  const moment = momentClass(new Date(el.dataset.date ?? el.textContent));
+  const formattedMoment = moment.format(el.dataset.format);
+  el.textContent = (parentheses ? '(' : '') + formattedMoment + (parentheses ? ')' : '');
 
-    //Set date to element title
-    if (el.classList.contains('titleDate'))
-        el.setAttribute('title', formattedMoment);
+  // Set date to element title
+  if (el.classList.contains('titleDate')) {
+    el.setAttribute('title', formattedMoment);
+  }
 }
 for (const el of document.querySelectorAll('.fromNow')) {
-    const parentheses = el.classList.contains('parentheses');
-    const withoutSuffix = el.dataset.withoutSuffix === true.toString();
-    const moment = Moment(new Date(el.dataset.date || el.textContent));
-    el.textContent = (parentheses ? '(' : '') + moment.fromNow(withoutSuffix) + (parentheses ? ')' : '');
+  const parentheses = el.classList.contains('parentheses');
+  const withoutSuffix = el.dataset.withoutSuffix === true.toString();
+  const moment = momentClass(new Date(el.dataset.date ?? el.textContent));
+  el.textContent = (parentheses ? '(' : '') + moment.fromNow(withoutSuffix) + (parentheses ? ')' : '');
 
-    //Set date to element title
-    if (el.classList.contains('titleDate'))
-        el.setAttribute('title', moment.format(el.dataset.format));
+  // Set date to element title
+  if (el.classList.contains('titleDate')) {
+    el.setAttribute('title', moment.format(el.dataset.format));
+  }
 }
-
-import './index.scss';

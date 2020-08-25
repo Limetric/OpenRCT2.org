@@ -1,7 +1,0 @@
-{
-  "address": null,
-  "port": 4000,
-  "trustProxy": false,
-  "primaryDomain": "example.com",
-  "forcePrimaryDomain": false
-}

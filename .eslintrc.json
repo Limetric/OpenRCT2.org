@@ -1,30 +1,60 @@
 {
   "root": true,
-  "env": {
-    "node": true,
-    "es6": true
+  "parser": "@babel/eslint-parser",
+  "plugins": [
+    "@babel",
+    "promise",
+    "jsdoc"
+  ],
+  "extends": [
+    "airbnb-base",
+    "plugin:jsdoc/recommended",
+    "plugin:promise/recommended"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
   },
-  "extends": "eslint:recommended",
   "rules": {
-    "indent": [
+    "promise/always-return": "off",
+    "max-len": "off",
+    "no-console": "off",
+    "no-restricted-syntax": "off",
+    "import/no-cycle": "off",
+    "no-await-in-loop": "off",
+    "no-plusplus": "off",
+    "class-methods-use-this": "warn",
+    "import/prefer-default-export": "off",
+    "max-classes-per-file": "off",
+    "no-underscore-dangle": "off",
+    "linebreak-style": "off",
+    "no-continue": "off",
+    "dot-notation": "off",
+    "no-param-reassign": "off",
+    "import/no-dynamic-require": "off",
+    "import/no-mutable-exports": "off",
+    "global-require": "off",
+    "prefer-destructuring": [
       "error",
-      4,
       {
-        "SwitchCase": 1
+        "array": false,
+        "object": true
+      },
+      {
+        "enforceForRenamedProperties": false
       }
     ],
-    "quotes": [
-      "error",
-      "single",
-      {
-        "allowTemplateLiterals": true
-      }
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
-  },
-  "globals": {
+    "new-cap": "off",
+    "no-invalid-this": "off",
+    "no-unused-expressions": "off",
+    "object-curly-spacing": "error",
+    "semi": "off",
+    "@babel/new-cap": "error",
+    "@babel/no-invalid-this": "off",
+    "@babel/no-unused-expressions": "error",
+    "@babel/object-curly-spacing": "off",
+    "@babel/semi": "error",
+    "func-names": "off",
+    "space-before-function-paren": "off",
+    "curly": ["error", "all"]
   }
 }

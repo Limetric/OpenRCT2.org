@@ -1,48 +1,78 @@
-import Bunyan from 'bunyan';
-import Config from '../config';
+import * as Sentry from '@sentry/node';
+import { format } from 'util';
+import chalk from 'chalk';
+import { basename } from 'path';
+import { hostname } from 'os';
+import Config from '../misc/config';
 
-const appName = require('../../package').name;
-
-const log = Bunyan.createLogger({
-    name: appName,
-    src: false,
-    streams: []
-});
-
-if (Config.environment === 'development') {
-    log.addStream({
-        type: 'rotating-file',
-        path: 'logs/info.log',
-        level: 'info',
-        period: '1d',
-        count: 5
-    });
-    log.addStream({
-        type: 'rotating-file',
-        path: 'logs/error.log',
-        level: 'warn',
-        period: '1d',
-        count: 5
-    });
-    log.addStream({
-        type: 'rotating-file',
-        path: 'logs/fatal.log',
-        level: 'fatal',
-        period: '1d',
-        count: 5
-    });
+const { dsn } = Config.get('sentry');
+let sentryActive = false;
+if (!Config.development && dsn) {
+  const packageJson = require('../../package');
+  Sentry.init({
+    dsn,
+    release: `v${packageJson.version}`,
+    environment: Config.environment,
+    serverName: `${basename(process.mainModule.filename).slice(0, -3)}@${hostname()}`,
+  });
+  sentryActive = true;
 }
-log.addStream({
-    level: 'warn',
-    stream: process.stderr,
-});
-log.addStream({
-    level: Config.development ? 'trace' : 'info',
-    stream: process.stdout
-});
 
-//Log detailed info about unhandled Promise rejections and uncaught Exceptions
-process.on('unhandledRejection', (reason, p) => log.fatal('Unhandled Rejection at:', p, 'reason:', reason));
-process.on('uncaughtException', error => log.fatal('Uncaught Exception:', error));
+const logLevelColors = {
+  debug: chalk.white,
+  info: chalk.blue,
+  warn: chalk.keyword('orange'),
+  error: chalk.keyword('red'),
+  fatal: chalk.keyword('red').bold,
+};
 
-export default log;
+const Log = {
+  debug: (...args) => {
+    const formattedMessage = format(...args);
+    if (Config.development) {
+      console.debug(logLevelColors.debug('[DEBUG]'), formattedMessage);
+    } else {
+      Sentry.addBreadcrumb({
+        category: 'debug',
+        message: formattedMessage,
+        level: Sentry.Severity.Debug,
+      });
+    }
+  },
+  info: (...args) => {
+    console.debug(logLevelColors.info('[INFO]'), format(...args));
+  },
+  warn: (...args) => {
+    if (sentryActive) {
+      Sentry.captureException(...args);
+    }
+
+    console.warn(logLevelColors.warn('[WARN]'), format(...args));
+  },
+  error: (...args) => {
+    if (sentryActive) {
+      Sentry.captureException(...args);
+    }
+
+    console.warn(logLevelColors.error('[ERROR]'), format(...args));
+  },
+  fatal: (...args) => {
+    if (sentryActive) {
+      Sentry.captureException(...args);
+    }
+
+    console.warn(logLevelColors.fatal('[FATAL]'), format(...args));
+  },
+};
+
+// Display detailed info about Unhandled Promise rejections and Uncaught Exceptions
+process.on('unhandledRejection', (reason) => {
+  if (!reason) {
+    reason = new Error('Unhandled rejection');
+  }
+
+  Log.fatal(reason);
+});
+process.on('uncaughtException', (error) => Log.fatal(error));
+
+export default Log;
