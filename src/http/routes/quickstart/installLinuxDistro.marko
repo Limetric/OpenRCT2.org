@@ -12,14 +12,12 @@ import Layout from '../../layouts/layout.marko'
       <if(data.distroIdentifier === "arch-linux")>
         <h2>Install OpenRCT2</h2>
         <p>
-          If you want to install the latest release - stable, well-tested, but might have fewer features than the latest development build,
-          <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages">install</a>
-          the
+          If you want the release build (some servers use these), install the standard 
           <span class="monospace">
-            <a href="https://aur.archlinux.org/packages/openrct2/">openrct2</a>
+            <a href="https://archlinux.org/packages/community/x86_64/openrct2/">openrct2</a>
           </span>
-          package from the
-          <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository">AUR</a>.
+          package:
+          <pre class="code">sudo pacman -S openrct2</pre>
         </p>
         <p>
           Alternatively, if you want the latest development build,
