@@ -68,11 +68,12 @@ sudo apt-get install openrct2</pre>
       <else-if(data.distroIdentifier === "fedora")>
         <h2>Install dependencies</h2>
         <p>You will need the dependencies to build the game - there is no package for the game as of yet.</p>
-        <pre class="code">sudo dnf install gcc gcc-c++ jansson-devel \\
-SDL2_ttf-devel openssl-devel \\
-speexdsp-devel libcurl-devel libicu-devel \\
-cmake fontconfig-devel freetype-devel \\
-libpng-devel libzip-devel mesa-libGL-devel</pre>
+        <pre class="code">sudo dnf install gcc gcc-c++ json-devel \\
+             openssl-devel SDL2-devel libicu-devel \\
+             speexdsp-devel libcurl-devel \\
+             cmake fontconfig-devel freetype-devel \\
+             libpng-devel libzip-devel mesa-libGL-devel \\
+             duktape-devel</pre>
         <h2>Build the game</h2>
         <pre class="code">git clone --depth=1 https://github.com/OpenRCT2/OpenRCT2.git && cd ./OpenRCT2 && mkdir build && cd build && cmake ../ && make</pre>
         <h2>Set up the files</h2>
