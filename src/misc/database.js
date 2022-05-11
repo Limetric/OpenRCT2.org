@@ -84,6 +84,7 @@ export default class Database extends SingletonClass {
    * @param {*} value Value
    * @returns {*} Escaped value
    */
+  // eslint-disable-next-line class-methods-use-this
   escape(value) {
     return mysql.escape(value);
   }
@@ -94,6 +95,7 @@ export default class Database extends SingletonClass {
    * @param {string} value Column id
    * @returns {string} Escaped column id
    */
+  // eslint-disable-next-line class-methods-use-this
   escapeId(value) {
     return mysql.escapeId(value);
   }
@@ -107,6 +109,7 @@ export default class Database extends SingletonClass {
    * @param {string} [timeZone=local] Setting for time zone to use for Date conversion
    * @returns {string} Formatted SQL string
    */
+  // eslint-disable-next-line class-methods-use-this
   format(sql, values, stringifyObjects = false, timeZone = 'local') {
     return mysql.format(sql, values, stringifyObjects, timeZone);
   }
@@ -117,6 +120,7 @@ export default class Database extends SingletonClass {
    * @param {string} sql The raw SQL
    * @returns {object} Wrapped object
    */
+  // eslint-disable-next-line class-methods-use-this
   raw(sql) {
     return mysql.raw(sql);
   }

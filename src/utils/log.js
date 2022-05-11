@@ -8,7 +8,7 @@ import Config from '../misc/config';
 const {dsn} = Config.get('sentry');
 let sentryActive = false;
 if (!Config.development && dsn) {
-  const packageJson = require('../../package');
+  const packageJson = require('../../package.json');
   Sentry.init({
     dsn,
     release: `v${packageJson.version}`,

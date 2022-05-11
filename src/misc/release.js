@@ -182,15 +182,6 @@ class Asset {
   }
 
   /**
-   * Set GitHub download URL
-   *
-   * @param {string} value Download URL
-   */
-  set url(value) {
-    this.#url = value;
-  }
-
-  /**
    * Get category
    *
    * @returns {string} Category
@@ -251,6 +242,15 @@ class Asset {
    */
   get title() {
     return this.#title;
+  }
+
+  /**
+   * Set title
+   *
+   * @param {string} title Title
+   */
+  set title(title) {
+    this.#title = title;
   }
 
   /**
@@ -328,15 +328,6 @@ class Asset {
     }
 
     return 0;
-  }
-
-  /**
-   * Set title
-   *
-   * @param {string} title Title
-   */
-  set title(title) {
-    this.#title = title;
   }
 
   /**
@@ -595,21 +586,21 @@ export default class Release {
   }
 
   /**
-   * Get commit short
-   *
-   * @returns {string} Commit short
-   */
-  get commitShort() {
-    return this.#commit?.substr(0, 7);
-  }
-
-  /**
    * Set commit
    *
    * @param {string} value Commit hash
    */
   set commit(value) {
     this.#commit = value;
+  }
+
+  /**
+   * Get commit short
+   *
+   * @returns {string} Commit short
+   */
+  get commitShort() {
+    return this.#commit?.substr(0, 7);
   }
 
   /**

@@ -1,7 +1,3 @@
-// Babel Polyfill must always be first
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-
 // CSS
 import './index.scss';
 
