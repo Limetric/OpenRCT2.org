@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: ghcr.io/limetric/openrct2.org:v2
+    image: ghcr.io/limetric/openrct2.org:v3
     volumes:
       - './config:/home/app/config'
     ports:
