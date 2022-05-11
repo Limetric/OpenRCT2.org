@@ -1,15 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ChildProcess = require('child_process');
+// eslint-disable-next-line import/extensions
 const PackageJson = require('../package');
 
-const environment = process.env['NODE_ENV'];
+// Determine environment
+const isCI = !!process.env['CI'];
+const environment = process.env['NODE_ENV'].toLowerCase();
+console.log(`Environment: ${environment}`);
+if (!['production', 'development'].includes(environment)) {
+  throw new Error('Invalid environment');
+}
+const isProduction = environment === 'production';
+
 const devMode = environment !== 'production';
 const tag = process.env['TRAVIS_TAG'];
 
@@ -20,13 +30,15 @@ const outputPath = path.resolve(__dirname, `../public/${bundlePath}/`);
 
 module.exports = {
   entry: path.resolve(__dirname, 'index.js'),
-  mode: environment,
-  devtool: environment === 'production' ? 'hidden-source-map' : 'source-map',
+  mode: 'production',
+  // eslint-disable-next-line no-nested-ternary
+  devtool: isCI ? 'hidden-source-map' : (isProduction ? 'source-map' : 'cheap-module-source-map'),
   output: {
-    filename: `[name].${devMode ? 'dev' : '[contenthash]'}.bundle.min.js`,
-    chunkFilename: '[name].[chunkhash].chunk.min.js',
+    filename: '[name].[contenthash].bundle.min.js',
+    chunkFilename: '[name].[contenthash].chunk.min.js',
     path: outputPath,
-    publicPath: `/${bundlePath}/`,
+    publicPath: 'auto',
+    clean: true,
   },
   module: {
     rules: [
@@ -34,10 +46,12 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+        },
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        // exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -46,17 +60,31 @@ module.exports = {
               importLoaders: 2, // 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
             },
           },
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    autoprefixer(),
+                  ],
+                ],
+              },
+            },
+          },
           {
             loader: 'sass-loader',
           },
         ],
       },
+      {
+        test: /\.svg$/,
+        type: 'asset',
+      },
     ],
   },
   plugins: [
     new MomentLocalesPlugin(),
-    new CleanWebpackPlugin({}),
     new webpack.DefinePlugin({
       APP_ENVIRONMENT: JSON.stringify(environment),
       APP_VERSION: JSON.stringify(bundleVersion),
@@ -65,42 +93,56 @@ module.exports = {
       analyzerMode: 'static',
       openAnalyzer: false,
     }),
+    new CssMinimizerPlugin({
+      minimizerOptions: {
+        preset: [
+          'default',
+          {
+            discardComments: {
+              removeAll: true,
+            },
+          },
+        ],
+      },
+    }),
     new MiniCssExtractPlugin({
-      filename: `[name].${devMode ? 'dev' : '[hash]'}.bundle.min.css`,
-      chunkFilename: '[name].[hash].bundle.min.css',
+      filename: '[name].[contenthash].bundle.min.css',
+      chunkFilename: '[name].[contenthash].chunk.min.css',
     }),
   ],
   optimization: {
-    splitChunks: {
-      // chunks: 'all'
-    },
+    minimize: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          output: {
+          format: {
             comments: false,
           },
         },
-        sourceMap: true,
+        extractComments: false,
       }),
     ],
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   performance: {
     hints: false,
   },
   stats: {
     assets: false,
+    assetsSort: '!size',
     chunks: false,
     children: false,
     modules: false,
   },
 };
 
-if (environment === 'production') {
+if (isCI) {
   module.exports.plugins.push(new SentryWebpackPlugin({
     release: bundleVersion,
     include: outputPath,
-    ignore: ['node_modules', 'webpack.config.js'],
+    ignore: ['node_modules', 'webpack.config.cjs'],
     configFile: './frontend/sentry.properties',
     urlPrefix: `~/${bundlePath}`,
     dryRun: !tag,

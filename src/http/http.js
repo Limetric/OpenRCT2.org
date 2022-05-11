@@ -115,36 +115,29 @@ export default class HTTPServer extends SingletonClass {
     };
 
     // Find JS and CSS bundles
-    if (Config.development) {
-      application.locals.resources = {
-        jsBundle: 'main.dev.bundle.min.js',
-        cssBundle: 'main.dev.bundle.min.css',
-      };
-    } else {
-      const files = await promisify(glob)('./public/resources/main.*.bundle.min.+(js|css)');
+    const files = await promisify(glob)('./public/resources/main.*.bundle.min.+(js|css)');
 
-      /** @type {string} */
-      let jsBundle;
+    /** @type {string} */
+    let jsBundle;
 
-      /** @type {string} */
-      let cssBundle;
-      for (const file of files) {
-        if (file.includes('.js')) {
-          jsBundle = path.basename(file);
-        } else if (file.includes('.css')) {
-          cssBundle = path.basename(file);
-        }
+    /** @type {string} */
+    let cssBundle;
+    for (const file of files) {
+      if (file.includes('.js')) {
+        jsBundle = path.basename(file);
+      } else if (file.includes('.css')) {
+        cssBundle = path.basename(file);
       }
-
-      if (!jsBundle || !cssBundle) {
-        throw new Error('JS and/or CSS bundle(s) invalid');
-      }
-
-      application.locals.resources = {
-        jsBundle,
-        cssBundle,
-      };
     }
+
+    if (!jsBundle || !cssBundle) {
+      throw new Error('JS and/or CSS bundle(s) invalid');
+    }
+
+    application.locals.resources = {
+      jsBundle,
+      cssBundle,
+    };
 
     application.locals.author = {
       name: 'OpenRCT2 Webmaster',
