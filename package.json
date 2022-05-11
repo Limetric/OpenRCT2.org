@@ -7,7 +7,7 @@
     "buildServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps",
     "build": "npm run buildServer && npm run buildFrontend",
     "watch": "nodemon -e js,cjs,marko,json,scss --watch src --watch frontend --watch config --signal SIGKILL --exec \"npm run build && npm start\"",
-    "start": "node dist/app.js",
+    "start": "node --enable-source-maps dist/app.js",
     "test": "eslint --ext .js src/ && eslint --ext .js frontend/"
   },
   "author": {
@@ -40,8 +40,7 @@
     "object-hash": "^2.0.3",
     "regenerator-runtime": "^0.13.7",
     "request": "^2.88.2",
-    "request-promise-native": "^1.0.9",
-    "source-map-support": "^0.5.19"
+    "request-promise-native": "^1.0.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import 'source-map-support/register';
 
 import PackageJson from '../package.json';
 import log from './utils/log';
