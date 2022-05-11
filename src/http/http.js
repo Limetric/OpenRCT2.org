@@ -244,8 +244,15 @@ export default class HTTPServer extends SingletonClass {
   #setupRoutes() {
     const {application} = this;
 
-    application.use('/', express.static(path.join(__dirname, '../..', 'public'), {
-      etag: !Config.development,
+    application.use('/', express.static(path.join(__dirname, '/../../public'), {
+      index: false,
+      cacheControl: false,
+      setHeaders: (res) => {
+        if (!Config.development) {
+          // Cache 7 days
+          res.setHeader('cache-control', 'public, max-age=604800, immutable');
+        }
+      },
     }));
 
     // Redirect trailing slash requests
