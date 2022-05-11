@@ -1,8 +1,7 @@
-import HTTPServer from '../../http';
-import Releases from '../../../misc/releases';
-import StringUtils from '../../../utils/string';
-import log from '../../../utils/log';
-import Release from '../../../misc/release';
+import HTTPServer from '../../http.js';
+import Releases from '../../../misc/releases.js';
+import StringUtils from '../../../utils/string.js';
+import log from '../../../utils/log.js';
 
 export default class DownloadsRouter {
   #router;

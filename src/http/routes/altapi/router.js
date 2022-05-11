@@ -2,11 +2,10 @@ import multer from 'multer';
 import {Request, Response} from 'express';
 import {Octokit} from '@octokit/rest';
 import rpn from 'request-promise-native';
-import Config from '../../../misc/config';
-import Releases from '../../../misc/releases';
-import log from '../../../utils/log';
-import Release from '../../../misc/release';
-import ReleasesParser from '../../../modules/releasesParser';
+import Config from '../../../misc/config.js';
+import Releases from '../../../misc/releases.js';
+import log from '../../../utils/log.js';
+import ReleasesParser from '../../../modules/releasesParser/index.js';
 
 const octokit = new Octokit({
   auth: Config.get('altApi')['gitHub']['personalAccessToken'],

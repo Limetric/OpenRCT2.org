@@ -1,7 +1,7 @@
 import rpn from 'request-promise-native';
 import hash from 'object-hash';
-import Database from '../../misc/database';
-import log from '../../utils/log';
+import Database from '../../misc/database.js';
+import log from '../../utils/log.js';
 
 export default class ChangelogParser {
   /**

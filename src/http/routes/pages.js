@@ -1,5 +1,5 @@
-import HTTPServer from '../http';
-import Config from '../../misc/config';
+import HTTPServer from '../http.js';
+import Config from '../../misc/config.js';
 
 export default class StaticRouter {
   #router;

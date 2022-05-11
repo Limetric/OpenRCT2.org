@@ -1,5 +1,5 @@
-import Database from './database';
-import ReleaseAsset from './releaseAsset';
+import Database from './database.js';
+import ReleaseAsset from './releaseAsset.js';
 
 export default class Release {
   /**

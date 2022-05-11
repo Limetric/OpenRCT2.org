@@ -1,6 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import lodash from 'lodash/object';
+import fs from 'node:fs';
+import path from 'node:path';
+import merge from 'lodash/merge.js';
 
 export default class Config {
   /**
@@ -53,19 +53,19 @@ export default class Config {
     // Private config
     const privateConfigFilePath = path.join(__dirname, `../../config/${type}.private.json`);
     if (fs.existsSync(privateConfigFilePath)) {
-      lodash.merge(config, require(privateConfigFilePath));
+      merge(config, require(privateConfigFilePath));
     }
 
     // Environment config
     const envConfigFilePath = path.join(__dirname, `../../config/${type}.${this.environment}.json`);
     if (fs.existsSync(envConfigFilePath)) {
-      lodash.merge(config, require(envConfigFilePath));
+      merge(config, require(envConfigFilePath));
     }
 
     // Private environment config
     const privateEnvConfigFilePath = path.join(__dirname, `../../config/${type}.${this.environment}.private.json`);
     if (fs.existsSync(privateEnvConfigFilePath)) {
-      lodash.merge(config, require(privateEnvConfigFilePath));
+      merge(config, require(privateEnvConfigFilePath));
     }
 
     this.#map.set(type, config);

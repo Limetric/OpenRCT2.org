@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import PackageJson from '../package.json';
-import log from './utils/log';
-import Config from './misc/config';
-import HTTPServer from './http/http';
-import ReleasesParser from './modules/releasesParser';
-import ChangelogParser from './modules/changelogParser';
+import PackageJson from '../package.json' assert { type: 'json' };
+import log from './utils/log.js';
+import Config from './misc/config.js';
+import HTTPServer from './http/http.js';
+import ReleasesParser from './modules/releasesParser/index.js';
+import ChangelogParser from './modules/changelogParser/index.js';
 
 console.log('#############################');
 console.log(`OpenRCT2.org v${PackageJson.version}`);

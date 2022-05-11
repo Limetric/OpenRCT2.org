@@ -1,8 +1,8 @@
 import rpn from 'request-promise-native';
-import UrlHandler from '../urlHandler';
-import StringUtils from '../../utils/string';
-import Database from '../../misc/database';
-import log from '../../utils/log';
+import UrlHandler from '../urlHandler/index.js';
+import StringUtils from '../../utils/string.js';
+import Database from '../../misc/database.js';
+import log from '../../utils/log.js';
 
 export default class ReleasesParser {
   /**

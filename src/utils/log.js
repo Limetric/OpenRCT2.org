@@ -1,17 +1,17 @@
 import * as Sentry from '@sentry/node';
-import {format} from 'util';
+import {format} from 'node:util';
 import chalk from 'chalk';
-import {basename} from 'path';
-import {hostname} from 'os';
-import Config from '../misc/config';
+import {basename} from 'node:path';
+import {hostname} from 'node:os';
+import Config from '../misc/config.js';
+import PackageJson from '../../package.json' assert { type: 'json' };
 
 const {dsn} = Config.get('sentry');
 let sentryActive = false;
 if (!Config.development && dsn) {
-  const packageJson = require('../../package.json');
   Sentry.init({
     dsn,
-    release: `v${packageJson.version}`,
+    release: `v${PackageJson.version}`,
     environment: Config.environment,
     serverName: `${basename(process.mainModule.filename).slice(0, -3)}@${hostname()}`,
   });

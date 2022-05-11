@@ -1,5 +1,9 @@
 import rpn from 'request-promise-native';
 
+/**
+ * @typedef {import('./release.js').default} Release
+ */
+
 export default class ReleaseAsset {
   /**
    * @type {Release}

@@ -1,5 +1,5 @@
 import Request from 'request';
-import Crypto from 'crypto';
+import Crypto from 'node:crypto';
 
 export default class UrlHandler {
   /**

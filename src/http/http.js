@@ -1,23 +1,23 @@
 import express, {Application, Router} from 'express';
 import glob from 'glob';
-import http from 'http';
-import {promisify} from 'util';
+import http from 'node:http';
+import {promisify} from 'node:util';
 import {Handlers as SentryHandlers} from '@sentry/node';
-import MarkoCompiler from 'marko/compiler';
-import MarkoRequire from 'marko/node-require';
-import markoExpress from 'marko/express';
+import MarkoCompiler from 'marko/compiler.js';
+import MarkoRequire from 'marko/node-require.js';
+import markoExpress from 'marko/express.js';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
-import path from 'path';
-import {unlinkSync} from 'fs';
-import Config from '../misc/config';
-import SingletonClass from '../misc/singletonClass';
-import PagesRouter from './routes/pages';
-import DownloadsRouter from './routes/downloads/router';
-import ChangelogRouter from './routes/changelog/router';
-import QuickstartRouter from './routes/quickstart/router';
-import AltApiRouter from './routes/altapi/router';
-import log from '../utils/log';
+import path from 'node:path';
+import {unlinkSync} from 'node:fs';
+import Config from '../misc/config.js';
+import SingletonClass from '../misc/singletonClass.js';
+import PagesRouter from './routes/pages.js';
+import DownloadsRouter from './routes/downloads/router.js';
+import ChangelogRouter from './routes/changelog/router.js';
+import QuickstartRouter from './routes/quickstart/router.js';
+import AltApiRouter from './routes/altapi/router.js';
+import log from '../utils/log.js';
 
 export default class HTTPServer extends SingletonClass {
   /**

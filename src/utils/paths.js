@@ -1,4 +1,4 @@
-import Path from 'path';
+import Path from 'node:path';
 
 export default class Paths {
   static get data() {

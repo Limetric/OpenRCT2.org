@@ -1,8 +1,7 @@
-import mysql, {Pool} from 'mysql';
-import {promisify} from 'util';
-import SingletonClass from './singletonClass';
-import Config from './config';
-import log from '../utils/log';
+import mysql from 'mysql2/promise';
+import SingletonClass from './singletonClass.js';
+import Config from './config.js';
+import log from '../utils/log.js';
 
 /**
  * Database class
@@ -65,14 +64,14 @@ export default class Database extends SingletonClass {
   }
 
   /**
-   * @type {Pool}
+   * @type {mysql.Pool}
    */
   #pool;
 
   /**
    * Get connection pool
    *
-   * @returns {Pool} Connection pool
+   * @returns {mysql.Pool} Connection pool
    */
   get pool() {
     return this.#pool;
@@ -128,27 +127,23 @@ export default class Database extends SingletonClass {
   /**
    * Query
    *
-   * @param {string} sql SQL statement
+   * @param {string} sqlStatement SQL statement
    * @param {object | Array} [values] Values to insert in SQL statement
    * @returns {Promise<Array>} Records
    */
-  async query(sql, values) {
-    try {
-      return await promisify(this.pool.query).bind(this.pool)(sql, values);
-    } catch (error) {
-      log.info(new Error(`Following query caused error: ${mysql.format(sql, values)}`));
-      throw error;
-    }
+  async query(sqlStatement, values) {
+    const [rows] = await this.pool.query(sqlStatement, values);
+    return rows;
   }
 
   /**
    * Formats a SQL statement with defined inserts
    *
-   * @param {string} sql SQL statement
-   * @param {Array} inserts Values to insert in SQL statement
+   * @param {string} sqlStatement SQL statement
+   * @param {Array} values Values to insert in SQL statement
    * @returns {string} formattedSql Formatted SQL statement
    */
-  static format(sql, inserts) {
-    return mysql.format(sql, inserts);
+  static format(sqlStatement, values) {
+    return mysql.format(sqlStatement, values);
   }
 }

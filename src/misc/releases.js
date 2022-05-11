@@ -1,6 +1,6 @@
-import Release from './release';
-import Database from './database';
-import log from '../utils/log';
+import Release from './release.js';
+import Database from './database.js';
+import log from '../utils/log.js';
 
 export default class Releases {
   /**
