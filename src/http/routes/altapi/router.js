@@ -6,6 +6,7 @@ import Config from '../../../misc/config';
 import Releases from '../../../misc/releases';
 import log from '../../../utils/log';
 import Release from '../../../misc/release';
+import ReleasesParser from '../../../modules/releasesParser';
 
 const octokit = new Octokit({
   auth: Config.get('altApi')['gitHub']['personalAccessToken'],
@@ -130,7 +131,7 @@ export default class AltApiRouter {
       });
 
       // Upload asset to GitHub
-      await octokit.repos.uploadReleaseAsset({
+      const assetData = (await octokit.repos.uploadReleaseAsset({
         owner: ghConfig['owner'],
         repo: ghConfig['repo'],
         release_id: releaseId,
@@ -140,7 +141,16 @@ export default class AltApiRouter {
           'content-length': req.file ? req.file.size : Buffer.byteLength(fileBuffer, 'binary'),
           'content-type': req.file ? req.file.mimetype : 'application/octet-stream',
         },
-      });
+      }))?.['data'];
+
+      // Push asset data to generic release data for lat
+      if (assetData) {
+        if (typeof (ghRelease['assets']) !== 'object') {
+          ghRelease['assets'] = [];
+        }
+
+        ghRelease['assets'].push(assetData);
+      }
     } catch (error) {
       log.error(error);
       res.json({
@@ -151,6 +161,15 @@ export default class AltApiRouter {
     }
 
     log.info(`Processed AltApi asset upload for '${versionName}'`);
+
+    // Work-around for GitHub API issue regarding wrong created_date on read
+    process.nextTick(async () => {
+      try {
+        await ReleasesParser.parseReleaseData(ghRelease, '*');
+      } catch (error) {
+        log.warn(error);
+      }
+    });
 
     res.json({
       message: 'Processed!',
