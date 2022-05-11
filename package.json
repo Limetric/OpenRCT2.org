@@ -1,6 +1,6 @@
 {
   "name": "openrct2.org",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "private": false,
   "scripts": {
     "watchFrontend": "webpack --watch --config ./frontend/webpack.config.js",
