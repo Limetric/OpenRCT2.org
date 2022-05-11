@@ -5,7 +5,6 @@
   "scripts": {
     "watchFrontend": "webpack --watch --config ./frontend/webpack.config.js",
     "buildFrontend": "webpack --config ./frontend/webpack.config.js",
-    "monitorTimeout": "ping 127.0.0.1 -n 8 > nul",
     "buildServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps",
     "watchServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps --watch",
     "build": "npm run buildServer && npm run buildFrontend",
@@ -15,12 +14,12 @@
   },
   "author": {
     "name": "Limetric",
-    "email": "info+openrct2@limetric.com",
+    "email": "openrct2@limetric.email",
     "url": "https://limetric.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JarnoVgr/OpenRCT2.org.git"
+    "url": "https://github.com/Limetric/OpenRCT2.org.git"
   },
   "browserslist": [
     "last 2 iOS versions, last 2 and_ff versions, last 2 ChromeAndroid versions, last 3 safari versions, last 3 chrome versions, last 3 firefox versions, last 3 edge versions, last 3 opera versions, not dead"
