@@ -34,6 +34,11 @@ class Asset {
   /**
    * @type {string}
    */
+  #category;
+
+  /**
+   * @type {string}
+   */
   #architecture;
 
   /**
@@ -85,6 +90,63 @@ class Asset {
    */
   set fileName(fileName) {
     this.#fileName = fileName;
+
+    // Determine platform
+    if (this.fileName.includes('-windows')) {
+      this.platform = 'Windows';
+    } else if (this.fileName.includes('-macos')) {
+      this.platform = 'macOS';
+    } else if (this.fileName.includes('-android')) {
+      this.platform = 'Android';
+    } else if (this.fileName.includes('-jammy')) {
+      this.platform = 'Ubuntu Jammy 22.04';
+      this.category = 'linux'; // Force category
+    } else if (this.fileName.includes('-focal')) {
+      this.platform = 'Ubuntu Focal 20.04';
+      this.category = 'linux'; // Force category
+    } else if (this.fileName.includes('-bionic') || this.fileName.includes('-linux')) {
+      this.platform = 'Ubuntu Bionic 18.04';
+      this.category = 'linux'; // Force category
+    } else if (this.fileName.includes('-bullseye')) {
+      this.platform = 'Debian Bullseye';
+      this.category = 'linux'; // Force category
+    } else {
+      this.platform = 'misc';
+    }
+
+    // Determine category if not defined
+    if (!this.category) {
+      if (this.isDebugSymbols) {
+        // Force miscellaneous category for debug symbols
+        this.category = 'misc';
+      } else {
+        this.category = this.platform.toLowerCase();
+      }
+    }
+
+    // Determine architecture
+    if (this.fileName.includes('-x64') || this.fileName.includes('-win64')) {
+      this.architecture = 'x64';
+    } else if (this.fileName.includes('-x86_64')) {
+      this.architecture = 'x86_64';
+    } else if (this.fileName.includes('-x86') || this.fileName.includes('-win32')) {
+      this.architecture = 'x86';
+    } else if (this.fileName.includes('-i686')) {
+      this.architecture = 'i686';
+    } else if (this.fileName.includes('-arm64')) {
+      this.architecture = 'ARM64';
+    } else if (this.platform === 'macOS') {
+      this.architecture = 'Universal';
+    }
+
+    // Determine title
+    if (this.isInstaller) {
+      this.title = 'Installer';
+    } else if (this.isPortableZIP) {
+      this.title = 'Portable';
+    } else if (this.isDebugSymbols) {
+      this.title = 'Debug Symbols';
+    }
   }
 
   /**
@@ -134,13 +196,16 @@ class Asset {
    * @returns {string} Category
    */
   get category() {
-    let category = this.platform.toLowerCase();
+    return this.#category;
+  }
 
-    if (this.isDebugSymbols) {
-      category = 'misc';
-    }
-
-    return category;
+  /**
+   * Set category
+   *
+   * @param {string} category Category
+   */
+  set category(category) {
+    this.#category = category;
   }
 
   /**
@@ -149,29 +214,7 @@ class Asset {
    * @returns {string} Platform
    */
   get platform() {
-    if (this.#platform) {
-      return this.#platform;
-    }
-
-    if (!this.fileName) {
-      return undefined;
-    }
-
-    let platform;
-    if (this.fileName.includes('-windows')) {
-      platform = 'Windows';
-    } else if (this.fileName.includes('-macos')) {
-      platform = 'macOS';
-    } else if (this.fileName.includes('-linux')) {
-      platform = 'Linux';
-    } else if (this.fileName.includes('-android')) {
-      platform = 'Android';
-    } else {
-      platform = 'misc';
-    }
-
-    this.platform = platform;
-    return platform;
+    return this.#platform;
   }
 
   /**
@@ -189,29 +232,7 @@ class Asset {
    * @returns {string} Architecture
    */
   get architecture() {
-    if (this.#architecture) {
-      return this.#architecture;
-    }
-
-    if (!this.fileName) {
-      return undefined;
-    }
-
-    let architecture;
-    if (this.fileName.includes('-x64') || this.fileName.includes('-win64')) {
-      architecture = 'x64';
-    } else if (this.fileName.includes('-x86_64')) {
-      architecture = 'x86_64';
-    } else if (this.fileName.includes('-x86') || this.fileName.includes('-win32')) {
-      architecture = 'x86';
-    } else if (this.fileName.includes('-i686')) {
-      architecture = 'i686';
-    } else if (this.fileName.includes('-arm64')) {
-      architecture = 'ARM64';
-    }
-
-    this.architecture = architecture;
-    return architecture;
+    return this.#architecture;
   }
 
   /**
@@ -229,25 +250,7 @@ class Asset {
    * @returns {string} Title
    */
   get title() {
-    if (this.#title) {
-      return this.#title;
-    }
-
-    if (!this.fileName) {
-      return undefined;
-    }
-
-    let title;
-    if (this.isInstaller) {
-      title = 'Installer';
-    } else if (this.isPortableZIP) {
-      title = 'Portable ZIP';
-    } else if (this.isDebugSymbols) {
-      title = 'Debug Symbols';
-    }
-
-    this.title = title;
-    return title;
+    return this.#title;
   }
 
   /**
@@ -293,7 +296,7 @@ class Asset {
    */
   get flavourId() {
     const category = this.category.toLowerCase();
-    const { architecture } = this;
+    const {architecture} = this;
 
     if (category === 'windows') {
       if (architecture === 'x64') {
@@ -309,7 +312,8 @@ class Asset {
       }
 
       return this.isInstaller ? 2 : 5;
-    } if (category === 'macos') {
+    }
+    if (category === 'macos') {
       return 3;
     }
     if (category === 'linux') {
@@ -665,8 +669,8 @@ export default class Release {
       asset.id = assetRecord['id'];
       asset.url = assetRecord['url'];
       asset.fileSize = assetRecord['fileSize'];
-      asset.fileName = assetRecord['fileName'];
       asset.fileHash = assetRecord['fileHash'];
+      asset.fileName = assetRecord['fileName']; // Set as last
       this.assets.add(asset);
     }
   }
