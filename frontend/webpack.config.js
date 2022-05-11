@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const WebpackNotifierPlugin = require('webpack-notifier');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
@@ -65,9 +64,6 @@ module.exports = {
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
-    }),
-    new WebpackNotifierPlugin({
-      alwaysNotify: true,
     }),
     new MiniCssExtractPlugin({
       filename: `[name].${devMode ? 'dev' : '[hash]'}.bundle.min.css`,
