@@ -20,7 +20,7 @@ export default class ChangelogRouter {
         if (records) {
           let isFirst = true;
           for (const record of records) {
-            const { updated } = record;
+            const {updated} = record;
             if (updated instanceof Date && (!lastUpdated || updated > lastUpdated)) {
               lastUpdated = updated;
             }

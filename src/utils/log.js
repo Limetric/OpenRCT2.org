@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/node';
-import { format } from 'util';
+import {format} from 'util';
 import chalk from 'chalk';
-import { basename } from 'path';
-import { hostname } from 'os';
+import {basename} from 'path';
+import {hostname} from 'os';
 import Config from '../misc/config';
 
-const { dsn } = Config.get('sentry');
+const {dsn} = Config.get('sentry');
 let sentryActive = false;
 if (!Config.development && dsn) {
   const packageJson = require('../../package');

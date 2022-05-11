@@ -1,5 +1,5 @@
-import mysql, { Pool } from 'mysql';
-import { promisify } from 'util';
+import mysql, {Pool} from 'mysql';
+import {promisify} from 'util';
 import SingletonClass from './singletonClass';
 import Config from './config';
 import log from '../utils/log';
@@ -20,7 +20,7 @@ export default class Database extends SingletonClass {
     if (!instance.pool) {
       const databaseConfig = Config.get('database');
 
-      const { timezone, databaseName } = databaseConfig;
+      const {timezone, databaseName} = databaseConfig;
 
       instance.#pool = mysql.createPool({
         host: databaseConfig['host'],

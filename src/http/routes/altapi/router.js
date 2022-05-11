@@ -1,6 +1,6 @@
 import multer from 'multer';
-import { Request, Response } from 'express';
-import { Octokit } from '@octokit/rest';
+import {Request, Response} from 'express';
+import {Octokit} from '@octokit/rest';
 import rpn from 'request-promise-native';
 import Config from '../../../misc/config';
 import Releases from '../../../misc/releases';
@@ -36,7 +36,7 @@ export default class AltApiRouter {
       return false;
     }
 
-    const { accessKeys } = Config.get('altApi');
+    const {accessKeys} = Config.get('altApi');
     if (typeof (accessKeys) !== 'object') {
       return false;
     }
@@ -116,7 +116,9 @@ export default class AltApiRouter {
         return;
       }
       log.debug(`Created new '${versionName}' GitHub release`);
-    } else { log.debug(`Using existing '${versionName}' GitHub release`); }
+    } else {
+      log.debug(`Using existing '${versionName}' GitHub release`);
+    }
 
     const releaseId = ghRelease ? ghRelease['id'] : undefined;
 
@@ -164,7 +166,9 @@ export default class AltApiRouter {
    */
   static async #getLatestDownload(req, res) {
     let branch = req.body['gitBranch'] || req.query['gitBranch'];
-    if (branch === 'master') { branch = 'releases'; }
+    if (branch === 'master') {
+      branch = 'releases';
+    }
     if (!branch || !['develop', 'releases'].includes(branch)) {
       res.json({
         error: 1,
@@ -208,7 +212,7 @@ export default class AltApiRouter {
 
     // User agent "Mozilla/5.0" is used by launcher, which doesn't support redirect URLs
     const supportsRedirects = req.get('User-Agent') !== 'Mozilla/5.0' || typeof (req.body['redirects']) !== 'undefined' || typeof (req.query['redirects']) !== 'undefined';
-    let { url } = asset;
+    let {url} = asset;
     if (!supportsRedirects) {
       try {
         url = await asset.getRedirlessUrl();
@@ -217,8 +221,8 @@ export default class AltApiRouter {
       }
     }
 
-    let { commit, commitShort } = release;
-    const { fileHash } = asset;
+    let {commit, commitShort} = release;
+    const {fileHash} = asset;
     // Fake commit hashes based on file hash
     if (!commit) {
       commit = fileHash.substring(0, 40);

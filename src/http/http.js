@@ -1,15 +1,15 @@
-import express, { Application, Router } from 'express';
+import express, {Application, Router} from 'express';
 import glob from 'glob';
 import http from 'http';
-import { promisify } from 'util';
-import { Handlers as SentryHandlers } from '@sentry/node';
+import {promisify} from 'util';
+import {Handlers as SentryHandlers} from '@sentry/node';
 import MarkoCompiler from 'marko/compiler';
 import MarkoRequire from 'marko/node-require';
 import markoExpress from 'marko/express';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
 import path from 'path';
-import { unlinkSync } from 'fs';
+import {unlinkSync} from 'fs';
 import Config from '../misc/config';
 import SingletonClass from '../misc/singletonClass';
 import PagesRouter from './routes/pages';
@@ -63,7 +63,7 @@ export default class HTTPServer extends SingletonClass {
    * Setup Express
    */
   #setupExpress() {
-    const { application } = this;
+    const {application} = this;
 
     application.enable('strict routing');
     application.enable('case sensitive routing');
@@ -99,7 +99,7 @@ export default class HTTPServer extends SingletonClass {
       },
     });
 
-    const { application } = this;
+    const {application} = this;
 
     // Marko render engine
     application.use(markoExpress());
@@ -228,7 +228,7 @@ export default class HTTPServer extends SingletonClass {
    * @returns {Router} Express router
    */
   newRouter() {
-    const { application } = this;
+    const {application} = this;
     return new Router({
       strict: application.get('strict routing'),
       caseSensitive: application.get('case sensitive routing'),
@@ -249,7 +249,7 @@ export default class HTTPServer extends SingletonClass {
   }
 
   #setupRoutes() {
-    const { application } = this;
+    const {application} = this;
 
     application.use('/', express.static(path.join(__dirname, '../..', 'public'), {
       etag: !Config.development,
@@ -267,7 +267,7 @@ export default class HTTPServer extends SingletonClass {
 
     // Force use of the main domain
     if (Config.get('http')['forcePrimaryDomain']) {
-      const { primaryDomain } = Config.get('http');
+      const {primaryDomain} = Config.get('http');
       if (!primaryDomain) {
         log.warn(new Error('Forcing primary domain without specifying'));
       }
