@@ -1,6 +1,6 @@
 {
   "address": null,
-  "port": 80,
+  "port": 5000,
   "path": null,
   "trustProxy": false,
   "primaryDomain": "example.com",
