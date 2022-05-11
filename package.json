@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "@octokit/rest": "^18.12.0",
-    "@sentry/node": "^5.21.4",
+    "@sentry/node": "^6.19.7",
     "body-parser": "~1.20.0",
     "chalk": "^4.1.2",
     "core-js": "^3.22.5",
@@ -32,7 +32,7 @@
     "express-async-errors": "^3.1.1",
     "glob": "^8.0.1",
     "lodash": "latest",
-    "marko": "^4.22.8",
+    "marko": "^4.24.4",
     "moment": "^2.29.3",
     "multer": "^1.4.4",
     "mysql": "^2.18.1",
