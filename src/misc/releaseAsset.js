@@ -136,7 +136,9 @@ export default class ReleaseAsset {
       this.architecture = 'i686';
     } else if (this.fileName.includes('-arm64')) {
       this.architecture = 'ARM64';
-    } else if (this.platform === 'macOS') {
+    } else if (this.fileName.includes('-arm')) {
+      this.architecture = 'ARM';
+    } else if (this.fileName.includes('-universal')) {
       this.architecture = 'Universal';
     }
 
