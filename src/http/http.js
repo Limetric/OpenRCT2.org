@@ -3,9 +3,7 @@ import glob from 'glob';
 import http from 'node:http';
 import {promisify} from 'node:util';
 import {Handlers as SentryHandlers} from '@sentry/node';
-import MarkoCompiler from 'marko/compiler.js';
-import MarkoRequire from 'marko/node-require.js';
-import markoExpress from 'marko/express.js';
+import * as Eta from 'eta';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
 import path from 'node:path';
@@ -18,6 +16,11 @@ import ChangelogRouter from './routes/changelog/router.js';
 import QuickstartRouter from './routes/quickstart/router.js';
 import AltApiRouter from './routes/altapi/router.js';
 import log from '../utils/log.js';
+
+Eta.configure({
+  cache: true,
+  rmWhitespace: true,
+});
 
 export default class HTTPServer extends SingletonClass {
   /**
@@ -90,23 +93,22 @@ export default class HTTPServer extends SingletonClass {
    * @returns {Promise<void>}
    */
   async #setupMarko() {
-    MarkoCompiler.configure({
+    /* MarkoCompiler.configure({
       writeToDisk: false,
     });
     MarkoRequire.install({
       compilerOptions: {
         writeToDisk: false,
       },
-    });
+    }); */
 
     const {application} = this;
-
-    // Marko render engine
-    application.use(markoExpress());
-    application.locals.layout = 'layouts/layout.marko';
+    application.engine('eta', Eta.renderFile);
+    application.set('view engine', 'eta');
+    application.set('views', './views');
 
     // Set Marko globals
-    application.locals.media = Config.media;
+    // application.locals.media = Config.media;
     application.locals.site = {
       title: Config.get('site')['title'],
       googleAnalyticsTrackingId: Config.get('site')['googleAnalyticsTrackingId'],
@@ -244,7 +246,7 @@ export default class HTTPServer extends SingletonClass {
   #setupRoutes() {
     const {application} = this;
 
-    application.use('/', express.static('../public', {
+    application.use('/', express.static('./public', {
       index: false,
       cacheControl: false,
       setHeaders: (res) => {
@@ -281,11 +283,11 @@ export default class HTTPServer extends SingletonClass {
       });
     }
 
-    application.use('/', new PagesRouter(this).router);
+   /* application.use('/', new PagesRouter(this).router);
     application.use('/downloads', new DownloadsRouter(this).router);
     application.use('/changelog', new ChangelogRouter(this).router);
     application.use('/quickstart', new QuickstartRouter(this).router);
-    application.use('/altapi', new AltApiRouter(this).router);
+    application.use('/altapi', new AltApiRouter(this).router); */
 
     // Error Handler is our last stop
     application.use((req, res, next) => {
@@ -329,10 +331,21 @@ export default class HTTPServer extends SingletonClass {
       }
 
       res.status(error.status);
-      const layout = require('./error.marko');
-      res.marko(layout, {
+      const data = {
+        ...application.locals,
         error,
-        isDevelopment: this.isDevelopment,
+        isDevelopment: Config.development,
+        page: {
+          title: error.message,
+          description: error.statusMessage,
+          path: this.constructor.getExpressPath(req.baseUrl, req.path),
+        },
+      };
+      res.render('error', data);
+      console.log({
+        ...application.locals,
+        error,
+        isDevelopment: Config.development,
         page: {
           title: error.message,
           description: error.statusMessage,

@@ -21,9 +21,9 @@ if (!Config.development && dsn) {
 const logLevelColors = {
   debug: chalk.white,
   info: chalk.blue,
-  warn: chalk.keyword('orange'),
-  error: chalk.keyword('red'),
-  fatal: chalk.keyword('red').bold,
+  warn: chalk.yellow,
+  error: chalk.red,
+  fatal: chalk.red.bold,
 };
 
 const Log = {

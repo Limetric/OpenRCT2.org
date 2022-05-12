@@ -1,0 +1,7 @@
+<% layout('layout') %>
+<main role="main" class="container">
+    <div class="headliner-template">
+        <h1><%= it.error.status %> - <%= it.error.statusMessage %></h1>
+        <p class="lead"><%= it.error.message %></p>
+    </div>
+</main>
