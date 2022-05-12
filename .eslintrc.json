@@ -14,6 +14,11 @@
   "parserOptions": {
     "sourceType": "module"
   },
+  "settings": {
+    "jsdoc": {
+      "mode": "typescript"
+    }
+  },
   "rules": {
     "promise/always-return": "off",
     "max-len": "off",
