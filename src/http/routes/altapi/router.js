@@ -1,11 +1,15 @@
 import multer from 'multer';
-import {Request, Response} from 'express';
 import {Octokit} from '@octokit/rest';
-import rpn from 'request-promise-native';
+import got from 'got';
 import Config from '../../../misc/config.js';
 import Releases from '../../../misc/releases.js';
 import log from '../../../utils/log.js';
 import ReleasesParser from '../../../modules/releasesParser/index.js';
+
+/**
+ * @typedef {import('express').default} express
+ * @typedef {import('../../../misc/release.js').default} Release
+ */
 
 const octokit = new Octokit({
   auth: Config.get('altApi')['gitHub']['personalAccessToken'],
@@ -47,8 +51,8 @@ export default class AltApiRouter {
   /**
    * Push build handler
    *
-   * @param {Request} req Request
-   * @param {Response} res Response
+   * @param {express.Request} req Request
+   * @param {express.Response} res Response
    * @returns {void}
    */
   static async #pushBuild(req, res) {
@@ -124,10 +128,7 @@ export default class AltApiRouter {
 
     try {
       /** @type {Buffer} */
-      const fileBuffer = req.file ? req.file.buffer : await rpn({
-        url: req.body['url'],
-        encoding: null,
-      });
+      const fileBuffer = req.file?.buffer ?? await got(req.body['url']).buffer();
 
       // Upload asset to GitHub
       const assetData = (await octokit.repos.uploadReleaseAsset({
@@ -178,8 +179,8 @@ export default class AltApiRouter {
   /**
    * Get latest download handler
    *
-   * @param {Request} req Request
-   * @param {Response} res Response
+   * @param {express.Request} req Request
+   * @param {express.Response} res Response
    * @returns {void}
    */
   static async #getLatestDownload(req, res) {

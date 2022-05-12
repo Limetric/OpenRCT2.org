@@ -3,6 +3,10 @@ import Releases from '../../../misc/releases.js';
 import StringUtils from '../../../utils/string.js';
 import log from '../../../utils/log.js';
 
+/**
+ * @typedef {import('../../../misc/release.js').default} Release
+ */
+
 export default class DownloadsRouter {
   #router;
 

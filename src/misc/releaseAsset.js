@@ -1,4 +1,4 @@
-import rpn from 'request-promise-native';
+import got from 'got';
 
 /**
  * @typedef {import('./release.js').default} Release
@@ -184,17 +184,11 @@ export default class ReleaseAsset {
       return undefined;
     }
 
-    const response = await rpn({
-      url: this.url,
+    const {headers} = await got(this.url, {
       followRedirect: false,
-      resolveWithFullResponse: true,
-      simple: false,
-      headers: {
-        'User-Agent': 'OpenRCT2.org',
-      },
     });
 
-    return response.headers.location;
+    return headers.location;
   }
 
   /**

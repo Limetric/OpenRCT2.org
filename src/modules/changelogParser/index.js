@@ -1,4 +1,5 @@
-import rpn from 'request-promise-native';
+// eslint-disable-next-line import/no-unresolved
+import got from 'got';
 import hash from 'object-hash';
 import Database from '../../misc/database.js';
 import log from '../../utils/log.js';
@@ -13,23 +14,7 @@ export default class ChangelogParser {
     // Schedule next fetch
     setTimeout(this.checkUpdate.bind(this), 3600 * 1000);
 
-    const options = {
-      url: 'https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/distribution/changelog.txt',
-      json: true,
-      headers: {
-        'User-Agent': 'OpenRCT2.org',
-      },
-    };
-
-    let changes;
-    try {
-      const rawContent = await rpn(options);
-      changes = await this.parse(rawContent);
-    } catch (error) {
-      log.error(error);
-      return;
-    }
-
+    const changes = await this.parse(await got('https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/distribution/changelog.txt').text());
     if (changes > 0) {
       log.info(`Updated ${changes} changesets`);
     } else {

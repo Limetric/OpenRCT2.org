@@ -337,7 +337,7 @@ export default class Release {
    *
    * @deprecated
    * @param {number} flavourId Flavour id
-   * @returns {Set<ReleaseAsset>} Assets
+   * @returns {ReleaseAsset} Assets
    */
   getAssetByFlavourId(flavourId) {
     for (const asset of this.assets) {

@@ -1,4 +1,5 @@
-import rpn from 'request-promise-native';
+// eslint-disable-next-line import/no-unresolved
+import got from 'got';
 import UrlHandler from '../urlHandler/index.js';
 import StringUtils from '../../utils/string.js';
 import Database from '../../misc/database.js';
@@ -22,13 +23,7 @@ export default class ReleasesParser {
     urls.set('https://api.github.com/repos/Limetric/OpenRCT2-binaries/releases', '*');
 
     for (const [url, type] of urls) {
-      const jsonData = await rpn({
-        url,
-        json: true,
-        headers: {
-          'User-Agent': 'OpenRCT2.org',
-        },
-      });
+      const jsonData = await got(url).json();
       await this.parse(jsonData, type);
     }
 

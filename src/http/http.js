@@ -1,4 +1,4 @@
-import express, {Application, Router} from 'express';
+import express, {Router} from 'express';
 import glob from 'glob';
 import http from 'node:http';
 import {promisify} from 'node:util';
@@ -21,7 +21,7 @@ import log from '../utils/log.js';
 
 export default class HTTPServer extends SingletonClass {
   /**
-   * @type {Application}
+   * @type {express.Application}
    */
   #application = express();
 
@@ -42,7 +42,7 @@ export default class HTTPServer extends SingletonClass {
   /**
    * Get Express application
    *
-   * @returns {Application} Application
+   * @returns {express.Application} Application
    */
   get application() {
     return this.#application;
@@ -103,7 +103,7 @@ export default class HTTPServer extends SingletonClass {
 
     // Marko render engine
     application.use(markoExpress());
-    application.locals.layout = path.join(__dirname, '../layouts/layout.marko');
+    application.locals.layout = 'layouts/layout.marko';
 
     // Set Marko globals
     application.locals.media = Config.media;
@@ -115,7 +115,7 @@ export default class HTTPServer extends SingletonClass {
     };
 
     // Find JS and CSS bundles
-    const files = await promisify(glob)('./public/resources/main.*.bundle.min.+(js|css)');
+    const files = await promisify(glob)('public/resources/main.*.bundle.min.+(js|css)');
 
     /** @type {string} */
     let jsBundle;
@@ -244,7 +244,7 @@ export default class HTTPServer extends SingletonClass {
   #setupRoutes() {
     const {application} = this;
 
-    application.use('/', express.static(path.join(__dirname, '/../../public'), {
+    application.use('/', express.static('../public', {
       index: false,
       cacheControl: false,
       setHeaders: (res) => {
