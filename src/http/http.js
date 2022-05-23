@@ -11,10 +11,10 @@ import {unlinkSync} from 'node:fs';
 import {Config} from '../misc/config.js';
 import {PagesRouter} from './routes/pages.js';
 import {DownloadsRouter} from './routes/downloads.js';
-import {ChangelogRouter} from './routes/changeLog.js';
+import {ChangelogRouter} from './routes/changelog.js';
 import {QuickstartRouter} from './routes/quickstart.js';
 import {AltApiRouter} from './routes/altapi.js';
-import {Log} from '../utils/Log.js';
+import {Log} from '../utils/log.js';
 
 Eta.configure({
   cache: true,

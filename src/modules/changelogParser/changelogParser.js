@@ -2,7 +2,7 @@
 import {got} from 'got';
 import hash from 'object-hash';
 import {Database} from '../../misc/database.js';
-import {Log} from '../../utils/Log.js';
+import {Log} from '../../utils/log.js';
 
 export class ChangelogParser {
   /**

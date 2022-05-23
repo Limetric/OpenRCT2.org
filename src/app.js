@@ -4,7 +4,7 @@ import {cwd, chdir} from 'node:process';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import Package from '../package.json' assert {type: 'json'};
-import {Log} from './utils/Log.js';
+import {Log} from './utils/log.js';
 import {Config} from './misc/config.js';
 import HTTPServer from './http/http.js';
 import {ReleasesParser} from './modules/releasesParser/releasesParser.js';

@@ -3,7 +3,7 @@ import {Octokit} from '@octokit/rest';
 import {got} from 'got';
 import {Config} from '../../misc/config.js';
 import {Releases} from '../../misc/releases.js';
-import {Log} from '../../utils/Log.js';
+import {Log} from '../../utils/log.js';
 import {ReleasesParser} from '../../modules/releasesParser/releasesParser.js';
 
 /**

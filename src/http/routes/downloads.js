@@ -1,7 +1,7 @@
 import HTTPServer from '../http.js';
 import {Releases} from '../../misc/releases.js';
 import {StringUtils} from '../../utils/string.js';
-import {Log} from '../../utils/Log.js';
+import {Log} from '../../utils/log.js';
 
 /**
  * @typedef {import('../../../misc/release.js').Release} Release

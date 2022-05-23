@@ -2,7 +2,7 @@ import {got} from 'got';
 import {UrlHandler} from '../urlHandler/urlHandler.js';
 import {StringUtils} from '../../utils/string.js';
 import {Database} from '../../misc/database.js';
-import {Log} from '../../utils/Log.js';
+import {Log} from '../../utils/log.js';
 
 export class ReleasesParser {
   /**

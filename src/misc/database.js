@@ -1,6 +1,6 @@
 import mysql, {Pool} from 'mysql2';
 import {Config} from './config.js';
-import {Log} from '../utils/Log.js';
+import {Log} from '../utils/log.js';
 
 /**
  * Database class
