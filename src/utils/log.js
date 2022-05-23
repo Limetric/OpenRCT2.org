@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/node';
 import {format} from 'node:util';
 import chalk from 'chalk';
-import {basename} from 'node:path';
 import {hostname} from 'node:os';
 import {Config} from '../misc/config.js';
 import Package from '../../package.json' assert { type: 'json' };
@@ -13,7 +12,7 @@ if (!Config.development && dsn) {
     dsn,
     release: `v${Package.version}`,
     environment: Config.environment,
-    serverName: `${basename(process.mainModule.filename).slice(0, -3)}@${hostname()}`,
+    serverName: hostname(),
   });
   sentryActive = true;
 }
