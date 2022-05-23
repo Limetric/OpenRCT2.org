@@ -14,6 +14,11 @@
   "parserOptions": {
     "sourceType": "module"
   },
+  "settings": {
+    "jsdoc": {
+      "mode": "typescript"
+    }
+  },
   "rules": {
     "promise/always-return": "off",
     "max-len": "off",
@@ -24,6 +29,10 @@
     "no-plusplus": "off",
     "class-methods-use-this": "warn",
     "import/prefer-default-export": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages"
+    ],
     "max-classes-per-file": "off",
     "no-underscore-dangle": "off",
     "linebreak-style": "off",
@@ -55,6 +64,7 @@
     "@babel/semi": "error",
     "func-names": "off",
     "space-before-function-paren": "off",
-    "curly": ["error", "all"]
+    "curly": ["error", "all"],
+    "import/no-unresolved": "off"
   }
 }

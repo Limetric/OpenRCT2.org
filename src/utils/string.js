@@ -1,4 +1,4 @@
-export default class StringUtils {
+export class StringUtils {
   /**
    * Sub string between
    *

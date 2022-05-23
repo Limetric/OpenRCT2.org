@@ -1,0 +1,18 @@
+{
+  "comments": false,
+  "minified": true,
+  "compact": true,
+  "plugins": ["@babel/plugin-syntax-import-assertions"],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": 3,
+        "shippedProposals": false,
+        "bugfixes": true,
+        "modules": false
+      }
+    ]
+  ]
+}

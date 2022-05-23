@@ -1,8 +1,27 @@
-import fs from 'fs';
-import path from 'path';
-import lodash from 'lodash/object';
+import {readdirSync} from 'node:fs';
+import merge from 'lodash/merge.js';
+import jsonfile from 'jsonfile';
+import {fileURLToPath} from 'node:url';
+import {dirname, join} from 'node:path';
+import process from 'node:process';
 
-export default class Config {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+/** @type {Map<string, object>} */
+const configFiles = new Map();
+
+// Load all config files in a blocking state as other files directly depend on it
+const directory = join(__dirname, '../../config/');
+for (const file of readdirSync(directory)) {
+  if (!file.endsWith('.json')) {
+    continue;
+  }
+
+  configFiles.set(file, jsonfile.readFileSync(join(directory, file)));
+}
+
+export class Config {
   /**
    * @type {Map<string, object>}
    */
@@ -12,7 +31,7 @@ export default class Config {
    * Get dynamic routes configuration
    *
    * @param {string} type Type
-   * @returns {object} Config
+   * @returns {object} Config data
    */
   static get(type) {
     return this.#map.get(type) ?? this.#load(type);
@@ -24,7 +43,7 @@ export default class Config {
    * @returns {string} Environment
    */
   static get environment() {
-    return process.env.NODE_ENV ?? 'development';
+    return process.env['NODE_ENV'];
   }
 
   /**
@@ -40,32 +59,32 @@ export default class Config {
    * Load config type
    *
    * @param {string} type Type
-   * @returns {object} Config
+   * @returns {object} Config data
    */
   static #load(type) {
-    const baseConfigFilePath = path.join(__dirname, `../../config/${type}.json`);
-    if (!fs.existsSync(baseConfigFilePath)) {
+    const baseConfigFilePath = `${type}.json`;
+    if (!configFiles.has(baseConfigFilePath)) {
       throw new Error(`Required config file '${baseConfigFilePath}' is not available`);
     }
 
-    const config = require(baseConfigFilePath);
+    const config = configFiles.get(baseConfigFilePath);
 
     // Private config
-    const privateConfigFilePath = path.join(__dirname, `../../config/${type}.private.json`);
-    if (fs.existsSync(privateConfigFilePath)) {
-      lodash.merge(config, require(privateConfigFilePath));
+    const privateConfigFilePath = `${type}.private.json`;
+    if (configFiles.has(privateConfigFilePath)) {
+      merge(config, configFiles.get(privateConfigFilePath));
     }
 
     // Environment config
-    const envConfigFilePath = path.join(__dirname, `../../config/${type}.${this.environment}.json`);
-    if (fs.existsSync(envConfigFilePath)) {
-      lodash.merge(config, require(envConfigFilePath));
+    const envConfigFilePath = `${type}.${this.environment}.json`;
+    if (configFiles.has(envConfigFilePath)) {
+      merge(config, configFiles.get(envConfigFilePath));
     }
 
     // Private environment config
-    const privateEnvConfigFilePath = path.join(__dirname, `../../config/${type}.${this.environment}.private.json`);
-    if (fs.existsSync(privateEnvConfigFilePath)) {
-      lodash.merge(config, require(privateEnvConfigFilePath));
+    const privateEnvConfigFilePath = `${type}.${this.environment}.private.json`;
+    if (configFiles.has(privateEnvConfigFilePath)) {
+      merge(config, configFiles.get(privateEnvConfigFilePath));
     }
 
     this.#map.set(type, config);

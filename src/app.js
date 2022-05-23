@@ -1,30 +1,41 @@
 #!/usr/bin/env node
 
-import PackageJson from '../package.json';
-import log from './utils/log';
-import Config from './misc/config';
-import HTTPServer from './http/http';
-import ReleasesParser from './modules/releasesParser';
-import ChangelogParser from './modules/changelogParser';
+import {cwd, chdir} from 'node:process';
+import {dirname, join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import Package from '../package.json' assert {type: 'json'};
+import {Log} from './utils/Log.js';
+import {Config} from './misc/config.js';
+import HTTPServer from './http/http.js';
+import {ReleasesParser} from './modules/releasesParser/releasesParser.js';
+import {ChangelogParser} from './modules/changelogParser/changelogParser.js';
+
+const appDirectory = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 console.log('#############################');
-console.log(`OpenRCT2.org v${PackageJson.version}`);
+console.log(`OpenRCT2.org v${Package.version}`);
 console.log('#############################');
 
-(async () => {
-  try {
-    log.info(`Current environment: ${Config.environment}`);
+// Force working directory
+if (cwd() !== appDirectory) {
+  chdir(appDirectory);
 
-    ReleasesParser.checkUpdate();
-    ChangelogParser.checkUpdate();
+  console.log(`Changed working directory: ${appDirectory}`);
+} else {
+  console.log(`Working directory: ${appDirectory}`);
+}
 
-    const httpServer = HTTPServer.instance;
-    await httpServer.initialize();
-    await httpServer.listen();
+Log.info(`Environment: ${Config.environment}`);
 
-    log.info('Application is initialized and ready for use');
-  } catch (error) {
-    log.fatal(error);
-    process.exit(1);
-  }
-})();
+ReleasesParser.checkUpdate().catch((error) => {
+  Log.error(error);
+});
+ChangelogParser.checkUpdate().catch((error) => {
+  Log.error(error);
+});
+
+const httpServer = HTTPServer.instance;
+await httpServer.initialize();
+await httpServer.listen();
+
+Log.info('Application is initialized and ready for use');

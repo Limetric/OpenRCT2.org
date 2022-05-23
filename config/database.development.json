@@ -3,5 +3,5 @@
   "port": 3306,
   "user": "openrct2",
   "password": null,
-  "databaseName": "openrct2"
+  "database": "openrct2"
 }

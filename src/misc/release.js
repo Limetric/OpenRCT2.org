@@ -1,7 +1,7 @@
-import Database from './database';
-import ReleaseAsset from './releaseAsset';
+import {Database} from './database.js';
+import {ReleaseAsset} from './releaseAsset.js';
 
-export default class Release {
+export class Release {
   /**
    * @type {number}
    */
@@ -286,7 +286,7 @@ export default class Release {
     this.#branch = record['branch'];
 
     // Parse assets
-    const assetRecords = await Database.instance.query('SELECT * FROM `releaseAssets` WHERE `releaseId` = ?', [this.id]);
+    const assetRecords = await Database.query('SELECT * FROM `releaseAssets` WHERE `releaseId` = ?', [this.id]);
 
     this.assets.clear();
     for (const assetRecord of assetRecords) {
@@ -337,7 +337,7 @@ export default class Release {
    *
    * @deprecated
    * @param {number} flavourId Flavour id
-   * @returns {Set<ReleaseAsset>} Assets
+   * @returns {ReleaseAsset} Assets
    */
   getAssetByFlavourId(flavourId) {
     for (const asset of this.assets) {

@@ -1,27 +1,46 @@
-import express, {Application, Router} from 'express';
+import express, {Router} from 'express';
 import glob from 'glob';
-import http from 'http';
-import {promisify} from 'util';
+import http from 'node:http';
+import {promisify} from 'node:util';
 import {Handlers as SentryHandlers} from '@sentry/node';
-import MarkoCompiler from 'marko/compiler';
-import MarkoRequire from 'marko/node-require';
-import markoExpress from 'marko/express';
+import * as Eta from 'eta';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
-import path from 'path';
-import {unlinkSync} from 'fs';
-import Config from '../misc/config';
-import SingletonClass from '../misc/singletonClass';
-import PagesRouter from './routes/pages';
-import DownloadsRouter from './routes/downloads/router';
-import ChangelogRouter from './routes/changelog/router';
-import QuickstartRouter from './routes/quickstart/router';
-import AltApiRouter from './routes/altapi/router';
-import log from '../utils/log';
+import path from 'node:path';
+import {unlinkSync} from 'node:fs';
+import {Config} from '../misc/config.js';
+import {PagesRouter} from './routes/pages.js';
+import {DownloadsRouter} from './routes/downloads.js';
+import {ChangelogRouter} from './routes/changeLog.js';
+import {QuickstartRouter} from './routes/quickstart.js';
+import {AltApiRouter} from './routes/altapi.js';
+import {Log} from '../utils/Log.js';
 
-export default class HTTPServer extends SingletonClass {
+Eta.configure({
+  cache: true,
+  rmWhitespace: true,
+});
+
+export default class HTTPServer {
   /**
-   * @type {Application}
+   * @type {HTTPServer}
+   */
+  static #instance;
+
+  /**
+   * Get default HTTP server instance
+   *
+   * @returns {HTTPServer} Instance
+   */
+  static get instance() {
+    if (!this.#instance) {
+      this.#instance = new HTTPServer();
+    }
+    return this.#instance;
+  }
+
+  /**
+   * @type {express.Application}
    */
   #application = express();
 
@@ -31,18 +50,9 @@ export default class HTTPServer extends SingletonClass {
   #server;
 
   /**
-   * Get instance
-   *
-   * @returns {HTTPServer} HTTP server instance
-   */
-  static get instance() {
-    return super.instance;
-  }
-
-  /**
    * Get Express application
    *
-   * @returns {Application} Application
+   * @returns {express.Application} Application
    */
   get application() {
     return this.#application;
@@ -90,23 +100,22 @@ export default class HTTPServer extends SingletonClass {
    * @returns {Promise<void>}
    */
   async #setupMarko() {
-    MarkoCompiler.configure({
+    /* MarkoCompiler.configure({
       writeToDisk: false,
     });
     MarkoRequire.install({
       compilerOptions: {
         writeToDisk: false,
       },
-    });
+    }); */
 
     const {application} = this;
-
-    // Marko render engine
-    application.use(markoExpress());
-    application.locals.layout = path.join(__dirname, '../layouts/layout.marko');
+    application.engine('eta', Eta.renderFile);
+    application.set('view engine', 'eta');
+    application.set('views', './views');
 
     // Set Marko globals
-    application.locals.media = Config.media;
+    // application.locals.media = Config.media;
     application.locals.site = {
       title: Config.get('site')['title'],
       googleAnalyticsTrackingId: Config.get('site')['googleAnalyticsTrackingId'],
@@ -115,7 +124,7 @@ export default class HTTPServer extends SingletonClass {
     };
 
     // Find JS and CSS bundles
-    const files = await promisify(glob)('./public/resources/main.*.bundle.min.+(js|css)');
+    const files = await promisify(glob)('public/resources/main.*.bundle.min.+(js|css)');
 
     /** @type {string} */
     let jsBundle;
@@ -168,7 +177,7 @@ export default class HTTPServer extends SingletonClass {
           unlinkSync(unixSocketPath);
         } catch (error) {
           if (error.code !== 'ENOENT') {
-            log.warn(error);
+            Log.warn(error);
           }
         }
         listenOptions = {
@@ -205,9 +214,9 @@ export default class HTTPServer extends SingletonClass {
       server.on('listening', () => {
         const address = server.address();
         if (typeof (address.port) === 'number') {
-          log.info(`Listening on ${address.address} port ${address.port} (${address.family})`);
+          Log.info(`Listening on ${address.address} port ${address.port} (${address.family})`);
         } else {
-          log.info(`Listening on UNIX-domain socket '${unixSocketPath}'`);
+          Log.info(`Listening on UNIX-domain socket '${unixSocketPath}'`);
         }
 
         resolve();
@@ -244,7 +253,7 @@ export default class HTTPServer extends SingletonClass {
   #setupRoutes() {
     const {application} = this;
 
-    application.use('/', express.static(path.join(__dirname, '/../../public'), {
+    application.use('/', express.static('./public', {
       index: false,
       cacheControl: false,
       setHeaders: (res) => {
@@ -269,7 +278,7 @@ export default class HTTPServer extends SingletonClass {
     if (Config.get('http')['forcePrimaryDomain']) {
       const {primaryDomain} = Config.get('http');
       if (!primaryDomain) {
-        log.warn(new Error('Forcing primary domain without specifying'));
+        Log.warn(new Error('Forcing primary domain without specifying'));
       }
 
       application.use((req, res, next) => {
@@ -300,9 +309,9 @@ export default class HTTPServer extends SingletonClass {
     // eslint-disable-next-line no-unused-vars
     application.use((error, req, res, next) => {
       if (Config.development) {
-        log.warn(error);
+        Log.warn(error);
       } else {
-        log.info(error);
+        Log.info(error);
       }
 
       if (!error.status) {
@@ -329,14 +338,14 @@ export default class HTTPServer extends SingletonClass {
       }
 
       res.status(error.status);
-      const layout = require('./error.marko');
-      res.marko(layout, {
+      res.render('error', {
+        ...application.locals,
         error,
-        isDevelopment: this.isDevelopment,
+        isDevelopment: Config.development,
         page: {
           title: error.message,
           description: error.statusMessage,
-          path: this.constructor.getExpressPath(req.baseUrl, req.path),
+          path: HTTPServer.getExpressPath(req.baseUrl, req.path),
         },
       });
     });

@@ -1,8 +1,8 @@
-import Release from './release';
-import Database from './database';
-import log from '../utils/log';
+import {Release} from './release.js';
+import {Database} from './database.js';
+import {Log} from '../utils/Log.js';
 
-export default class Releases {
+export class Releases {
   /**
    * Get last release by branch
    *
@@ -11,7 +11,7 @@ export default class Releases {
    * @returns {Promise<Release[]>} Releases
    */
   static async getLastByBranch(branch, limit = 1) {
-    const records = await Database.instance.query('SELECT * FROM `releases` WHERE `branch` = ? ORDER BY `published` DESC LIMIT 0,?', [branch, limit]) ?? [];
+    const records = await Database.query('SELECT * FROM `releases` WHERE `branch` = ? ORDER BY `published` DESC LIMIT 0,?', [branch, limit]) ?? [];
 
     const releases = [];
     for (const record of records) {
@@ -19,7 +19,7 @@ export default class Releases {
       try {
         await release.parseRecord(record);
       } catch (error) {
-        log.warn(error);
+        Log.warn(error);
         continue;
       }
       releases.push(release);
@@ -36,7 +36,7 @@ export default class Releases {
    * @returns {Promise<Release>} Release
    */
   static async getByBranchVersion(branch, version) {
-    const record = (await Database.instance.query('SELECT * FROM `releases` WHERE `branch` = ? AND `version` = ? LIMIT 0,1', [branch, version]))?.[0];
+    const record = (await Database.query('SELECT * FROM `releases` WHERE `branch` = ? AND `version` = ? LIMIT 0,1', [branch, version]))?.[0];
     if (!record) {
       return undefined;
     }

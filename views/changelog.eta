@@ -1,0 +1,22 @@
+<% layout('layout') %>
+<main>
+  <h1>OpenRCT2 Changelog</h1>
+  <p>
+    OpenRCT2 constantly adds new <a href="/features">major features</a> to the game. On top of that there are frequent bug fixes. This page is auto-updated with the latest known changes from the <a href="/downloads/develop/latest">latest development build</a>.
+  </p>
+
+  <% if (typeof it.lastUpdated === "object") { %>
+    <p>
+      Updated <%~ includeFile('./partials/date.eta', { date: it.lastUpdated, relative: true, full: true }) %>.
+    </p>
+  <% } %>
+
+  <% for (const changeset of it.changelog) { %>
+    <h2><%= changeset.versionName %></h2>
+    <ul>
+      <% for (const change of changeset.changes) { %>
+        <li><%= change %></li>
+      <% } %>
+    </ul>
+  <% } %>
+</main>

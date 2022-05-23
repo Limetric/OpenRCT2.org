@@ -1,17 +1,17 @@
 import * as Sentry from '@sentry/node';
-import {format} from 'util';
+import {format} from 'node:util';
 import chalk from 'chalk';
-import {basename} from 'path';
-import {hostname} from 'os';
-import Config from '../misc/config';
+import {basename} from 'node:path';
+import {hostname} from 'node:os';
+import {Config} from '../misc/config.js';
+import Package from '../../package.json' assert { type: 'json' };
 
 const {dsn} = Config.get('sentry');
 let sentryActive = false;
 if (!Config.development && dsn) {
-  const packageJson = require('../../package.json');
   Sentry.init({
     dsn,
-    release: `v${packageJson.version}`,
+    release: `v${Package.version}`,
     environment: Config.environment,
     serverName: `${basename(process.mainModule.filename).slice(0, -3)}@${hostname()}`,
   });
@@ -21,9 +21,9 @@ if (!Config.development && dsn) {
 const logLevelColors = {
   debug: chalk.white,
   info: chalk.blue,
-  warn: chalk.keyword('orange'),
-  error: chalk.keyword('red'),
-  fatal: chalk.keyword('red').bold,
+  warn: chalk.yellow,
+  error: chalk.red,
+  fatal: chalk.red.bold,
 };
 
 const Log = {
@@ -75,4 +75,4 @@ process.on('unhandledRejection', (reason) => {
 });
 process.on('uncaughtException', (error) => Log.fatal(error));
 
-export default Log;
+export {Log};

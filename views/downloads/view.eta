@@ -1,0 +1,87 @@
+<%
+  const formatBytes = (bytes, decimals = 2) => {
+    if (bytes == 0) {
+      return "0 Bytes";
+    }
+
+    const k = 1024,
+      sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+      i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + " " + sizes[i];
+  };
+
+  const htmlToText = html => {
+    return html.replace(/(\r\n|\n\r|\r|\n)/g, "<br>$1");
+  };
+%>
+<% layout('layout') %>
+<main class="downloads downloadsView">
+  <h1><%= it.latest ? `Latest OpenRCT2 ${it.release.longTitle} download` : `Download OpenRCT2 ${it.release.longTitle}` %></h1>
+  <ul>
+    <% if (it.release.commit) { %>
+      <li>Commit: <a href="https://github.com/OpenRCT2/OpenRCT2/commit/<%= it.release.commit %>" title="View commit <%= it.release.commitShort %> on GitHub" rel="nofollow" target="_blank"><span class="monospace"><%= it.release.commit %></span></a></li>
+    <% } %>
+    <li>Available since <%~ includeFile('./partials/date.eta', { date: it.release.published, relative: true, full: true }) %></li>
+    <li>Some anti-virus products may falsely report OpenRCT2 being unsafe. When in doubt you can check the file URL on <a href="https://www.virustotal.com/" rel="nofollow" target="_blank">VirusTotal</a>.</li>
+  </ul>
+<%
+  const categories = {
+    windows: {
+      name: "Windows",
+      icon: "windows.svg"
+    },
+    linux: {
+      name: "Linux",
+      icon: "linux.svg"
+    },
+    macos: {
+      name: "macOS",
+      icon: "apple.svg"
+    },
+    android: {
+      name: "Android",
+      icon: "android.svg"
+    },
+    misc: {
+      name: "Miscellaneous",
+      icon: "download.svg"
+    }
+  };
+%>
+  <% for (const [categoryIdentifier, category] of Object.entries(categories)) { %>
+    <% const assets = it.release.getAssetsByCategory(categoryIdentifier); %>
+    <% if(assets.size) { %>
+      <h2><%~ category.icon ? `<img src="/assets/images/icons/${category.icon}" class="icon">` : "" %><%= category.name %> downloads</h2>
+      <table>
+        <thead>
+          <tr>
+            <td>Variant</td>
+            <td>Filename</td>
+            <td>SHA-256 Checksum</td>
+            <td>File Size</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (const asset of assets) { %>
+            <tr>
+              <td><%= asset.platform %> <%= asset.architecture %> <%= asset.title %></td>
+              <td>
+                <a href="<%= asset.url %>" title="Download <%= asset.fileName %>" class="monospace"><%= asset.fileName %></a>
+              </td>
+              <td title="SHA-256 checksum: <%= asset.fileHash %>">
+                <span class="monospace"><%= asset.fileHash.substr(0, 7) %></span>…
+              </td>
+              <td><%= formatBytes(asset.fileSize) %></td>
+            </tr>
+        <% } %>
+        </tbody>
+      </table>
+    <% } %>
+  <% } %>
+  <% if(it.release.notes) { %>
+    <h2>Release notes</h2>
+    <p><%~ htmlToText(it.release.notes) %></p>
+  <% } %>
+</main>
+
