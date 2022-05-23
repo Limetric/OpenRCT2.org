@@ -15,6 +15,7 @@
     <title><%= it.page && it.page.title ? (it.page.overrideTitle ? it.page.title : it.page.title +' - '+ it.site.title) : it.site.title %></title>
     <link rel="stylesheet" href="/resources/<%= it.resources.cssBundle %>">
     <link rel="shortcut icon" href="/assets/images/logos/icon_x32.png">
+    <%~ includeFile('./custom/head.eta', it) %>
   </head>
   <body>
     <header>
