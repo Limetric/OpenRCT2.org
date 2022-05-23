@@ -14,7 +14,7 @@ import PagesRouter from './routes/pages.js';
 import DownloadsRouter from './routes/downloads/router.js';
 import ChangelogRouter from './routes/changelog/router.js';
 import QuickstartRouter from './routes/quickstart.js';
-import AltApiRouter from './routes/altapi/router.js';
+import AltApiRouter from './routes/altapi.js';
 import log from '../utils/log.js';
 
 Eta.configure({

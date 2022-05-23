@@ -1,14 +1,14 @@
 import multer from 'multer';
 import {Octokit} from '@octokit/rest';
 import got from 'got';
-import Config from '../../../misc/config.js';
-import Releases from '../../../misc/releases.js';
-import log from '../../../utils/log.js';
-import ReleasesParser from '../../../modules/releasesParser/index.js';
+import Config from '../../misc/config.js';
+import Releases from '../../misc/releases.js';
+import log from '../../utils/log.js';
+import ReleasesParser from '../../modules/releasesParser/index.js';
 
 /**
  * @typedef {import('express').default} express
- * @typedef {import('../../../misc/release.js').default} Release
+ * @typedef {import('../../misc/release.js').default} Release
  */
 
 const octokit = new Octokit({
