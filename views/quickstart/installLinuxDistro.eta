@@ -1,0 +1,74 @@
+<% layout('layout') %>
+<main>
+  <h1>
+    <img src="/assets/images/icons/linux.svg" alt="Linux icon"/>
+    <span><b>Install OpenRCT2 on <%= it.distro.title %></b> - Quickstart Guide</span>
+  </h1>
+  <% if (it.distroIdentifier === "arch-linux") { %>
+    <h2>Install OpenRCT2</h2>
+    <p>
+      If you want the release build (some servers use these), install the standard <span class="monospace"><a href="https://archlinux.org/packages/community/x86_64/openrct2/">openrct2</a></span> package:
+      <pre class="code">sudo pacman -S openrct2</pre>
+    </p>
+    <p>
+      Alternatively, if you want the latest development build, <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages">install</a> the <span class="monospace"><a href="https://aur.archlinux.org/packages/openrct2-git">openrct2-git</a></span> package from the <a href="https://wiki.archlinux.org/index.php/Arch_User_Repository">AUR</a>. The development builds are analogous to beta versions - they should work, but don't expect everything to be perfect.
+    </p>
+  <% } else if (it.distroIdentifier === "openSUSE") { %>
+    <h2>Install OpenRCT2</h2>
+    <p>
+      You can obtain the latest release or develop version of OpenRCT2 from the <a href="https://build.opensuse.org/package/show/games/openrct2" target="_blank">openSUSE Build Service</a>.
+    </p>
+    <pre class="code">sudo zypper install openrct2</pre>
+  <% } else if (it.distroIdentifier === "debian-ubuntu-mint") { %>
+    <h2>Install OpenRCT2</h2>
+    <p>
+      You can obtain the latest release or develop version of OpenRCT2 from this <a href="https://launchpad.net/~openrct2/+archive/ubuntu/nightly" target="_blank">PPA</a>.
+    </p>
+    <pre class="code">sudo add-apt-repository ppa:openrct2/nightly
+sudo apt-get update
+sudo apt-get install openrct2</pre>
+  <% } else if (it.distroIdentifier === "gentoo") { %>
+    <h2>Install OpenRCT2</h2>
+    <p>
+      Accept <span class="monospace">~amd64</span> (or equivalent for your arch) for the <span class="monospace">openrct2</span> package, add this to <span class="monospace">/etc/portage/package.accept_keywords/openrct2</span> (for example):
+    </p>
+    <pre class="code">games-simulation/openrct2 ~amd64</pre>
+    <p>Alternatively, if you want the latest development build, use the live ebuild. The live ebuild will compile the latest dev version, and although they should work, it may not always compile (when upstream build has changed but the ebuild hasn't caught up yet).</p>
+    <pre class="code">=games-simulation/openrct2-9999 **</pre>
+    <p>And then install the package by running the following command.</p>
+    <pre class="code">sudo emerge --ask --verbose openrct2</pre>
+  <% } else if (it.distroIdentifier === "fedora") { %>
+    <h2>Install dependencies</h2>
+    <p>You will need the dependencies to build the game - there is no package for the game as of yet.</p>
+    <pre class="code">sudo dnf install gcc gcc-c++ json-devel \\
+openssl-devel SDL2-devel libicu-devel \\
+speexdsp-devel libcurl-devel \\
+cmake fontconfig-devel freetype-devel \\
+libpng-devel libzip-devel mesa-libGL-devel \\
+duktape-devel</pre>
+    
+    <h2>Build the game</h2>
+    <pre class="code">git clone --depth=1 https://github.com/OpenRCT2/OpenRCT2.git && cd ./OpenRCT2 && mkdir build && cd build && cmake ../ && make</pre>
+    
+    <h2>Set up the files</h2>
+    <pre class="code">cp -r ../data/ ./data/ && make g2 && mv ./g2.dat ./data/g2.dat</pre>
+  <% } else if (it.distroIdentifier === "nixOS") { %>
+    <h2>Install OpenRCT2</h2>
+    <p>The installation is currently based on your nixpkgs-channel. If you're using the unstable channel, just install the package.</p>
+    <pre class="code">nix-env -iA nixos.openrct2</pre>
+    <p>If you're on an stable channel (like 17.09 or older) you can install this single package from the unstable channel.</p>
+    <pre class="code">nix-env -f https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz -iA openrct2</pre>
+    <p>
+      Alternatively you can build the <a href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/games/openrct2/default.nix" target="_blank">expression</a> from the nixpkgs.
+    </p>
+  <% } %>
+
+  <h2>Select your RCT2 game files location</h2>
+  <p>When OpenRCT2 first launches, you will be prompted to select the directory where you installed RollerCoaster Tycoon 2. You can also set the RCT2 path from the command line should you wish - use the command below.</p>
+  <pre class="code">openrct2 set-rct2 /path/to/rct2-install</pre>
+
+  <h2>End of Quickstart Guide</h2>
+  <p>
+    This concludes the Quickstart Guide. It's time to play OpenRCT2. If you have any questions, don't hesitate to ask for help on <a href="https://forums.openrct2.org">the forums</a>.
+  </p>
+</main>

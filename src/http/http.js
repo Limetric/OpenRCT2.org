@@ -13,7 +13,7 @@ import SingletonClass from '../misc/singletonClass.js';
 import PagesRouter from './routes/pages.js';
 import DownloadsRouter from './routes/downloads/router.js';
 import ChangelogRouter from './routes/changelog/router.js';
-import QuickstartRouter from './routes/quickstart/router.js';
+import QuickstartRouter from './routes/quickstart.js';
 import AltApiRouter from './routes/altapi/router.js';
 import log from '../utils/log.js';
 
@@ -284,10 +284,10 @@ export default class HTTPServer extends SingletonClass {
     }
 
     application.use('/', new PagesRouter(this).router);
-    /* application.use('/downloads', new DownloadsRouter(this).router);
-    application.use('/changelog', new ChangelogRouter(this).router);
+    // application.use('/downloads', new DownloadsRouter(this).router);
+    // application.use('/changelog', new ChangelogRouter(this).router);
     application.use('/quickstart', new QuickstartRouter(this).router);
-    application.use('/altapi', new AltApiRouter(this).router); */
+    // application.use('/altapi', new AltApiRouter(this).router);
 
     // Error Handler is our last stop
     application.use((req, res, next) => {
