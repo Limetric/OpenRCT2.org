@@ -283,8 +283,8 @@ export default class HTTPServer extends SingletonClass {
       });
     }
 
-   /* application.use('/', new PagesRouter(this).router);
-    application.use('/downloads', new DownloadsRouter(this).router);
+    application.use('/', new PagesRouter(this).router);
+    /* application.use('/downloads', new DownloadsRouter(this).router);
     application.use('/changelog', new ChangelogRouter(this).router);
     application.use('/quickstart', new QuickstartRouter(this).router);
     application.use('/altapi', new AltApiRouter(this).router); */
@@ -331,25 +331,14 @@ export default class HTTPServer extends SingletonClass {
       }
 
       res.status(error.status);
-      const data = {
+      res.render('error', {
         ...application.locals,
         error,
         isDevelopment: Config.development,
         page: {
           title: error.message,
           description: error.statusMessage,
-          path: this.constructor.getExpressPath(req.baseUrl, req.path),
-        },
-      };
-      res.render('error', data);
-      console.log({
-        ...application.locals,
-        error,
-        isDevelopment: Config.development,
-        page: {
-          title: error.message,
-          description: error.statusMessage,
-          path: this.constructor.getExpressPath(req.baseUrl, req.path),
+          path: HTTPServer.getExpressPath(req.baseUrl, req.path),
         },
       });
     });

@@ -12,8 +12,8 @@ export default class StaticRouter {
     const router = httpServer.newRouter();
     this.#router = router;
     router.get('/', (req, res) => {
-      const template = require('./index.marko');
-      res.marko(template, {
+      res.render('index', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: 'OpenRCT2 project',
           overrideTitle: true,
@@ -24,8 +24,8 @@ export default class StaticRouter {
     });
 
     router.get('/about', (req, res) => {
-      const template = require('./about.marko');
-      res.marko(template, {
+      res.render('about', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: 'About',
           description: 'General information about the open-source OpenRCT2 project and it\'s authors.',
@@ -35,8 +35,8 @@ export default class StaticRouter {
     });
 
     router.get('/faq', (req, res) => {
-      const template = require('./faq.marko');
-      res.marko(template, {
+      res.render('faq', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: 'FAQ',
           description: 'Frequently Asked Questions about OpenRCT2 answered.',
@@ -46,8 +46,8 @@ export default class StaticRouter {
     });
 
     router.get('/features', (req, res) => {
-      const template = require('./features.marko');
-      res.marko(template, {
+      res.render('features', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: 'Features',
           description: 'An overview of alterations made to OpenRCT2 when compared to RollerCoaster Tycoon 2.',

@@ -1,67 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<%= it.page && it.page.description ? it.page.description : it.site.description %>">
-  <meta property="og:image" content="<%= it.site.publicUrl %>/assets/images/logos/icon_x512.png">
-  <meta property="og:title" content="<%= it.page && it.page.title ? it.site.title +' '+ it.page.title : it.site.title %>">
-  <meta property="og:description" content="<%= it.page && it.page.description ? it.page.description : it.site.description %>">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="<%= it.site.publicUrl + it.page.path %>">
-  <meta property="og:site_name" content="<%= it.site.title %>">
-  <meta property="og:locale" content="en_GB">
-  <meta name="theme-color" content="#71ABED">
-  <title><%= it.page && it.page.title ? (it.page.overrideTitle ? it.page.title : it.page.title +' - '+ it.site.title) : it.site.title %></title>
-  <link rel="stylesheet" href="/resources/<%= it.resources.cssBundle %>">
-  <link rel="shortcut icon" href="/assets/images/logos/icon_x32.png">
-  <% if (it.site.googleAnalyticsTrackingId) { %>
-    <!--Google Analytics-->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= it.site.googleAnalyticsTrackingId %>"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', '<%= it.site.googleAnalyticsTrackingId %>', {'anonymize_ip': true %>);
-    </script>
-  <% } %>
-</head>
-<body>
-  <header>
-    <nav>
-            <a class="brand" href="/" title="Home">
-                <img alt="OpenRCT2 logo" src="/assets/images/logos/icon_x64.png">
-            </a>
-            <a href="/about">About</a>
-            <a href="/features">Features</a>
-            <a href="/changelog">Changelog</a>
-            <a href="/quickstart">Quickstart</a>
-            <a href="/faq">FAQ</a>
-            <a href="/downloads">Downloads</a>
-            <a href="https://forums.openrct2.org" target="_blank" title="OpenRCT2.org Forums">Forums</a>
-            <span class="separator"></span>
-            <a href="https://github.com/OpenRCT2/OpenRCT2" title="Contribute to the OpenRCT2 project on GitHub">
-                <img src="/assets/images/icons/github.svg" class="icon">
-            </a>
-            <a href="https://discord.gg/ZXZd8D8" target="_blank" title="Discuss the OpenRCT2 project on Discord">
-                <img src="/assets/images/icons/forum.svg" class="icon">
-            </a>
-            <a href="https://www.reddit.com/r/openrct2/" target="_blank" title="Discuss OpenRCT2 on /r/openrct2">
-                <img src="/assets/images/icons/reddit.svg" class="icon">
-            </a>
-            <a href="https://www.twitch.tv/directory/game/RollerCoaster%20Tycoon%202" target="_blank" title="See live streams on Twitch.tv">
-                <img src="/assets/images/icons/twitch.svg" class="icon">
-            </a>
-    </nav>
-  </header>
-  <%~ it.body %>
-  <footer>
-    <span>&copy; <%= (new Date()).getFullYear() %> OpenRCT2.org</span>
-    <span class="separator"></span>
-    <a href="mailto:mail@openrct2.org">Email webmaster</a>
-  </footer>
-  <script async src="/resources/<%= it.resources.jsBundle %>"></script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<%= it.page && it.page.description ? it.page.description : it.site.description %>">
+    <meta property="og:image" content="<%= it.site.publicUrl %>/assets/images/logos/icon_x512.png">
+    <meta property="og:title" content="<%= it.page && it.page.title ? it.site.title +' '+ it.page.title : it.site.title %>">
+    <meta property="og:description" content="<%= it.page && it.page.description ? it.page.description : it.site.description %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= it.site.publicUrl + it.page.path %>">
+    <meta property="og:site_name" content="<%= it.site.title %>">
+    <meta property="og:locale" content="en_GB">
+    <meta name="theme-color" content="#71ABED">
+    <title><%= it.page && it.page.title ? (it.page.overrideTitle ? it.page.title : it.page.title +' - '+ it.site.title) : it.site.title %></title>
+    <link rel="stylesheet" href="/resources/<%= it.resources.cssBundle %>">
+    <link rel="shortcut icon" href="/assets/images/logos/icon_x32.png">
+    <% if (it.site.googleAnalyticsTrackingId) { %>
+      <!--Google Analytics-->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= it.site.googleAnalyticsTrackingId %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', '<%= it.site.googleAnalyticsTrackingId %>', {'anonymize_ip': true %>);
+      </script>
+    <% } %>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a class="brand" href="/" title="Home">
+          <img alt="OpenRCT2 logo" src="/assets/images/logos/icon_x64.png">
+        </a>
+        <a href="/about">About</a>
+        <a href="/features">Features</a>
+        <a href="/changelog">Changelog</a>
+        <a href="/quickstart">Quickstart</a>
+        <a href="/faq">FAQ</a>
+        <a href="/downloads">Downloads</a>
+        <a href="https://forums.openrct2.org" target="_blank" title="OpenRCT2.org Forums">Forums</a>
+        <span class="separator"></span>
+        <a href="https://github.com/OpenRCT2/OpenRCT2" title="Contribute to the OpenRCT2 project on GitHub">
+          <img src="/assets/images/icons/github.svg" class="icon">
+        </a>
+        <a href="https://discord.gg/ZXZd8D8" target="_blank" title="Discuss the OpenRCT2 project on Discord">
+          <img src="/assets/images/icons/forum.svg" class="icon">
+        </a>
+        <a href="https://www.reddit.com/r/openrct2/" target="_blank" title="Discuss OpenRCT2 on /r/openrct2">
+          <img src="/assets/images/icons/reddit.svg" class="icon">
+        </a>
+        <a href="https://www.twitch.tv/directory/game/RollerCoaster%20Tycoon%202" target="_blank" title="See live streams on Twitch.tv">
+          <img src="/assets/images/icons/twitch.svg" class="icon">
+        </a>
+      </nav>
+    </header>
+    <%~ it.body %>
+    <footer>
+      <span>&copy; <%= (new Date()).getFullYear() %> OpenRCT2.org</span>
+      <span class="separator"></span>
+      <a href="mailto:mail@openrct2.org">Email webmaster</a>
+    </footer>
+    <script async src="/resources/<%= it.resources.jsBundle %>"></script>
+  </body>
 </html>
