@@ -20,6 +20,7 @@ COPY package*.json ./
 COPY .npmrc ./
 COPY README.md ./
 COPY dist/ ./dist/
+COPY views/ ./views/
 COPY public/ ./public/
 
 # Install production dependencies
