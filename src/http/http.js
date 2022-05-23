@@ -118,7 +118,6 @@ export default class HTTPServer {
     // application.locals.media = Config.media;
     application.locals.site = {
       title: Config.get('site')['title'],
-      googleAnalyticsTrackingId: Config.get('site')['googleAnalyticsTrackingId'],
       // description: '',
       publicUrl: Config.get('site')['publicUrl'],
     };
