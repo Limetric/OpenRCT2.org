@@ -2,9 +2,9 @@
 import {got} from 'got';
 import hash from 'object-hash';
 import {Database} from '../../misc/database.js';
-import log from '../../utils/log.js';
+import {Log} from '../../utils/Log.js';
 
-export default class ChangelogParser {
+export class ChangelogParser {
   /**
    * Check for changelog updates
    *
@@ -16,9 +16,9 @@ export default class ChangelogParser {
 
     const changes = await this.parse(await got('https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/distribution/changelog.txt').text());
     if (changes > 0) {
-      log.info(`Updated ${changes} changesets`);
+      Log.info(`Updated ${changes} changelog sets`);
     } else {
-      log.debug('No changesets update');
+      Log.debug('No changelog update');
     }
   }
 
@@ -95,7 +95,7 @@ export default class ChangelogParser {
 
         changesCount++;
       } catch (error) {
-        log.warn(error);
+        Log.warn(error);
       }
     }
 

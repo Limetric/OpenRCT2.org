@@ -1,8 +1,8 @@
 import HTTPServer from '../http.js';
 import {Database} from '../../misc/database.js';
-import log from '../../utils/log.js';
+import {Log} from '../../utils/Log.js';
 
-export default class ChangelogRouter {
+export class ChangelogRouter {
   #router;
 
   get router() {
@@ -39,13 +39,13 @@ export default class ChangelogRouter {
             });
 
             // Limit changelog to 3 items
-            if (changelog.legth >= 3) {
+            if (changelog.length >= 3) {
               break;
             }
           }
         }
       } catch (error) {
-        log.error(error);
+        Log.error(error);
 
         const clientError = new Error('Unable to load changelog.');
         clientError.status = 500;

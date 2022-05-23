@@ -21,7 +21,7 @@ for (const file of readdirSync(directory)) {
   configFiles.set(file, jsonfile.readFileSync(join(directory, file)));
 }
 
-export default class Config {
+export class Config {
   /**
    * @type {Map<string, object>}
    */

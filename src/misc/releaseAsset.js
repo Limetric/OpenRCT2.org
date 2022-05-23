@@ -1,10 +1,10 @@
 import {got} from 'got';
 
 /**
- * @typedef {import('./release.js').default} Release
+ * @typedef {import('./release.js').Release} Release
  */
 
-export default class ReleaseAsset {
+export class ReleaseAsset {
   /**
    * @type {Release}
    */

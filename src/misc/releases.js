@@ -1,8 +1,8 @@
-import Release from './release.js';
+import {Release} from './release.js';
 import {Database} from './database.js';
-import log from '../utils/log.js';
+import {Log} from '../utils/Log.js';
 
-export default class Releases {
+export class Releases {
   /**
    * Get last release by branch
    *
@@ -19,7 +19,7 @@ export default class Releases {
       try {
         await release.parseRecord(record);
       } catch (error) {
-        log.warn(error);
+        Log.warn(error);
         continue;
       }
       releases.push(release);

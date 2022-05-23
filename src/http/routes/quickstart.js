@@ -1,6 +1,6 @@
 import HTTPServer from '../http.js';
 
-export default class QuickstartRouter {
+export class QuickstartRouter {
   #router;
 
   get router() {

@@ -3,15 +3,15 @@ import {format} from 'node:util';
 import chalk from 'chalk';
 import {basename} from 'node:path';
 import {hostname} from 'node:os';
-import Config from '../misc/config.js';
-import PackageJson from '../../package.json' assert { type: 'json' };
+import {Config} from '../misc/config.js';
+import Package from '../../package.json' assert { type: 'json' };
 
 const {dsn} = Config.get('sentry');
 let sentryActive = false;
 if (!Config.development && dsn) {
   Sentry.init({
     dsn,
-    release: `v${PackageJson.version}`,
+    release: `v${Package.version}`,
     environment: Config.environment,
     serverName: `${basename(process.mainModule.filename).slice(0, -3)}@${hostname()}`,
   });
@@ -75,4 +75,4 @@ process.on('unhandledRejection', (reason) => {
 });
 process.on('uncaughtException', (error) => Log.fatal(error));
 
-export default Log;
+export {Log};

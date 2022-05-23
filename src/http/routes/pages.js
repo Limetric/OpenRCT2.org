@@ -1,7 +1,7 @@
 import HTTPServer from '../http.js';
-import Config from '../../misc/config.js';
+import {Config} from '../../misc/config.js';
 
-export default class StaticRouter {
+export class PagesRouter {
   #router;
 
   get router() {

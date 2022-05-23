@@ -1,7 +1,7 @@
 import {Database} from './database.js';
-import ReleaseAsset from './releaseAsset.js';
+import {ReleaseAsset} from './releaseAsset.js';
 
-export default class Release {
+export class Release {
   /**
    * @type {number}
    */

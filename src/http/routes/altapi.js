@@ -1,14 +1,14 @@
 import multer from 'multer';
 import {Octokit} from '@octokit/rest';
 import {got} from 'got';
-import Config from '../../misc/config.js';
-import Releases from '../../misc/releases.js';
-import log from '../../utils/log.js';
-import ReleasesParser from '../../modules/releasesParser/index.js';
+import {Config} from '../../misc/config.js';
+import {Releases} from '../../misc/releases.js';
+import {Log} from '../../utils/Log.js';
+import {ReleasesParser} from '../../modules/releasesParser/releasesParser.js';
 
 /**
  * @typedef {import('express').default} express
- * @typedef {import('../../misc/release.js').default} Release
+ * @typedef {import('../../misc/release.js').Release} Release
  */
 
 const octokit = new Octokit({
@@ -22,7 +22,7 @@ const multerInstance = multer({
   },
 });
 
-export default class AltApiRouter {
+export class AltApiRouter {
   #router;
 
   get router() {
@@ -97,7 +97,7 @@ export default class AltApiRouter {
       }))?.['data'];
     } catch (error) {
       // An error is also thrown when it doesn't exist
-      log.debug(error);
+      Log.debug(error);
     }
 
     // Create release if it doesn't exist
@@ -112,16 +112,16 @@ export default class AltApiRouter {
           body: `\`${req.body['gitHash']}\`;\`${req.body['gitBranch']}\``,
         }))?.['data'];
       } catch (error) {
-        log.error(error);
+        Log.error(error);
         res.json({
           error: 1,
           errorMessage: 'Failed to create GitHub release',
         });
         return;
       }
-      log.debug(`Created new '${versionName}' GitHub release`);
+      Log.debug(`Created new '${versionName}' GitHub release`);
     } else {
-      log.debug(`Using existing '${versionName}' GitHub release`);
+      Log.debug(`Using existing '${versionName}' GitHub release`);
     }
 
     const releaseId = ghRelease ? ghRelease['id'] : undefined;
@@ -152,7 +152,7 @@ export default class AltApiRouter {
         ghRelease['assets'].push(assetData);
       }
     } catch (error) {
-      log.error(error);
+      Log.error(error);
       res.json({
         error: 1,
         errorMessage: 'Failed to upload GitHub release asset. May already exist.',
@@ -160,14 +160,14 @@ export default class AltApiRouter {
       return;
     }
 
-    log.info(`Processed AltApi asset upload for '${versionName}'`);
+    Log.info(`Processed AltApi asset upload for '${versionName}'`);
 
     // Work-around for GitHub API issue regarding wrong created_date on read
     process.nextTick(async () => {
       try {
         await ReleasesParser.parseReleaseData(ghRelease, '*');
       } catch (error) {
-        log.warn(error);
+        Log.warn(error);
       }
     });
 
@@ -210,7 +210,7 @@ export default class AltApiRouter {
     try {
       release = (await Releases.getLastByBranch(branch, 1))?.[0];
     } catch (error) {
-      log.warn(error);
+      Log.warn(error);
     }
     if (!release) {
       res.json({
@@ -236,7 +236,7 @@ export default class AltApiRouter {
       try {
         url = await asset.getRedirlessUrl();
       } catch (error) {
-        log.warn(error);
+        Log.warn(error);
       }
     }
 

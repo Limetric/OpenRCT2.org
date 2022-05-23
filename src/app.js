@@ -3,17 +3,17 @@
 import {cwd, chdir} from 'node:process';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import PackageJson from '../package.json' assert {type: 'json'};
-import log from './utils/log.js';
-import Config from './misc/config.js';
+import Package from '../package.json' assert {type: 'json'};
+import {Log} from './utils/Log.js';
+import {Config} from './misc/config.js';
 import HTTPServer from './http/http.js';
-import ReleasesParser from './modules/releasesParser/index.js';
-import ChangelogParser from './modules/changelogParser/index.js';
+import {ReleasesParser} from './modules/releasesParser/releasesParser.js';
+import {ChangelogParser} from './modules/changelogParser/changelogParser.js';
 
 const appDirectory = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 console.log('#############################');
-console.log(`OpenRCT2.org v${PackageJson.version}`);
+console.log(`OpenRCT2.org v${Package.version}`);
 console.log('#############################');
 
 // Force working directory
@@ -25,18 +25,17 @@ if (cwd() !== appDirectory) {
   console.log(`Working directory: ${appDirectory}`);
 }
 
-try {
-  log.info(`Environment: ${Config.environment}`);
+Log.info(`Environment: ${Config.environment}`);
 
-  ReleasesParser.checkUpdate();
-  ChangelogParser.checkUpdate();
+ReleasesParser.checkUpdate().catch((error) => {
+  Log.error(error);
+});
+ChangelogParser.checkUpdate().catch((error) => {
+  Log.error(error);
+});
 
-  const httpServer = HTTPServer.instance;
-  await httpServer.initialize();
-  await httpServer.listen();
+const httpServer = HTTPServer.instance;
+await httpServer.initialize();
+await httpServer.listen();
 
-  log.info('Application is initialized and ready for use');
-} catch (error) {
-  log.fatal(error);
-  process.exit(1);
-}
+Log.info('Application is initialized and ready for use');

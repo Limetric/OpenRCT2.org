@@ -8,21 +8,37 @@ import bodyParser from 'body-parser';
 import 'express-async-errors';
 import path from 'node:path';
 import {unlinkSync} from 'node:fs';
-import Config from '../misc/config.js';
-import SingletonClass from '../misc/singletonClass.js';
-import PagesRouter from './routes/pages.js';
-import DownloadsRouter from './routes/downloads.js';
-import ChangelogRouter from './routes/changelog.js';
-import QuickstartRouter from './routes/quickstart.js';
-import AltApiRouter from './routes/altapi.js';
-import log from '../utils/log.js';
+import {Config} from '../misc/config.js';
+import {PagesRouter} from './routes/pages.js';
+import {DownloadsRouter} from './routes/downloads.js';
+import {ChangelogRouter} from './routes/changeLog.js';
+import {QuickstartRouter} from './routes/quickstart.js';
+import {AltApiRouter} from './routes/altapi.js';
+import {Log} from '../utils/Log.js';
 
 Eta.configure({
   cache: true,
   rmWhitespace: true,
 });
 
-export default class HTTPServer extends SingletonClass {
+export default class HTTPServer {
+  /**
+   * @type {HTTPServer}
+   */
+  static #instance;
+
+  /**
+   * Get default HTTP server instance
+   *
+   * @returns {HTTPServer} Instance
+   */
+  static get instance() {
+    if (!this.#instance) {
+      this.#instance = new HTTPServer();
+    }
+    return this.#instance;
+  }
+
   /**
    * @type {express.Application}
    */
@@ -32,15 +48,6 @@ export default class HTTPServer extends SingletonClass {
    * @type {http.Server}
    */
   #server;
-
-  /**
-   * Get instance
-   *
-   * @returns {HTTPServer} HTTP server instance
-   */
-  static get instance() {
-    return super.instance;
-  }
 
   /**
    * Get Express application
@@ -170,7 +177,7 @@ export default class HTTPServer extends SingletonClass {
           unlinkSync(unixSocketPath);
         } catch (error) {
           if (error.code !== 'ENOENT') {
-            log.warn(error);
+            Log.warn(error);
           }
         }
         listenOptions = {
@@ -207,9 +214,9 @@ export default class HTTPServer extends SingletonClass {
       server.on('listening', () => {
         const address = server.address();
         if (typeof (address.port) === 'number') {
-          log.info(`Listening on ${address.address} port ${address.port} (${address.family})`);
+          Log.info(`Listening on ${address.address} port ${address.port} (${address.family})`);
         } else {
-          log.info(`Listening on UNIX-domain socket '${unixSocketPath}'`);
+          Log.info(`Listening on UNIX-domain socket '${unixSocketPath}'`);
         }
 
         resolve();
@@ -271,7 +278,7 @@ export default class HTTPServer extends SingletonClass {
     if (Config.get('http')['forcePrimaryDomain']) {
       const {primaryDomain} = Config.get('http');
       if (!primaryDomain) {
-        log.warn(new Error('Forcing primary domain without specifying'));
+        Log.warn(new Error('Forcing primary domain without specifying'));
       }
 
       application.use((req, res, next) => {
@@ -302,9 +309,9 @@ export default class HTTPServer extends SingletonClass {
     // eslint-disable-next-line no-unused-vars
     application.use((error, req, res, next) => {
       if (Config.development) {
-        log.warn(error);
+        Log.warn(error);
       } else {
-        log.info(error);
+        Log.info(error);
       }
 
       if (!error.status) {
