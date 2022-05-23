@@ -1,10 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ChildProcess = require('child_process');
@@ -20,7 +20,6 @@ if (!['production', 'development'].includes(environment)) {
 }
 const isProduction = environment === 'production';
 
-const devMode = environment !== 'production';
 const tag = process.env['TRAVIS_TAG'];
 
 const commitHash = ChildProcess.execSync('git rev-parse --short HEAD').toString();
@@ -29,7 +28,7 @@ const bundleVersion = `${!tag ? `v${PackageJson.version}` : tag}-${commitHash}`;
 const outputPath = path.resolve(__dirname, `../public/${bundlePath}/`);
 
 module.exports = {
-  entry: path.resolve(__dirname, 'index.js'),
+  entry: path.resolve(__dirname, 'entry.js'),
   mode: 'production',
   // eslint-disable-next-line no-nested-ternary
   devtool: isCI ? 'hidden-source-map' : (isProduction ? 'source-map' : 'cheap-module-source-map'),
@@ -84,7 +83,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new MomentLocalesPlugin(),
     new webpack.DefinePlugin({
       APP_ENVIRONMENT: JSON.stringify(environment),
       APP_VERSION: JSON.stringify(bundleVersion),

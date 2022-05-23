@@ -1,0 +1,27 @@
+<% layout('layout') %>
+<main>
+  <h1>RollerCoaster Tycoon 2 TTP Demo</h1>
+  <p>The RollerCoaster Tycoon 2 TTP Demo allows you to play the full game for 1 hour. Fortunately, OpenRCT2 removes this 1 hour time limit. By removing this limit you can enjoy the full OpenRCT2 experience without buying the game.</p>
+  <h2 class="important">Consider buying the game</h2>
+  <p>We highly recommend you to buy the game in order to support Chris Sawyer and Atari. It's really not that expensive, and gives you the full experience as it should be. Using this demo is at your own risk!</p>
+  <p>
+    RollerCoaster Tycoon 2 can be bought on
+    <a href="https://catchylink.eu/links/OpenRCT2.org/GreenManGaming" target="_blank" rel="nofollow">Green Man Gaming</a>,
+    <a href="https://catchylink.eu/links/OpenRCT2.org/G2A" target="_blank" rel="nofollow">G2A</a>,
+    <a href="https://catchylink.eu/links/OpenRCT2.org/GOG" target="_blank" rel="nofollow">GOG</a>
+    and various other digital stores.
+  </p>
+  <h2>Instructions</h2>
+  <ul>
+    <li>
+      Download and install the <a href="/downloads">latest OpenRCT2 release</a>. Don't run the game yet.
+    </li>
+    <li>
+      Download the <i>RollerCoaster Tycoon 2 Triple Thrill Pack Demo</i> as a <a href="./demo/zip">ZIP archive</a> (532 MB) or <a href="./demo/exe">EXE self-extracting archive</a> (412 MB).
+    </li>
+    <li>Extract the demo files to a directory/folder of your preference.</li>
+    <li>
+      Install and run OpenRCT2. Select your demo folder as the RCT2 game path.
+    </li>
+  </ul>
+</main>

@@ -1,6 +1,6 @@
-import HTTPServer from '../../http.js';
-import Database from '../../../misc/database.js';
-import log from '../../../utils/log.js';
+import HTTPServer from '../http.js';
+import Database from '../../misc/database.js';
+import log from '../../utils/log.js';
 
 export default class ChangelogRouter {
   #router;
@@ -16,7 +16,8 @@ export default class ChangelogRouter {
       const changelog = [];
       let lastUpdated;
       try {
-        const records = await Database.instance.query('SELECT * FROM `changesets` ORDER BY `versionName` DESC');
+        // Getting 6 instead of 3 items as some records might not be parsed
+        const records = await Database.instance.query('SELECT * FROM `changesets` ORDER BY `versionName` DESC LIMIT 0,6');
         if (records) {
           let isFirst = true;
           for (const record of records) {
@@ -36,6 +37,11 @@ export default class ChangelogRouter {
               created: record['created'],
               updated,
             });
+
+            // Limit changelog to 3 items
+            if (changelog.legth >= 3) {
+              break;
+            }
           }
         }
       } catch (error) {
@@ -47,8 +53,8 @@ export default class ChangelogRouter {
         return;
       }
 
-      const template = require('./changelog.marko');
-      res.marko(template, {
+      res.render('changelog', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: 'Changelog',
           description: 'An overview of all the OpenRCT2 changes over the years.',

@@ -1,0 +1,26 @@
+<% layout('layout') %>
+<main class="downloads downloadsIndex">
+  <section>
+    <h1><%= it.branch %> downloads</h1>
+    <p class="lead">
+      An overview of the recent OpenRCT2 builds in the <i><%= it.branch.toLowerCase() %></i> branch.
+    </p>
+    <h2>Last <%= it.releases.length %> downloads</h2>
+    <table>
+      <thead>
+        <tr>
+          <td>Version</td>
+          <td>Published</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (const [index, release] of it.releases.entries()) { %>
+          <tr>
+            <td><a href="/downloads/<%= release.branch %>/<%= index === 0 ? 'latest' : release.version %>" title="View download <%= release.name %> details"><%= release.name %></a></td>
+            <td class="titleDate"><%~ includeFile('partials/date.eta', { date: release.published, relative: true, title: true }) %></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </section>
+</main>

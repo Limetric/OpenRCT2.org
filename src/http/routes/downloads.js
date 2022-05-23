@@ -1,7 +1,7 @@
-import HTTPServer from '../../http.js';
-import Releases from '../../../misc/releases.js';
-import StringUtils from '../../../utils/string.js';
-import log from '../../../utils/log.js';
+import HTTPServer from '../http.js';
+import Releases from '../../misc/releases.js';
+import StringUtils from '../../utils/string.js';
+import log from '../../utils/log.js';
 
 /**
  * @typedef {import('../../../misc/release.js').default} Release
@@ -32,8 +32,8 @@ export default class DownloadsRouter {
         lastDevelop = {};
       }
 
-      const template = require('./downloadsIndex.marko');
-      res.marko(template, {
+      res.render('downloads/index', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: 'Downloads',
           description: 'Downloads for the open-source adaption of RollerCoaster Tycoon 2. Free to download.',
@@ -45,8 +45,8 @@ export default class DownloadsRouter {
     });
 
     router.get('/demo', (req, res) => {
-      const template = require('./downloadDemo.marko');
-      res.marko(template, {
+      res.render('downloads/demo', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: 'Download RCT2 Demo',
           description: 'By downloading the free RollerCoaster Tycoon 2 TTP Demo you can play the full OpenRCT2 game.',
@@ -104,8 +104,8 @@ export default class DownloadsRouter {
 
       const uflBranch = StringUtils.uppercaseFirstLetter(branch);
 
-      const template = require('./downloadsBranchIndex.marko');
-      res.marko(template, {
+      res.render('downloads/branchOverview', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: `${uflBranch} downloads`,
           description: `Latest ${releases.length} OpenRCT2 downloads in the ${uflBranch} branch.`,
@@ -154,8 +154,8 @@ export default class DownloadsRouter {
        */
       const {release} = req;
 
-      const template = require('./downloadsView.marko');
-      res.marko(template, {
+      res.render('downloads/view', {
+        ...HTTPServer.instance.application.locals,
         page: {
           title: req.latest ? `Latest ${req.release.shortTitle} download` : `Download ${req.release.shortTitle}`,
           description: req.latest ? `Download latest OpenRCT2 ${req.release.longTitle} of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.` : `Download OpenRCT2 ${req.release.longTitle} of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.`,
