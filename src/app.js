@@ -25,20 +25,18 @@ if (cwd() !== appDirectory) {
   console.log(`Working directory: ${appDirectory}`);
 }
 
-(async () => {
-  try {
-    log.info(`Current environment: ${Config.environment}`);
+try {
+  log.info(`Environment: ${Config.environment}`);
 
-    ReleasesParser.checkUpdate();
-    ChangelogParser.checkUpdate();
+  ReleasesParser.checkUpdate();
+  ChangelogParser.checkUpdate();
 
-    const httpServer = HTTPServer.instance;
-    await httpServer.initialize();
-    await httpServer.listen();
+  const httpServer = HTTPServer.instance;
+  await httpServer.initialize();
+  await httpServer.listen();
 
-    log.info('Application is initialized and ready for use');
-  } catch (error) {
-    log.fatal(error);
-    process.exit(1);
-  }
-})();
+  log.info('Application is initialized and ready for use');
+} catch (error) {
+  log.fatal(error);
+  process.exit(1);
+}

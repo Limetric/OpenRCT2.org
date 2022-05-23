@@ -1,8 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
-import got from 'got';
-import UrlHandler from '../urlHandler/index.js';
+import {got} from 'got';
+import {UrlHandler} from '../urlHandler/urlHandler.js';
 import StringUtils from '../../utils/string.js';
-import Database from '../../misc/database.js';
+import {Database} from '../../misc/database.js';
 import log from '../../utils/log.js';
 
 export default class ReleasesParser {

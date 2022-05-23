@@ -1,6 +1,6 @@
 import multer from 'multer';
 import {Octokit} from '@octokit/rest';
-import got from 'got';
+import {got} from 'got';
 import Config from '../../misc/config.js';
 import Releases from '../../misc/releases.js';
 import log from '../../utils/log.js';

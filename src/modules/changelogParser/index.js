@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
-import got from 'got';
+import {got} from 'got';
 import hash from 'object-hash';
-import Database from '../../misc/database.js';
+import {Database} from '../../misc/database.js';
 import log from '../../utils/log.js';
 
 export default class ChangelogParser {

@@ -1,5 +1,5 @@
 import Release from './release.js';
-import Database from './database.js';
+import {Database} from './database.js';
 import log from '../utils/log.js';
 
 export default class Releases {

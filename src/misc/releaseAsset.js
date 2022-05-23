@@ -1,4 +1,4 @@
-import got from 'got';
+import {got} from 'got';
 
 /**
  * @typedef {import('./release.js').default} Release

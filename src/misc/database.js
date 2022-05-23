@@ -1,11 +1,11 @@
-import {mysql, Pool} from 'mysql2';
+import mysql, {Pool} from 'mysql2';
 import Config from './config.js';
 import log from '../utils/log.js';
 
 /**
  * Database class
  */
-export default class Database {
+export class Database {
   /**
    * @type {Pool}
    */

@@ -64,6 +64,7 @@
     "@babel/semi": "error",
     "func-names": "off",
     "space-before-function-paren": "off",
-    "curly": ["error", "all"]
+    "curly": ["error", "all"],
+    "import/no-unresolved": "off"
   }
 }

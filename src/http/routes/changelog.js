@@ -1,5 +1,5 @@
 import HTTPServer from '../http.js';
-import Database from '../../misc/database.js';
+import {Database} from '../../misc/database.js';
 import log from '../../utils/log.js';
 
 export default class ChangelogRouter {
