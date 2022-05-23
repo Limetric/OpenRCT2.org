@@ -11,7 +11,7 @@ export default class Releases {
    * @returns {Promise<Release[]>} Releases
    */
   static async getLastByBranch(branch, limit = 1) {
-    const records = await Database.instance.query('SELECT * FROM `releases` WHERE `branch` = ? ORDER BY `published` DESC LIMIT 0,?', [branch, limit]) ?? [];
+    const records = await Database.query('SELECT * FROM `releases` WHERE `branch` = ? ORDER BY `published` DESC LIMIT 0,?', [branch, limit]) ?? [];
 
     const releases = [];
     for (const record of records) {
@@ -36,7 +36,7 @@ export default class Releases {
    * @returns {Promise<Release>} Release
    */
   static async getByBranchVersion(branch, version) {
-    const record = (await Database.instance.query('SELECT * FROM `releases` WHERE `branch` = ? AND `version` = ? LIMIT 0,1', [branch, version]))?.[0];
+    const record = (await Database.query('SELECT * FROM `releases` WHERE `branch` = ? AND `version` = ? LIMIT 0,1', [branch, version]))?.[0];
     if (!record) {
       return undefined;
     }

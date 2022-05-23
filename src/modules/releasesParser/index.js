@@ -85,9 +85,9 @@ export default class ReleasesParser {
       notes = data['body'];
     }
 
-    const records = await Database.instance.query('SELECT * FROM `releases` WHERE `branch` = ? AND `id` = ? LIMIT 0,1', [branch, data['id']]);
+    const records = await Database.query('SELECT * FROM `releases` WHERE `branch` = ? AND `id` = ? LIMIT 0,1', [branch, data['id']]);
     if (!records.length) {
-      await Database.instance.query('INSERT INTO `releases` SET ?', {
+      await Database.query('INSERT INTO `releases` SET ?', {
         id: data['id'],
         versionName: data['name'],
         version: data['tag_name'],
@@ -107,11 +107,11 @@ export default class ReleasesParser {
     if (data['assets']) {
       for (const assetData of data['assets']) {
         try {
-          const assetRecords = await Database.instance.query('SELECT * FROM `releaseAssets` WHERE `id` = ? LIMIT 0,1', [assetData['id']]);
+          const assetRecords = await Database.query('SELECT * FROM `releaseAssets` WHERE `id` = ? LIMIT 0,1', [assetData['id']]);
 
           if (!assetRecords.length) {
             const url = assetData['browser_download_url'];
-            await Database.instance.query('INSERT INTO `releaseAssets` SET ?', [{
+            await Database.query('INSERT INTO `releaseAssets` SET ?', [{
               id: assetData['id'],
               releaseId: data['id'],
               url,
@@ -127,7 +127,7 @@ export default class ReleasesParser {
     } else {
       // Delete assets from database
       try {
-        await Database.instance.query('DELETE FROM `assets` WHERE `releaseId` = ?', [data['id']]);
+        await Database.query('DELETE FROM `assets` WHERE `releaseId` = ?', [data['id']]);
       } catch (error) {
         log.warn(error);
       }

@@ -73,7 +73,7 @@ export default class ChangelogParser {
         // Generate changes hash to compare against Firestore
         changeset.changesHash = hash(changeset.changes);
 
-        const records = await Database.instance.query('SELECT `changesHash` FROM `changesets` WHERE `versionName` = ? LIMIT 0,1', [changeset.versionName]);
+        const records = await Database.query('SELECT `changesHash` FROM `changesets` WHERE `versionName` = ? LIMIT 0,1', [changeset.versionName]);
 
         if (records.length) {
           const record = records[0];
@@ -91,7 +91,7 @@ export default class ChangelogParser {
           ...updateData,
         };
 
-        await Database.instance.query('INSERT INTO `changesets` SET ? ON DUPLICATE KEY UPDATE ?', [insertData, updateData]);
+        await Database.query('INSERT INTO `changesets` SET ? ON DUPLICATE KEY UPDATE ?', [insertData, updateData]);
 
         changesCount++;
       } catch (error) {

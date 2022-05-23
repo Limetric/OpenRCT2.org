@@ -286,7 +286,7 @@ export default class Release {
     this.#branch = record['branch'];
 
     // Parse assets
-    const assetRecords = await Database.instance.query('SELECT * FROM `releaseAssets` WHERE `releaseId` = ?', [this.id]);
+    const assetRecords = await Database.query('SELECT * FROM `releaseAssets` WHERE `releaseId` = ?', [this.id]);
 
     this.assets.clear();
     for (const assetRecord of assetRecords) {
