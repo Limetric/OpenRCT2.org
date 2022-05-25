@@ -2,14 +2,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const ChildProcess = require('child_process');
-// eslint-disable-next-line import/extensions
-const PackageJson = require('../package');
+const Package = require('../package.json');
 
 // Determine environment
 const isCI = !!process.env['CI'];
@@ -20,12 +17,17 @@ if (!['production', 'development'].includes(environment)) {
 }
 const isProduction = environment === 'production';
 
-const tag = process.env['TRAVIS_TAG'];
+// Determine git tags, etc.
+const githubRef = process.env['GITHUB_REF'] ?? 'dev';
+const tag = githubRef.startsWith('refs/tags/') ? githubRef.substring(10) : undefined;
+const githubSha = process.env['GITHUB_SHA'];
+const commitHash = githubSha ? githubSha.substring(0, 7) : 'dev';
 
-const commitHash = ChildProcess.execSync('git rev-parse --short HEAD').toString();
-const bundlePath = 'resources';
-const bundleVersion = `${!tag ? `v${PackageJson.version}` : tag}-${commitHash}`;
-const outputPath = path.resolve(__dirname, `../public/${bundlePath}/`);
+// Determine version
+const bundleVersion = `${!tag ? `v${Package.version}-${commitHash}` : tag}`;
+
+const urlPath = 'resources/';
+const outputPath = path.resolve(__dirname, `../public/${urlPath}`);
 
 module.exports = {
   entry: path.resolve(__dirname, 'entry.js'),
@@ -37,7 +39,7 @@ module.exports = {
     chunkFilename: '[name].[contenthash].chunk.min.js',
     path: outputPath,
     publicPath: 'auto',
-    clean: true,
+    clean: false,
   },
   module: {
     rules: [
@@ -86,10 +88,6 @@ module.exports = {
     new webpack.DefinePlugin({
       APP_ENVIRONMENT: JSON.stringify(environment),
       APP_VERSION: JSON.stringify(bundleVersion),
-    }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      openAnalyzer: false,
     }),
     new CssMinimizerPlugin({
       minimizerOptions: {
@@ -142,7 +140,7 @@ if (isCI) {
     include: outputPath,
     ignore: ['node_modules', 'webpack.config.cjs'],
     configFile: './frontend/sentry.properties',
-    urlPrefix: `~/${bundlePath}`,
+    urlPrefix: `~/${urlPath}`,
     dryRun: !tag,
   }));
 }
