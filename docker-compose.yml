@@ -8,8 +8,8 @@ services:
       args:
         - NODE_VERSION=16
     volumes:
-      - './config:/home/app/config'
-#      - './customViews:/home/app/views/custom'
+      - './config:/home/node/app/config'
+#      - './customViews:/home/node/app/views/custom'
     ports:
       - "5000:80"
     restart: unless-stopped
