@@ -1,5 +1,9 @@
 {
   "connectionLimit": 15,
   "debug": false,
-  "timezone": "local"
+  "timezone": "local",
+  "host": "db",
+  "user": "openrct2",
+  "password": "letmein",
+  "database": "openrct2"
 }

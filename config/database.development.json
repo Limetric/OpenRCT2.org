@@ -1,7 +1,0 @@
-{
-  "host": "example.com",
-  "port": 3306,
-  "user": "openrct2",
-  "password": null,
-  "database": "openrct2"
-}
