@@ -47,7 +47,7 @@
     "@babel/eslint-parser": "^7.17.0",
     "@babel/eslint-plugin": "^7.17.7",
     "@babel/plugin-syntax-import-assertions": "^7.17.12",
-    "@babel/preset-env": "^7.18.0",
+    "@babel/preset-env": "^7.18.2",
     "@sentry/webpack-plugin": "^1.18.9",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
