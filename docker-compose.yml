@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - NODE_VERSION=16
+        - NODE_ENV=development
     volumes:
       - './config:/home/node/app/config'
 #      - './customViews:/home/node/app/views/custom'
@@ -30,6 +30,6 @@ services:
       - './mysql_init:/docker-entrypoint-initdb.d'
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
-      interval: 5s
-      timeout: 10s
-      retries: 10
+      interval: 3s
+      timeout: 6s
+      retries: 30

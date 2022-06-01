@@ -1,20 +1,24 @@
 # syntax=docker/dockerfile:1
 
+ARG GIT_REF
+ARG GIT_SHA
+ARG NODE_ENV
+
 # Define base image
 FROM node:16-alpine AS base
 
-# User
-RUN addgroup --system app && adduser --system --ingroup app app
-USER node
-
 # Environment
-ENV NODE_ENV production
+ENV NODE_ENV ${NODE_ENV:-production}
+ENV GIT_REF ${GIT_REF}
+ENV GIT_SHA ${GIT_SHA:-dev}
 
-# Working directory
+# User and working directory
+USER node
 RUN mkdir -p /home/node/app
 WORKDIR /home/node/app
 
-#RUN sudo chmod -R 777 /home/node/app
+# Secrets
+RUN --mount=type=secret,id=sentry_auth_token
 
 # Volumes
 VOLUME ["./config", "./customViews"]
@@ -24,12 +28,17 @@ COPY --chown=node:node package*.json ./
 COPY --chown=node:node README.md ./
 COPY --chown=node:node views/ ./views/
 COPY --chown=node:node public/ ./public/
+COPY --chown=node:node .npmrc ./
 
 # Define builder image
 FROM base AS builder
+
+# Build args
+ARG CI
+
+# Copy source files
 COPY --chown=node:node src/ ./src/
 COPY --chown=node:node frontend/ ./frontend/
-COPY --chown=node:node .npmrc ./
 COPY --chown=node:node .eslintrc.json ./
 
 # Install all dependencies
