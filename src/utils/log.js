@@ -71,7 +71,11 @@ process.on('unhandledRejection', (reason) => {
   }
 
   Log.fatal(reason);
+  process.exit(1);
 });
-process.on('uncaughtException', (error) => Log.fatal(error));
+process.on('uncaughtException', (error) => {
+  Log.fatal(error);
+  process.exit(1);
+});
 
 export {Log};
