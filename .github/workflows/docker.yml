@@ -60,5 +60,5 @@ jobs:
             "sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
           build-args: |
             CI=actions
-            GIT_SHA=${{ env.GITHUB_SHA }}
-            GIT_REF=${{ env.GITHUB_REF }}
+            GIT_SHA=${{ github.sha }}
+            GIT_REF=${{ github.ref }}
