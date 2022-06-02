@@ -47,7 +47,9 @@
     </header>
     <%~ it.body %>
     <footer>
-      <span>&copy; <%= (new Date()).getFullYear() %> OpenRCT2.org</span>
+      <span>&copy; <%= (new Date()).getFullYear() %> OpenRCT2.org <%= it.site.version %></span>
+      <span class="separator"></span>
+      <a href="https://github.com/Limetric/OpenRCT2.org" target="_blank" title="OpenRCT2.org repository on GitHub">Repository</a>
       <span class="separator"></span>
       <a href="mailto:mail@openrct2.org">Email webmaster</a>
     </footer>
