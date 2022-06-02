@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
@@ -52,26 +51,14 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          {
+          MiniCssExtractPlugin.loader, {
             loader: 'css-loader',
             options: {
               importLoaders: 2, // 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
             },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    autoprefixer(),
-                  ],
-                ],
-              },
-            },
-          },
-          {
+          }, {
+            loader: 'resolve-url-loader',
+          }, {
             loader: 'sass-loader',
           },
         ],

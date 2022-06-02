@@ -1,0 +1,18 @@
+/* open-sans-regular - latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local(''),
+       url('../fonts/open-sans-v29-latin-regular.woff2') format('woff2');
+}
+/* open-sans-600 - latin */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700; // setting 700 as that's bold
+  font-display: swap;
+  src: local(''),
+       url('../fonts/open-sans-v29-latin-600.woff2') format('woff2');
+}

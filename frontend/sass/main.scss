@@ -18,7 +18,7 @@ main {
 
   h1, h2, h3 {
     margin: 1.5em 0 0.5em 0;
-    font-weight: 300;
+    font-weight: normal;
     padding: 0.8em;
     display: flex;
     align-items: center;
@@ -42,7 +42,7 @@ main {
       background-color: $header-h1-bg-color;
       color: $header-h1-text-color;
       font-size: $header-h1-text-size;
-      font-weight: 600;
+      font-weight: bold;
     }
   }
 
@@ -84,7 +84,7 @@ main {
     }
 
     &.emphasize {
-      font-weight: 600;
+      font-weight: bold;
     }
   }
 
@@ -121,7 +121,7 @@ main {
 
     > thead {
       td {
-        font-weight: 600;
+        font-weight: bold;
       }
     }
   }
@@ -139,7 +139,7 @@ main {
     padding: 10px 20px;
     line-height: 1.2;
     color: $button-color;
-    font-weight: 600;
+    font-weight: bold;
     text-decoration: none;
     display: flex;
     align-items: center;
