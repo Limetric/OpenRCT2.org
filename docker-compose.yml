@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 services:
   app:
 #    image: ghcr.io/limetric/openrct2.org:v3
@@ -8,8 +8,8 @@ services:
       args:
         - NODE_ENV=development
     volumes:
-      - './config:/home/node/app/config'
-#      - './customViews:/home/node/app/views/custom'
+      - "./config:/home/node/app/config"
+#      - "./customViews:/home/node/app/views/custom"
     ports:
       - "5000:80"
     restart: unless-stopped
@@ -26,8 +26,8 @@ services:
       MYSQL_USER: openrct2
       MYSQL_PASSWORD: letmein  
     volumes:
-#      - './data:/var/lib/mysql'
-      - './mysql_init:/docker-entrypoint-initdb.d'
+#      - "./data:/var/lib/mysql"
+      - "./mysql_init:/docker-entrypoint-initdb.d"
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       interval: 3s
