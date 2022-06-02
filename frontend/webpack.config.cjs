@@ -11,20 +11,18 @@ const Package = require('../package.json');
 // Determine environment
 const isCI = !!process.env['CI'];
 const environment = process.env['NODE_ENV'].toLowerCase();
+const isProduction = environment === 'production';
 console.log(`Environment: ${environment}`);
 if (!['production', 'development'].includes(environment)) {
   throw new Error('Invalid environment');
 }
-const isProduction = environment === 'production';
 
 // Determine git tags, etc.
-const githubRef = process.env['GITHUB_REF'] ?? 'dev';
-const tag = githubRef.startsWith('refs/tags/') ? githubRef.substring(10) : undefined;
-const githubSha = process.env['GITHUB_SHA'];
-const commitHash = githubSha ? githubSha.substring(0, 7) : 'dev';
+const gitTag = process.env['GIT_REF']?.startsWith('refs/tags/') ? process.env['GIT_REF'].substring(10) : undefined;
+const gitCommit = process.env['GIT_SHA'].substring(0, 7);
 
 // Determine version
-const bundleVersion = `${!tag ? `v${Package.version}-${commitHash}` : tag}`;
+const bundleVersion = `${gitTag ?? `v${Package.version}-${gitCommit}`}`;
 
 const urlPath = 'resources/';
 const outputPath = path.resolve(__dirname, `../public/${urlPath}`);
@@ -105,6 +103,14 @@ module.exports = {
       filename: '[name].[contenthash].bundle.min.css',
       chunkFilename: '[name].[contenthash].chunk.min.css',
     }),
+    new SentryWebpackPlugin({
+      release: bundleVersion,
+      include: outputPath,
+      ignore: ['node_modules', 'webpack.config.cjs'],
+      configFile: './frontend/sentry.properties',
+      urlPrefix: `~/${urlPath}`,
+      dryRun: !isCI || !gitTag,
+    }),
   ],
   optimization: {
     minimize: true,
@@ -133,14 +139,3 @@ module.exports = {
     modules: false,
   },
 };
-
-if (isCI) {
-  module.exports.plugins.push(new SentryWebpackPlugin({
-    release: bundleVersion,
-    include: outputPath,
-    ignore: ['node_modules', 'webpack.config.cjs'],
-    configFile: './frontend/sentry.properties',
-    urlPrefix: `~/${urlPath}`,
-    dryRun: !tag,
-  }));
-}

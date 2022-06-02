@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import {cwd, chdir} from 'node:process';
+import process, {cwd, chdir} from 'node:process';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import Package from '../package.json' assert {type: 'json'};
@@ -12,9 +12,10 @@ import {ChangelogParser} from './modules/changelogParser/changelogParser.js';
 
 const appDirectory = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-console.log('#############################');
-console.log(`OpenRCT2.org v${Package.version}`);
-console.log('#############################');
+const appTitle = `OpenRCT2.org v${Package.version}-${process.env['GIT_SHA'].substring(0, 7)}`;
+console.log('#'.repeat(appTitle.length));
+console.log(appTitle);
+console.log('#'.repeat(appTitle.length));
 
 // Force working directory
 if (cwd() !== appDirectory) {
