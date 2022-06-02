@@ -109,7 +109,7 @@ module.exports = {
       ignore: ['node_modules', 'webpack.config.cjs'],
       configFile: './frontend/sentry.properties',
       urlPrefix: `~/${urlPath}`,
-      dryRun: !isCI || !gitTag,
+      dryRun: !(isCI && gitTag),
     }),
   ],
   optimization: {
