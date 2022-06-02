@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 
-import process, {cwd, chdir} from 'node:process';
+import {cwd, chdir} from 'node:process';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import Package from '../package.json' assert {type: 'json'};
 import {Log} from './utils/log.js';
 import {Config} from './misc/config.js';
 import HTTPServer from './http/http.js';
 import {ReleasesParser} from './modules/releasesParser/releasesParser.js';
 import {ChangelogParser} from './modules/changelogParser/changelogParser.js';
+import {VersionUtils} from './utils/version.js';
 
 const appDirectory = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-const appTitle = `OpenRCT2.org v${Package.version}-${process.env['GIT_SHA'].substring(0, 7)}`;
+const appTitle = `OpenRCT2.org ${VersionUtils.getVersion()}`;
 console.log('#'.repeat(appTitle.length));
 console.log(appTitle);
 console.log('#'.repeat(appTitle.length));

@@ -15,6 +15,7 @@ import {ChangelogRouter} from './routes/changelog.js';
 import {QuickstartRouter} from './routes/quickstart.js';
 import {AltApiRouter} from './routes/altapi.js';
 import {Log} from '../utils/log.js';
+import {VersionUtils} from '../utils/version.js';
 
 Eta.configure({
   cache: true,
@@ -120,6 +121,7 @@ export default class HTTPServer {
       title: Config.get('site')['title'],
       // description: '',
       publicUrl: Config.get('site')['publicUrl'],
+      version: VersionUtils.getVersion(),
     };
 
     // Find JS and CSS bundles
