@@ -12,7 +12,6 @@ services:
 #      - "./customViews:/home/node/app/views/custom"
     ports:
       - "5000:80"
-    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
