@@ -1,15 +1,20 @@
 # syntax=docker/dockerfile:1
 
+# Initial arguments
 ARG GIT_REF
 ARG GIT_SHA
 ARG NODE_ENV
+ARG CI
 
 # Define base image
 FROM node:16-alpine AS base
 
 # Environment
+ARG NODE_ENV
 ENV NODE_ENV ${NODE_ENV:-production}
+ARG GIT_REF
 ENV GIT_REF ${GIT_REF}
+ARG GIT_SHA
 ENV GIT_SHA ${GIT_SHA:-dev}
 
 # User and working directory
