@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require('path');
 const webpack = require('webpack');
+const fs = require('fs');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SentryWebpackPlugin = require('@sentry/webpack-plugin');
@@ -97,6 +98,7 @@ module.exports = {
       configFile: './frontend/sentry.properties',
       urlPrefix: `~/${urlPath}`,
       dryRun: !(isCI && gitTag),
+      authToken: fs.readFileSync('/run/secrets/sentry_auth_token', 'utf8'),
     }),
   ],
   optimization: {
