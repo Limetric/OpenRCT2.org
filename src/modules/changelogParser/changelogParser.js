@@ -77,7 +77,7 @@ export class ChangelogParser {
         // Generate changes hash to compare against Firestore
         changeset.changesHash = hash(changeset.changes);
 
-        const record = (await Database.query('SELECT `changesHash`, `changes` FROM `changesets` WHERE `versionName` = ? LIMIT 0,1', [changeset.versionName]))?.[0];
+        const record = (await Database.query('SELECT `changesHash` FROM `changesets` WHERE `versionName` = ? LIMIT 0,1', [changeset.versionName]))?.[0];
 
         // Check if changes hash is the same
         if (record?.['changesHash'] === changeset.changesHash) {
