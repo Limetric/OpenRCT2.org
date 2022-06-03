@@ -1,16 +1,16 @@
-import * as Sentry from '@sentry/node';
+import {init as initSentry, addBreadcrumb, captureException} from '@sentry/node';
 import {format} from 'node:util';
 import chalk from 'chalk';
 import {hostname} from 'node:os';
 import {Config} from '../misc/config.js';
-import Package from '../../package.json' assert { type: 'json' };
+import {VersionUtils} from './version.js';
 
 const {dsn} = Config.get('sentry');
 let sentryActive = false;
 if (!Config.development && dsn) {
-  Sentry.init({
+  initSentry({
     dsn,
-    release: `v${Package.version}`,
+    release: VersionUtils.getVersion(),
     environment: Config.environment,
     serverName: hostname(),
   });
@@ -30,11 +30,11 @@ const Log = {
     const formattedMessage = format(...args);
     if (Config.development) {
       console.debug(logLevelColors.debug('[DEBUG]'), formattedMessage);
-    } else {
-      Sentry.addBreadcrumb({
+    } else if (sentryActive) {
+      addBreadcrumb({
         category: 'debug',
         message: formattedMessage,
-        level: Sentry.Severity.Debug,
+        level: 'debug',
       });
     }
   },
@@ -43,21 +43,21 @@ const Log = {
   },
   warn: (...args) => {
     if (sentryActive) {
-      Sentry.captureException(...args);
+      captureException(...args);
     }
 
     console.warn(logLevelColors.warn('[WARN]'), format(...args));
   },
   error: (...args) => {
     if (sentryActive) {
-      Sentry.captureException(...args);
+      captureException(...args);
     }
 
     console.warn(logLevelColors.error('[ERROR]'), format(...args));
   },
   fatal: (...args) => {
     if (sentryActive) {
-      Sentry.captureException(...args);
+      captureException(...args);
     }
 
     console.warn(logLevelColors.fatal('[FATAL]'), format(...args));
