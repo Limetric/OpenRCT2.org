@@ -11,6 +11,7 @@ docker compose build
 docker compose up
 ```
 3. Open local installation in your browser via `http://localhost:5000`.
+You can manipulate the database via phpMyAdmin by opening `http://localhost:9090`.
 
 ## Forums
 The forums run on the commercial *IPS Community Suite* PHP software. This portion will not become available in the repository.

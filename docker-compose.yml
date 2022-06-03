@@ -36,3 +36,13 @@ services:
       interval: 3s
       timeout: 6s
       retries: 30
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 9090:80
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=openrct2
+      - PMA_PASSWORD=letmein
