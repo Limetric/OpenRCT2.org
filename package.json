@@ -62,7 +62,7 @@
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-loader": "^7.0.0",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.52.1",
+    "sass": "^1.52.2",
     "sass-loader": "^13.0.0",
     "terser-webpack-plugin": "^5.3.3",
     "webpack": "^5.73.0",
