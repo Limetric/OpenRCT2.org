@@ -52,6 +52,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v3
         with:
+          target: release
           context: .
           push: ${{ github.ref_type == 'tag' || github.ref_name == 'main' }}
           tags: ${{ steps.meta.outputs.tags }}

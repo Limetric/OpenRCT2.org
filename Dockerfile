@@ -22,9 +22,6 @@ USER node
 RUN mkdir -p /home/node/app
 WORKDIR /home/node/app
 
-# Secrets
-RUN --mount=type=secret,id=sentry_auth_token
-
 # Volumes
 VOLUME ["./config", "./customViews"]
 
@@ -54,7 +51,7 @@ RUN rm -f .npmrc
 
 # Test and build
 RUN npm test
-RUN npm run build
+RUN --mount=type=secret,id=sentry_auth_token,uid=1000 npm run build
 
 # --- Define development image ---
 FROM base AS development
