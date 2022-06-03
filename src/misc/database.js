@@ -46,8 +46,10 @@ export class Database {
           if (field.length === 1) {
             return field.string() === '1';
           }
-        } else /* Cast `JSON` types */ if (field.type === 'JSON') {
-          const value = field.string();
+        } else if (field.type === 'JSON') {
+          // Cast `JSON` types
+          // Note: Directly calling field.string() has encoding issues (issue #90)
+          const value = field.buffer().toString();
           if (!value) {
             return undefined;
           }

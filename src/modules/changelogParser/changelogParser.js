@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import {got} from 'got';
 import hash from 'object-hash';
 import {Database} from '../../misc/database.js';
@@ -14,7 +13,9 @@ export class ChangelogParser {
     // Schedule next fetch
     setTimeout(this.checkUpdate.bind(this), 3600 * 1000);
 
-    const changes = await this.parse(await got('https://raw.githubusercontent.com/OpenRCT2/OpenRCT2/develop/distribution/changelog.txt').text());
+    const rawContent = await got('https://github.com/OpenRCT2/OpenRCT2/raw/develop/distribution/changelog.txt').text();
+
+    const changes = await this.parse(rawContent);
     if (changes > 0) {
       Log.info(`Updated ${changes} changelog sets`);
     } else {
@@ -34,37 +35,40 @@ export class ChangelogParser {
     // Filter versions
     const changesets = [];
 
+    /** @type {object} */
     let processingChangeset;
 
-    rawContent.forEach((str, index) => {
-      if (!str.startsWith('------')) {
+    for (const [index, str] of rawContent.entries()) {
+      // Detect new changeset
+      if (str.startsWith('------')) {
+        const versionName = rawContent[index - 1];
+        if (!versionName) {
+          continue;
+        }
+
+        processingChangeset = {
+          versionName,
+          changes: [],
+        };
+        changesets.push(processingChangeset);
+      } else {
+        // Skip if no changeset is processed
         if (!processingChangeset) {
-          return;
+          continue;
         }
 
         // Skip malformed changes
-        str = str.trim();
-        if (!str || !str.startsWith('- ')) {
-          return;
+        const trimmedStr = str.trim();
+        if (!trimmedStr || !trimmedStr.startsWith('- ')) {
+          continue;
         }
 
         // Push change
-        processingChangeset.changes.push(str.substring(2));
+        processingChangeset.changes.push(trimmedStr.substring(2));
 
-        return;
+        continue;
       }
-
-      const versionName = rawContent[index - 1];
-      if (!versionName) {
-        return;
-      }
-
-      processingChangeset = {
-        versionName,
-        changes: [],
-      };
-      changesets.push(processingChangeset);
-    });
+    }
 
     let changesCount = 0;
 
@@ -73,12 +77,11 @@ export class ChangelogParser {
         // Generate changes hash to compare against Firestore
         changeset.changesHash = hash(changeset.changes);
 
-        const records = await Database.query('SELECT `changesHash` FROM `changesets` WHERE `versionName` = ? LIMIT 0,1', [changeset.versionName]);
+        const record = (await Database.query('SELECT `changesHash`, `changes` FROM `changesets` WHERE `versionName` = ? LIMIT 0,1', [changeset.versionName]))?.[0];
 
-        if (records.length) {
-          const record = records[0];
-          // Check if changes hash is the same
-          if (record['changesHash'] === changeset.changesHash) { continue; }
+        // Check if changes hash is the same
+        if (record?.['changesHash'] === changeset.changesHash) {
+          continue;
         }
 
         const updateData = {
