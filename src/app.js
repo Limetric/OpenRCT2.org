@@ -3,6 +3,8 @@
 import {cwd, chdir} from 'node:process';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import * as Sentry from '@sentry/node';
+import * as Tracing from '@sentry/tracing';
 import {Log} from './utils/log.js';
 import {Config} from './misc/config.js';
 import HTTPServer from './http/http.js';
@@ -35,7 +37,27 @@ ChangelogParser.checkUpdate().catch((error) => {
   Log.error(error);
 });
 
+// Get default HTTP server instance
 const httpServer = HTTPServer.instance;
+
+// Initialize Sentry
+const {dsn} = Config.get('sentry');
+Sentry.init({
+  dsn,
+  release: VersionUtils.getVersion(),
+  environment: Config.environment,
+  integrations: [
+    new Sentry.Integrations.Http({
+      tracing: true,
+    }),
+    new Tracing.Integrations.Express({
+      app: httpServer.application,
+    }),
+  ],
+  tracesSampleRate: Config.development ? 1.0 : 0.1,
+});
+
+// Initialize HTTP server
 await httpServer.initialize();
 await httpServer.listen();
 

@@ -65,7 +65,7 @@ export default class HTTPServer {
    */
   async initialize() {
     this.#setupExpress();
-    await this.#setupMarko();
+    await this.#setupRenderer();
     this.#setupRoutes();
   }
 
@@ -82,10 +82,9 @@ export default class HTTPServer {
 
     this.#server = http.createServer(application);
 
-    // Development error handler
-    if (!Config.development) {
-      application.use(SentryHandlers.requestHandler());
-    }
+    // Sentry handlers
+    application.use(SentryHandlers.requestHandler());
+    application.use(SentryHandlers.tracingHandler());
 
     // Body Parser
     application.use(bodyParser.json());
@@ -95,27 +94,17 @@ export default class HTTPServer {
   }
 
   /**
-   * Setup Marko template engine
+   * Setup template renderer
    *
    * @returns {Promise<void>}
    */
-  async #setupMarko() {
-    /* MarkoCompiler.configure({
-      writeToDisk: false,
-    });
-    MarkoRequire.install({
-      compilerOptions: {
-        writeToDisk: false,
-      },
-    }); */
-
+  async #setupRenderer() {
     const {application} = this;
     application.engine('eta', Eta.renderFile);
     application.set('view engine', 'eta');
     application.set('views', './views');
 
-    // Set Marko globals
-    // application.locals.media = Config.media;
+    // Set render globals
     application.locals.site = {
       title: Config.get('site')['title'],
       // description: '',
@@ -215,6 +204,9 @@ export default class HTTPServer {
     return baseUrl.replace(/\/$/, '') + expressPath.replace(/\/$/, '');
   }
 
+  /**
+   * Setup routes
+   */
   #setupRoutes() {
     const {application} = this;
 
@@ -243,16 +235,16 @@ export default class HTTPServer {
     if (Config.get('http')['forcePrimaryDomain']) {
       const {primaryDomain} = Config.get('http');
       if (!primaryDomain) {
-        Log.warn(new Error('Forcing primary domain without specifying'));
+        Log.warn(new Error('Unable to enforce unspecified primary domain'));
+      } else {
+        application.use((req, res, next) => {
+          if (req.hostname && req.hostname !== primaryDomain) {
+            res.redirect(301, `https://${primaryDomain}${req.url}`);
+          } else {
+            next();
+          }
+        });
       }
-
-      application.use((req, res, next) => {
-        if (req.hostname && req.hostname !== primaryDomain) {
-          res.redirect(301, `https://${primaryDomain}${req.url}`);
-        } else {
-          next();
-        }
-      });
     }
 
     application.use('/', new PagesRouter(this).router);
@@ -270,19 +262,26 @@ export default class HTTPServer {
       next(error);
     });
 
+    // Sentry error handler
+    application.use(SentryHandlers.errorHandler({
+      shouldHandleError(error) {
+        // Capture all 404 and >= 500 errors
+        if (error.status === 404 || error.status >= 500) {
+          return true;
+        }
+        return false;
+      },
+    }));
+
     // Deal with errors. DO NOT REMOVE THE 4TH PARAMETER!
     // eslint-disable-next-line no-unused-vars
     application.use((error, req, res, next) => {
-      if (Config.development) {
-        Log.warn(error);
-      } else {
-        Log.info(error);
-      }
-
+      // Set default error code 500
       if (!error.status) {
         error.status = 500;
       }
 
+      // Determine status message
       switch (error.status) {
         case 403:
           error.statusMessage = 'No permission';
@@ -298,9 +297,13 @@ export default class HTTPServer {
           break;
       }
 
-      if (!error.message) {
-        error.message = 'An unknown problem occurred. Please try again later.';
-      }
+      // Default error message
+      error.message ??= 'An unknown problem occurred. Please try again later.';
+
+      // Include Sentry error id
+      error.sentryId = res.sentry;
+
+      Log.warn(error);
 
       res.status(error.status);
       res.render('error', {

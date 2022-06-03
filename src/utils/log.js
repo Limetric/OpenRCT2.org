@@ -1,21 +1,7 @@
-import {init as initSentry, addBreadcrumb, captureException} from '@sentry/node';
+import {addBreadcrumb, captureException, withScope as sentryWithScope} from '@sentry/node';
 import {format} from 'node:util';
 import chalk from 'chalk';
-import {hostname} from 'node:os';
 import {Config} from '../misc/config.js';
-import {VersionUtils} from './version.js';
-
-const {dsn} = Config.get('sentry');
-let sentryActive = false;
-if (!Config.development && dsn) {
-  initSentry({
-    dsn,
-    release: VersionUtils.getVersion(),
-    environment: Config.environment,
-    serverName: hostname(),
-  });
-  sentryActive = true;
-}
 
 const logLevelColors = {
   debug: chalk.white,
@@ -25,44 +11,99 @@ const logLevelColors = {
   fatal: chalk.red.bold,
 };
 
-const Log = {
-  debug: (...args) => {
+export class Log {
+  /**
+   * Get time representation text for console use
+   *
+   * @returns {string} Time representation text
+   */
+  static #getTimeRepresentation() {
+    return `[${new Date().toLocaleTimeString('en-GB')}]`;
+  }
+
+  /**
+   * Log debug message to console and Sentry
+   *
+   * @param {...} args Arguments
+   */
+  static debug(...args) {
     const formattedMessage = format(...args);
     if (Config.development) {
-      console.debug(logLevelColors.debug('[DEBUG]'), formattedMessage);
-    } else if (sentryActive) {
-      addBreadcrumb({
-        category: 'debug',
-        message: formattedMessage,
-        level: 'debug',
+      console.debug(this.#getTimeRepresentation(), logLevelColors.debug('[DEBUG]'), formattedMessage);
+    }
+
+    addBreadcrumb({
+      category: 'debug',
+      message: formattedMessage,
+      level: 'debug',
+    });
+  }
+
+  /**
+   * Log info message to console and Sentry
+   *
+   * @param {...} args Arguments
+   */
+  static info(...args) {
+    const formattedMessage = format(...args);
+
+    console.log(this.#getTimeRepresentation(), logLevelColors.info('[INFO]'), formattedMessage);
+
+    addBreadcrumb({
+      category: 'info',
+      message: formattedMessage,
+      level: 'info',
+    });
+  }
+
+  /**
+   * Log warning error to console and Sentry
+   *
+   * @param {Error} error Error
+   */
+  static warn(error) {
+    console.warn(this.#getTimeRepresentation(), logLevelColors.warn('[WARN]'), error);
+
+    sentryWithScope((scope) => {
+      scope.setLevel('warning');
+      captureException(error, {
+        tags: Object.fromEntries(Object.entries(error)),
       });
-    }
-  },
-  info: (...args) => {
-    console.debug(logLevelColors.info('[INFO]'), format(...args));
-  },
-  warn: (...args) => {
-    if (sentryActive) {
-      captureException(...args);
-    }
+    });
+  }
 
-    console.warn(logLevelColors.warn('[WARN]'), format(...args));
-  },
-  error: (...args) => {
-    if (sentryActive) {
-      captureException(...args);
-    }
+  /**
+   * Log regular error to console and Sentry
+   *
+   * @param {Error} error Error
+   */
+  static error(error) {
+    console.error(this.#getTimeRepresentation(), logLevelColors.error('[ERROR]'), error);
 
-    console.warn(logLevelColors.error('[ERROR]'), format(...args));
-  },
-  fatal: (...args) => {
-    if (sentryActive) {
-      captureException(...args);
-    }
+    sentryWithScope((scope) => {
+      scope.setLevel('error');
+      captureException(error, {
+        tags: Object.fromEntries(Object.entries(error)),
+      });
+    });
+  }
 
-    console.warn(logLevelColors.fatal('[FATAL]'), format(...args));
-  },
-};
+  /**
+   * Log fatal error to console and Sentry
+   *
+   * @param {Error} error Error
+   */
+  static fatal(error) {
+    console.error(this.#getTimeRepresentation(), logLevelColors.fatal('[FATAL]'), error);
+
+    sentryWithScope((scope) => {
+      scope.setLevel('fatal');
+      captureException(error, {
+        tags: Object.fromEntries(Object.entries(error)),
+      });
+    });
+  }
+}
 
 // Display detailed info about Unhandled Promise rejections and Uncaught Exceptions
 process.on('unhandledRejection', (reason) => {
@@ -77,5 +118,3 @@ process.on('uncaughtException', (error) => {
   Log.fatal(error);
   process.exit(1);
 });
-
-export {Log};
