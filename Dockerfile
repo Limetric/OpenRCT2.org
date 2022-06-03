@@ -6,7 +6,7 @@ ARG GIT_SHA
 ARG NODE_ENV
 ARG CI
 
-# Define base image
+# --- Define base image ---
 FROM node:16-alpine AS base
 
 # Environment
@@ -35,7 +35,7 @@ COPY --chown=node:node views/ ./views/
 COPY --chown=node:node public/ ./public/
 COPY --chown=node:node .npmrc ./
 
-# Define builder image
+# --- Define builder image ---
 FROM base AS builder
 
 # Build args
@@ -56,7 +56,22 @@ RUN rm -f .npmrc
 RUN npm test
 RUN npm run build
 
-# Define release image
+# --- Define development image ---
+FROM base AS development
+
+# Copy
+COPY --chown=node:node .eslintrc.json ./
+
+# Volumes
+VOLUME ["./src", "./frontend", "./views"]
+
+# Install all dependencies
+RUN npm ci --include=dev
+
+EXPOSE 80
+CMD [ "npm", "run", "watch" ]
+
+# --- Define release image ---
 FROM base AS release
 
 # Copy distribution and frontend resources from builder

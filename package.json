@@ -7,7 +7,7 @@
     "buildFrontend": "webpack --config frontend/webpack.config.cjs",
     "buildServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps",
     "build": "npm run buildServer && npm run buildFrontend",
-    "watch": "nodemon -e js,cjs,eta,json,scss --watch src --watch frontend --watch config --watch views --signal SIGKILL --exec \"npm run build && npm start\"",
+    "watch": "nodemon --legacy-watch -e js,cjs,eta,json,scss,css --watch src --watch frontend --watch config --watch views --signal SIGKILL --exec \"npm run build && npm test && npm start\"",
     "start": "node --experimental-json-modules --enable-source-maps dist/app.js",
     "test": "eslint --ext .js src/ && eslint --ext .js frontend/"
   },
