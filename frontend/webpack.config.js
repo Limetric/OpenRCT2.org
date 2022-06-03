@@ -98,7 +98,7 @@ export default {
       release: bundleVersion,
       include: outputPath,
       ignore: ['node_modules', 'webpack.config.js'],
-      configFile: './frontend/sentry.properties',
+      configFile: resolvePath(__dirname, 'sentry.properties'),
       urlPrefix: `~/${urlPath}`,
       dryRun: !(isCI && gitTag),
       authToken: isCI ? readFileSync('/run/secrets/sentry_auth_token', 'utf8') : undefined,
