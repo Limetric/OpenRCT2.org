@@ -1,16 +1,19 @@
-/* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
-const webpack = require('webpack');
-const fs = require('fs');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SentryWebpackPlugin = require('@sentry/webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
-const Package = require('../package.json');
+import {resolve as resolvePath, dirname} from 'node:path';
+import webpack from 'webpack';
+import {readFileSync} from 'node:fs';
+import {env} from 'node:process';
+import {fileURLToPath} from 'node:url';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import SentryCliPlugin from '@sentry/webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import Package from '../package.json' assert { type: 'json' };
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Determine environment
-const isCI = !!process.env['CI'];
-const environment = process.env['NODE_ENV'].toLowerCase();
+const isCI = !!env['CI'];
+const environment = env['NODE_ENV'].toLowerCase();
 const isProduction = environment === 'production';
 console.log(`Environment: ${environment}`);
 if (!['production', 'development'].includes(environment)) {
@@ -18,17 +21,17 @@ if (!['production', 'development'].includes(environment)) {
 }
 
 // Determine git tags, etc.
-const gitTag = process.env['GIT_REF']?.startsWith('refs/tags/') ? process.env['GIT_REF'].substring(10) : undefined;
-const gitCommit = process.env['GIT_SHA'].substring(0, 7);
+const gitTag = env['GIT_REF']?.startsWith('refs/tags/') ? env['GIT_REF'].substring(10) : undefined;
+const gitCommit = env['GIT_SHA'].substring(0, 7);
 
 // Determine version
 const bundleVersion = `${gitTag ?? `v${Package.version}-${gitCommit}`}`;
 
 const urlPath = 'resources/';
-const outputPath = path.resolve(__dirname, `../public/${urlPath}`);
+const outputPath = resolvePath(__dirname, `../public/${urlPath}`);
 
-module.exports = {
-  entry: path.resolve(__dirname, 'entry.js'),
+export default {
+  entry: resolvePath(__dirname, 'entry.js'),
   mode: 'production',
   // eslint-disable-next-line no-nested-ternary
   devtool: isCI ? 'hidden-source-map' : (isProduction ? 'source-map' : 'cheap-module-source-map'),
@@ -91,14 +94,14 @@ module.exports = {
       filename: '[name].[contenthash].bundle.min.css',
       chunkFilename: '[name].[contenthash].chunk.min.css',
     }),
-    new SentryWebpackPlugin({
+    new SentryCliPlugin({
       release: bundleVersion,
       include: outputPath,
-      ignore: ['node_modules', 'webpack.config.cjs'],
+      ignore: ['node_modules', 'webpack.config.js'],
       configFile: './frontend/sentry.properties',
       urlPrefix: `~/${urlPath}`,
       dryRun: !(isCI && gitTag),
-      authToken: fs.readFileSync('/run/secrets/sentry_auth_token', 'utf8'),
+      authToken: isCI ? readFileSync('/run/secrets/sentry_auth_token', 'utf8') : undefined,
     }),
   ],
   optimization: {

@@ -4,7 +4,7 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "buildFrontend": "webpack --config frontend/webpack.config.cjs",
+    "buildFrontend": "webpack --config frontend/webpack.config.js",
     "buildServer": "babel src --out-dir dist --delete-dir-on-start --copy-files --source-maps",
     "build": "npm run buildServer && npm run buildFrontend",
     "watch": "nodemon --legacy-watch -e js,cjs,eta,json,scss,css --watch src --watch frontend --watch config --watch views --signal SIGKILL --exec \"npm run build && npm test && npm start\"",
