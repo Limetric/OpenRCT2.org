@@ -55,6 +55,7 @@ export class ChangelogRouter {
 
       res.render('changelog', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Changelog',
           description: 'An overview of all the OpenRCT2 changes over the years.',

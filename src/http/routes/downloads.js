@@ -34,6 +34,7 @@ export class DownloadsRouter {
 
       res.render('downloads/index', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Downloads',
           description: 'Downloads for the open-source adaption of RollerCoaster Tycoon 2. Free to download.',
@@ -47,6 +48,7 @@ export class DownloadsRouter {
     router.get('/demo', (req, res) => {
       res.render('downloads/demo', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Download RCT2 Demo',
           description: 'By downloading the free RollerCoaster Tycoon 2 TTP Demo you can play the full OpenRCT2 game.',
@@ -106,6 +108,7 @@ export class DownloadsRouter {
 
       res.render('downloads/branchOverview', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: `${uflBranch} downloads`,
           description: `Latest ${releases.length} OpenRCT2 downloads in the ${uflBranch} branch.`,
@@ -156,6 +159,7 @@ export class DownloadsRouter {
 
       res.render('downloads/view', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: req.latest ? `Latest ${req.release.shortTitle} download` : `Download ${req.release.shortTitle}`,
           description: req.latest ? `Download latest OpenRCT2 ${req.release.longTitle} of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.` : `Download OpenRCT2 ${req.release.longTitle} of the OpenRCT2 project. The open-source adaption of RollerCoaster Tycoon 2.`,

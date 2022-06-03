@@ -341,6 +341,7 @@ export default class HTTPServer {
       res.status(error.status);
       res.render('error', {
         ...application.locals,
+        req,
         error,
         isDevelopment: Config.development,
         page: {

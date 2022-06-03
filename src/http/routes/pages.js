@@ -14,6 +14,7 @@ export class PagesRouter {
     router.get('/', (req, res) => {
       res.render('index', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'OpenRCT2 project',
           overrideTitle: true,
@@ -26,6 +27,7 @@ export class PagesRouter {
     router.get('/about', (req, res) => {
       res.render('about', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'About',
           description: 'General information about the open-source OpenRCT2 project and it\'s authors.',
@@ -37,6 +39,7 @@ export class PagesRouter {
     router.get('/faq', (req, res) => {
       res.render('faq', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'FAQ',
           description: 'Frequently Asked Questions about OpenRCT2 answered.',
@@ -48,6 +51,7 @@ export class PagesRouter {
     router.get('/features', (req, res) => {
       res.render('features', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Features',
           description: 'An overview of alterations made to OpenRCT2 when compared to RollerCoaster Tycoon 2.',

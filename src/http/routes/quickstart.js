@@ -38,6 +38,7 @@ export class QuickstartRouter {
     router.get('/', (req, res) => {
       res.render('quickstart/index', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Quickstart Guide',
           description: 'The Quickstart Guide is an easy guide to help with setting up your OpenRCT2 game copy for Windows, macOS and Linux.',
@@ -49,6 +50,7 @@ export class QuickstartRouter {
     router.get('/extract-rct2-files/windows', (req, res) => {
       res.render('quickstart/extractFilesWindows', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Extract RCT2 files on Windows - Quickstart Guide',
           description: 'Extract RollerCoaster Tycoon 2 files on Windows. Read the Quickstart Guide to get help setting up your OpenRCT2 game copy.',
@@ -60,6 +62,7 @@ export class QuickstartRouter {
     router.get('/extract-rct2-files/macOS', (req, res) => {
       res.render('quickstart/extractFilesUnix', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Extract RCT2 files on macOS - Quickstart Guide',
           description: 'Extract RollerCoaster Tycoon 2 files on macOS. Read the Quickstart Guide to get help setting up your OpenRCT2 game copy.',
@@ -72,6 +75,7 @@ export class QuickstartRouter {
     router.get('/extract-rct2-files/linux', (req, res) => {
       res.render('quickstart/extractFilesUnix', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Extract RCT2 files on Linux - Quickstart Guide',
           description: 'Extract RollerCoaster Tycoon 2 files on Linux. Read the Quickstart Guide to get help setting up your OpenRCT2 game copy.',
@@ -84,6 +88,7 @@ export class QuickstartRouter {
     router.get('/install/windows', (req, res) => {
       res.render('quickstart/installWindows', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Install on Windows - Quickstart Guide',
           description: 'Install OpenRCT2 on Windows. Read the Quickstart Guide to get help setting up your OpenRCT2 game copy.',
@@ -95,6 +100,7 @@ export class QuickstartRouter {
     router.get('/install/macOS', (req, res) => {
       res.render('quickstart/installMacOS', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Install on macOS - Quickstart Guide',
           description: 'Install OpenRCT2 on macOS. Read the Quickstart Guide to get help setting up your OpenRCT2 game copy.',
@@ -106,6 +112,7 @@ export class QuickstartRouter {
     router.get('/install/linux', (req, res) => {
       res.render('quickstart/installLinux', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: 'Install on Linux - Quickstart Guide',
           description: 'Install OpenRCT2 on Linux. Read the Quickstart Guide to get help setting up your OpenRCT2 game copy.',
@@ -135,6 +142,7 @@ export class QuickstartRouter {
     router.get('/install/linux/:distroIdentifier', (req, res) => {
       res.render('quickstart/installLinuxDistro', {
         ...HTTPServer.instance.application.locals,
+        req,
         page: {
           title: `Install on ${req.distro.title} - Quickstart Guide`,
           description: `Install OpenRCT2 on ${req.distro.title}. Read the Quickstart Guide to get help setting up your OpenRCT2 game copy.`,
