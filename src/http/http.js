@@ -7,7 +7,6 @@ import * as Eta from 'eta';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
 import path from 'node:path';
-import {unlinkSync} from 'node:fs';
 import {Config} from '../misc/config.js';
 import {PagesRouter} from './routes/pages.js';
 import {DownloadsRouter} from './routes/downloads.js';
@@ -162,39 +161,8 @@ export default class HTTPServer {
    */
   listen() {
     return new Promise((resolve, reject) => {
-      /** @type {object} */
-      let listenOptions;
-
-      /** @type {string} */
-      let unixSocketPath;
-      if (typeof (Config.get('http').path) === 'string') {
-        unixSocketPath = Config.get('http').path;
-      } else if (typeof (Config.get('http').path) === 'boolean' && Config.get('http').path) {
-        unixSocketPath = path.join(path.dirname(require.main.filename), '..', 'node-openrct.socket');
-      }
-
-      if (typeof (unixSocketPath) === 'string') {
-        try {
-          unlinkSync(unixSocketPath);
-        } catch (error) {
-          if (error.code !== 'ENOENT') {
-            Log.warn(error);
-          }
-        }
-        listenOptions = {
-          path: unixSocketPath,
-          readableAll: true,
-          writableAll: true,
-        };
-      } else {
-        listenOptions = {
-          host: Config.get('http').address,
-          port: process.env.PORT ?? Config.get('http').port,
-        };
-      }
-
       const server = this.#server;
-      server.listen(listenOptions);
+      server.listen(80);
       server.on('error', (error) => {
         if (error.syscall !== 'listen') {
           throw error;
@@ -214,11 +182,7 @@ export default class HTTPServer {
       });
       server.on('listening', () => {
         const address = server.address();
-        if (typeof (address.port) === 'number') {
-          Log.info(`Listening on ${address.address} port ${address.port} (${address.family})`);
-        } else {
-          Log.info(`Listening on UNIX-domain socket '${unixSocketPath}'`);
-        }
+        Log.info(`Listening on port ${address.port}`);
 
         resolve();
       });
