@@ -1,13 +1,13 @@
 import express, {Router} from 'express';
 import glob from 'glob';
-import http from 'node:http';
+import {createServer} from 'node:http';
 import {promisify} from 'node:util';
 import {Handlers as SentryHandlers} from '@sentry/node';
 import * as Eta from 'eta';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
 import minifyHTML from 'express-minify-html-2';
-import path from 'node:path';
+import {basename} from 'node:path';
 import {Config} from '../misc/config.js';
 import {PagesRouter} from './routes/pages.js';
 import {DownloadsRouter} from './routes/downloads.js';
@@ -21,6 +21,10 @@ Eta.configure({
   cache: true,
   rmWhitespace: true,
 });
+
+/**
+ * @typedef {import('node:http').Server} NodeHTTPServer
+ */
 
 export default class HTTPServer {
   /**
@@ -46,7 +50,7 @@ export default class HTTPServer {
   #application = express();
 
   /**
-   * @type {http.Server}
+   * @type {NodeHTTPServer}
    */
   #server;
 
@@ -82,7 +86,7 @@ export default class HTTPServer {
     application.disable('x-powered-by');
     application.set('trust proxy', Config.get('http')['trustProxy']);
 
-    this.#server = http.createServer(application);
+    this.#server = createServer(application);
 
     // Sentry handlers
     application.use(SentryHandlers.requestHandler());
@@ -106,43 +110,45 @@ export default class HTTPServer {
     application.set('view engine', 'eta');
     application.set('views', './views');
 
-    // Set render globals
+    // Set site global
     application.locals.site = {
       title: Config.get('site')['title'],
-      // description: '',
+      description: Config.get('site')['description'],
       publicUrl: Config.get('site')['publicUrl'],
       version: VersionUtils.getVersion(),
     };
 
-    // Find JS and CSS bundles
-    const files = await promisify(glob)('public/resources/main.*.bundle.min.+(js|css)');
+    // Set frontend entrypoint global
+    application.locals.frontendEntrypoints = await HTTPServer.#getFrontendBundles();
 
-    /** @type {string} */
-    let jsBundle;
-
-    /** @type {string} */
-    let cssBundle;
-    for (const file of files) {
-      if (file.includes('.js')) {
-        jsBundle = path.basename(file);
-      } else if (file.includes('.css')) {
-        cssBundle = path.basename(file);
-      }
-    }
-
-    if (!jsBundle || !cssBundle) {
-      throw new Error('JS and/or CSS bundle(s) invalid');
-    }
-
-    application.locals.resources = {
-      jsBundle,
-      cssBundle,
-    };
-
+    // Set author global
     application.locals.author = {
       name: 'OpenRCT2 Webmaster',
       emailAddress: 'mail@openrct2.org',
     };
+  }
+
+  /**
+   * Get frontend bundles
+   *
+   * @returns {object} Bundles
+   */
+  static async #getFrontendBundles() {
+    // Find JS and CSS bundles
+    const files = await promisify(glob)('public/resources/main.*.bundle.min.+(js|css)');
+
+    /** @type {Map<string, string>} */
+    const bundles = new Map();
+
+    for (const file of files) {
+      if (file.includes('.js')) {
+        bundles.set('js', basename(file));
+      } else if (file.includes('.css')) {
+        bundles.set('css', basename(file));
+      }
+    }
+
+    return Object.fromEntries(bundles);
   }
 
   /**

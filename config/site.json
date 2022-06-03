@@ -1,5 +1,6 @@
 {
   "title": "OpenRCT2",
+  "description": null,
   "publicUrl": "http://localhost:5000",
   "forumsPublicUrl": "https://forums.openrct2.org"
 }

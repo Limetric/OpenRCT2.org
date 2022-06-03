@@ -13,7 +13,8 @@
     <meta property="og:locale" content="en_GB">
     <meta name="theme-color" content="#71ABED">
     <title><%= it.page && it.page.title ? (it.page.overrideTitle ? it.page.title : it.page.title +' - '+ it.site.title) : it.site.title %></title>
-    <link rel="stylesheet" href="/resources/<%= it.resources.cssBundle %>">
+    <script defer src="/resources/<%= it.frontendEntrypoints.js %>"></script>
+    <link rel="stylesheet" href="/resources/<%= it.frontendEntrypoints.css %>">
     <link rel="shortcut icon" href="/assets/images/logos/icon_x32.png">
     <%~ includeFile('./custom/head.eta', it) %>
   </head>
@@ -53,6 +54,5 @@
       <span class="separator"></span>
       <a href="mailto:mail@openrct2.org">Email webmaster</a>
     </footer>
-    <script async src="/resources/<%= it.resources.jsBundle %>"></script>
   </body>
 </html>
