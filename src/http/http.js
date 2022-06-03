@@ -6,6 +6,7 @@ import {Handlers as SentryHandlers} from '@sentry/node';
 import * as Eta from 'eta';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
+import minifyHTML from 'express-minify-html-2';
 import path from 'node:path';
 import {Config} from '../misc/config.js';
 import {PagesRouter} from './routes/pages.js';
@@ -66,6 +67,7 @@ export default class HTTPServer {
   async initialize() {
     this.#setupExpress();
     await this.#setupRenderer();
+    this.#setupMinification();
     this.#setupRoutes();
   }
 
@@ -141,6 +143,23 @@ export default class HTTPServer {
       name: 'OpenRCT2 Webmaster',
       emailAddress: 'mail@openrct2.org',
     };
+  }
+
+  /**
+   * Setup HTML minification
+   */
+  #setupMinification() {
+    this.application.use(minifyHTML({
+      override: true,
+      htmlMinifier: {
+        removeComments: true,
+        collapseWhitespace: true,
+        collapseBooleanAttributes: true,
+        removeAttributeQuotes: true,
+        removeEmptyAttributes: true,
+        minifyJS: true,
+      },
+    }));
   }
 
   /**
