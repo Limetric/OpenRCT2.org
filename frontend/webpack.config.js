@@ -7,6 +7,7 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import SentryCliPlugin from '@sentry/webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import WebpackAssetsManifest from 'webpack-assets-manifest';
 import Package from '../package.json' assert { type: 'json' };
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -102,6 +103,10 @@ export default {
       urlPrefix: `~/${urlPath}`,
       dryRun: !(isCI && gitTag),
       authToken: isCI ? readFileSync('/run/secrets/sentry_auth_token', 'utf8') : undefined,
+    }),
+    new WebpackAssetsManifest({
+      writeToDisk: true,
+      entrypoints: true,
     }),
   ],
   optimization: {

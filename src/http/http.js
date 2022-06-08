@@ -1,13 +1,10 @@
 import express, {Router} from 'express';
-import glob from 'glob';
 import {createServer} from 'node:http';
-import {promisify} from 'node:util';
 import {Handlers as SentryHandlers} from '@sentry/node';
 import * as Eta from 'eta';
 import bodyParser from 'body-parser';
 import 'express-async-errors';
 import minifyHTML from 'express-minify-html-2';
-import {basename} from 'node:path';
 import {Config} from '../misc/config.js';
 import {PagesRouter} from './routes/pages.js';
 import {DownloadsRouter} from './routes/downloads.js';
@@ -16,6 +13,7 @@ import {QuickstartRouter} from './routes/quickstart.js';
 import {AltApiRouter} from './routes/altapi.js';
 import {Log} from '../utils/log.js';
 import {VersionUtils} from '../utils/version.js';
+import {FrontendManager} from './frontend.js';
 
 /**
  * @typedef {import('node:http').Server} NodeHTTPServer
@@ -123,33 +121,10 @@ export default class HTTPServer {
     };
 
     // Set frontend entrypoint global
-    application.locals.frontendEntrypoints = await HTTPServer.#getFrontendBundles();
+    application.locals.entryPoints = (await FrontendManager.getEntryPoints())?.['main'];
 
     // Set author global
     application.locals.author = siteConfig['author'];
-  }
-
-  /**
-   * Get frontend bundles
-   *
-   * @returns {object} Bundles
-   */
-  static async #getFrontendBundles() {
-    // Find JS and CSS bundles
-    const files = await promisify(glob)('public/resources/main.*.bundle.min.+(js|css)');
-
-    /** @type {Map<string, string>} */
-    const bundles = new Map();
-
-    for (const file of files) {
-      if (file.includes('.js')) {
-        bundles.set('js', basename(file));
-      } else if (file.includes('.css')) {
-        bundles.set('css', basename(file));
-      }
-    }
-
-    return Object.fromEntries(bundles);
   }
 
   /**

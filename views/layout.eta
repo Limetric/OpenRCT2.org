@@ -13,8 +13,12 @@
     <meta property="og:locale" content="en_GB">
     <meta name="theme-color" content="#71ABED">
     <title><%= it.page && it.page.title ? (it.page.overrideTitle ? it.page.title : it.page.title +' - '+ it.site.title) : it.site.title %></title>
-    <script defer src="/resources/<%= it.frontendEntrypoints.js %>"></script>
-    <link rel="stylesheet" href="/resources/<%= it.frontendEntrypoints.css %>">
+    <% for (const file of it.entryPoints.assets.css) { %>
+      <link rel="stylesheet" type="text/css" href="/resources/<%= file %>" />
+    <% } %>
+    <% for (const file of it.entryPoints.assets.js) { %>
+      <script defer src="/resources/<%= file %>"></script>
+    <% } %>
     <link rel="shortcut icon" href="/assets/images/logos/icon_x32.png">
     <%~ includeFile('./custom/head.eta', it) %>
   </head>
