@@ -2,5 +2,9 @@
   "title": "OpenRCT2",
   "description": null,
   "publicUrl": "http://localhost:5000",
-  "forumsPublicUrl": "https://forums.openrct2.org"
+  "forumsPublicUrl": "https://forums.openrct2.org",
+  "author": {
+    "name": "OpenRCT2 Webmaster",
+    "emailAddress": "mail@openrct2.org"
+  }
 }

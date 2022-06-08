@@ -17,16 +17,18 @@ import {AltApiRouter} from './routes/altapi.js';
 import {Log} from '../utils/log.js';
 import {VersionUtils} from '../utils/version.js';
 
-Eta.configure({
-  cache: true,
-  rmWhitespace: true,
-});
-
 /**
  * @typedef {import('node:http').Server} NodeHTTPServer
  */
 
 export default class HTTPServer {
+  static {
+    Eta.configure({
+      cache: true,
+      rmWhitespace: true,
+    });
+  }
+
   /**
    * @type {HTTPServer}
    */
@@ -110,11 +112,13 @@ export default class HTTPServer {
     application.set('view engine', 'eta');
     application.set('views', './views');
 
+    const siteConfig = Config.get('site');
+
     // Set site global
     application.locals.site = {
-      title: Config.get('site')['title'],
-      description: Config.get('site')['description'],
-      publicUrl: Config.get('site')['publicUrl'],
+      title: siteConfig['title'],
+      description: siteConfig['description'],
+      publicUrl: siteConfig['publicUrl'],
       version: VersionUtils.getVersion(),
     };
 
@@ -122,10 +126,7 @@ export default class HTTPServer {
     application.locals.frontendEntrypoints = await HTTPServer.#getFrontendBundles();
 
     // Set author global
-    application.locals.author = {
-      name: 'OpenRCT2 Webmaster',
-      emailAddress: 'mail@openrct2.org',
-    };
+    application.locals.author = siteConfig['author'];
   }
 
   /**
@@ -345,3 +346,5 @@ export default class HTTPServer {
     });
   }
 }
+
+export {Router};
