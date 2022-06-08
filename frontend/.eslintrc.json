@@ -6,9 +6,7 @@
   },
   "globals": {
     "APP_VERSION": "readonly",
-    "APP_ENVIRONMENT": "readonly",
-    "BRAND": "readonly",
-    "gtag": "readonly"
+    "APP_ENVIRONMENT": "readonly"
   },
   "rules": {
     "no-script-url": "warn"
