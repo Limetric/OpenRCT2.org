@@ -1,19 +1,32 @@
-import HTTPServer from '../http.js';
 import {Config} from '../../misc/config.js';
+import HTTPServer, {Router} from '../http.js';
 
 export class PagesRouter {
+  /**
+   * @type {Router}
+   */
   #router;
 
+  /**
+   * Get router
+   *
+   * @returns {Router} Router
+   */
   get router() {
     return this.#router;
   }
 
+  /**
+   * Construct pages router
+   *
+   * @param {HTTPServer} httpServer HTTP Server
+   */
   constructor(httpServer) {
     const router = httpServer.newRouter();
     this.#router = router;
     router.get('/', (req, res) => {
       res.render('index', {
-        ...HTTPServer.instance.application.locals,
+        ...httpServer.application.locals,
         req,
         page: {
           title: 'OpenRCT2 project',
@@ -26,7 +39,7 @@ export class PagesRouter {
 
     router.get('/about', (req, res) => {
       res.render('about', {
-        ...HTTPServer.instance.application.locals,
+        ...httpServer.application.locals,
         req,
         page: {
           title: 'About',
@@ -38,7 +51,7 @@ export class PagesRouter {
 
     router.get('/faq', (req, res) => {
       res.render('faq', {
-        ...HTTPServer.instance.application.locals,
+        ...httpServer.application.locals,
         req,
         page: {
           title: 'FAQ',
@@ -50,7 +63,7 @@ export class PagesRouter {
 
     router.get('/features', (req, res) => {
       res.render('features', {
-        ...HTTPServer.instance.application.locals,
+        ...httpServer.application.locals,
         req,
         page: {
           title: 'Features',
