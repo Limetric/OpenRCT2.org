@@ -2,7 +2,7 @@
 <main role="main" class="container">
   <div class="headliner-template">
     <h1><%= it.error.status %> - <%= it.error.statusMessage %></h1>
-    <p class="lead"><%= it.isDevelopment ? it.error.message : 'A problem occurred. Please try again later.' %></p>
+    <p class="lead"><%= it.isDevelopment ? `Technical details: ${it.error.message}` : 'A problem occurred. Please try again later.' %></p>
 <% if (it.error.sentryId) { %>
     <p>This has been reported to the webmaster as error #<%= it.error.sentryId %>.</p>
 <% } %>
