@@ -29,10 +29,13 @@
     return 'Unknown';
   };
 
+  const dateStyle = it.dateStyle ?? 'medium';
+  const timeStyle = it.timeStyle ?? 'medium';
+
   const formatDate = (date) => {
     return date.toLocaleString(locale, {
-      dateStyle: 'medium',
-      timeStyle: 'long'
+      dateStyle: dateStyle === false ? undefined : dateStyle,
+      timeStyle: timeStyle === false ? undefined : timeStyle,
     });
   };
 
@@ -44,4 +47,4 @@
     titleContent = formatDate(it.date);
   }
 %>
-<time datetime="<%= it.date.toISOString() %>" title="<%= titleContent %>" data-relative="<%= !!it.relative %>" data-title="<%= !!it.title %>" data-full="<%= !!it.full %>"><%= textContent %></time>
+<time datetime="<%= it.date.toISOString() %>" title="<%= titleContent %>" data-relative="<%= !!it.relative %>" data-title="<%= !!it.title %>" data-full="<%= !!it.full %>" data-date-style="<%= dateStyle %>" data-time-style="<%= timeStyle %>"><%= textContent %></time>

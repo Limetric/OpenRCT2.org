@@ -32,10 +32,17 @@ export class DateFormatter {
     return 'Unknown';
   }
 
-  static #formatDate(date) {
+  /**
+   * Format date
+   *
+   * @param {Date} date Date
+   * @param {HTMLElement} element HTML element
+   * @returns {string} Formatted date
+   */
+  static #formatDate(date, element) {
     return date.toLocaleString(this.#locale, {
-      dateStyle: 'medium',
-      timeStyle: 'long',
+      dateStyle: element.dataset.dateStyle !== (false).toString() ? element.dataset.dateStyle : undefined,
+      timeStyle: element.dataset.timeStyle !== (false).toString() ? element.dataset.timeStyle : undefined,
     });
   }
 
@@ -50,11 +57,11 @@ export class DateFormatter {
       const date = new Date(element.getAttribute('datetime'));
 
       // eslint-disable-next-line no-nested-ternary
-      element.textContent = element.dataset.relative === (true).toString() ? (element.dataset.full === (true).toString() ? `${this.#formatRelativeDate(date)}: ${this.#formatDate(date)}` : this.#formatRelativeDate(date)) : this.#formatDate(date);
+      element.textContent = element.dataset.relative === (true).toString() ? (element.dataset.full === (true).toString() ? `${this.#formatRelativeDate(date)}: ${this.#formatDate(date, element)}` : this.#formatRelativeDate(date)) : this.#formatDate(date, element);
 
       // Optional title tooltip
       let titleContent = '';
-      if (element.dataset.title) {
+      if (element.dataset.title === (true).toString()) {
         titleContent = this.#formatDate(date);
       }
       element.title = titleContent;
