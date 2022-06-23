@@ -2,7 +2,6 @@ import express, {Router} from 'express';
 import {createServer} from 'node:http';
 import {Handlers as SentryHandlers} from '@sentry/node';
 import * as Eta from 'eta';
-import bodyParser from 'body-parser';
 import 'express-async-errors';
 import minifyHTML from 'express-minify-html-2';
 import {Config} from '../misc/config.js';
@@ -92,8 +91,8 @@ export default class HTTPServer {
     application.use(SentryHandlers.tracingHandler());
 
     // Body Parser
-    application.use(bodyParser.json());
-    application.use(bodyParser.urlencoded({
+    application.use(express.json());
+    application.use(express.urlencoded({
       extended: false,
     }));
   }
