@@ -268,9 +268,9 @@ export class AltApiRouter {
       const command = req.body['command'] ?? req.query['command'];
 
       if (command === 'push-build') {
-        this.constructor.#pushBuild(req, res);
+        AltApiRouter.#pushBuild(req, res);
       } else if (command === 'get-latest-download') {
-        this.constructor.#getLatestDownload(req, res);
+        AltApiRouter.#getLatestDownload(req, res);
       } else {
         res.json({
           error: 1,
