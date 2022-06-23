@@ -89,12 +89,6 @@ export default class HTTPServer {
     // Sentry handlers
     application.use(SentryHandlers.requestHandler());
     application.use(SentryHandlers.tracingHandler());
-
-    // Body Parser
-    application.use(express.json());
-    application.use(express.urlencoded({
-      extended: false,
-    }));
   }
 
   /**

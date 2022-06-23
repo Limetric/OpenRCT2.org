@@ -1,4 +1,5 @@
 import multer from 'multer';
+import express from 'express';
 import {Octokit} from '@octokit/rest';
 import {got} from 'got';
 import {Config} from '../../misc/config.js';
@@ -6,7 +7,6 @@ import {Releases} from '../../misc/releases.js';
 import {ReleasesParser} from '../../modules/releasesParser/releasesParser.js';
 
 /**
- * @typedef {import('express').default} express
  * @typedef {import('../../misc/release.js').Release} Release
  */
 
@@ -263,6 +263,12 @@ export class AltApiRouter {
   constructor(httpServer) {
     const router = httpServer.newRouter();
     this.#router = router;
+
+    // Body parser
+    router.use(express.json());
+    router.use(express.urlencoded({
+      extended: false,
+    }));
 
     router.all('/', multerInstance.single('file'), async (req, res) => {
       const command = req.body['command'] ?? req.query['command'];
