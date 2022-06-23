@@ -3,7 +3,6 @@ import {Octokit} from '@octokit/rest';
 import {got} from 'got';
 import {Config} from '../../misc/config.js';
 import {Releases} from '../../misc/releases.js';
-import {Log} from '../../utils/log.js';
 import {ReleasesParser} from '../../modules/releasesParser/releasesParser.js';
 
 /**
@@ -97,7 +96,7 @@ export class AltApiRouter {
       }))?.['data'];
     } catch (error) {
       // An error is also thrown when it doesn't exist
-      Log.debug(error);
+      console.debug(error);
     }
 
     // Create release if it doesn't exist
@@ -112,16 +111,16 @@ export class AltApiRouter {
           body: `\`${req.body['gitHash']}\`;\`${req.body['gitBranch']}\``,
         }))?.['data'];
       } catch (error) {
-        Log.error(error);
+        console.error(error);
         res.json({
           error: 1,
           errorMessage: 'Failed to create GitHub release',
         });
         return;
       }
-      Log.debug(`Created new '${versionName}' GitHub release`);
+      console.debug(`Created new '${versionName}' GitHub release`);
     } else {
-      Log.debug(`Using existing '${versionName}' GitHub release`);
+      console.debug(`Using existing '${versionName}' GitHub release`);
     }
 
     const releaseId = ghRelease ? ghRelease['id'] : undefined;
@@ -152,7 +151,7 @@ export class AltApiRouter {
         ghRelease['assets'].push(assetData);
       }
     } catch (error) {
-      Log.error(error);
+      console.error(error);
       res.json({
         error: 1,
         errorMessage: 'Failed to upload GitHub release asset. May already exist.',
@@ -160,14 +159,14 @@ export class AltApiRouter {
       return;
     }
 
-    Log.info(`Processed AltApi asset upload for '${versionName}'`);
+    console.info(`Processed AltApi asset upload for '${versionName}'`);
 
     // Work-around for GitHub API issue regarding wrong created_date on read
     process.nextTick(async () => {
       try {
         await ReleasesParser.parseReleaseData(ghRelease, '*');
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
       }
     });
 
@@ -210,7 +209,7 @@ export class AltApiRouter {
     try {
       release = (await Releases.getLastByBranch(branch, 1))?.[0];
     } catch (error) {
-      Log.warn(error);
+      console.warn(error);
     }
     if (!release) {
       res.json({
@@ -236,7 +235,7 @@ export class AltApiRouter {
       try {
         url = await asset.getRedirlessUrl();
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
       }
     }
 

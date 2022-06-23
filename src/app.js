@@ -5,7 +5,7 @@ import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
-import {Log} from './utils/log.js';
+import {CaptureConsole as CaptureConsoleIntegration} from '@sentry/integrations';
 import {Config} from './misc/config.js';
 import HTTPServer from './http/http.js';
 import {ReleasesParser} from './modules/releasesParser/releasesParser.js';
@@ -28,13 +28,13 @@ if (cwd() !== appDirectory) {
   console.log(`Working directory: ${appDirectory}`);
 }
 
-Log.info(`Environment: ${Config.environment}`);
+console.info(`Environment: ${Config.environment}`);
 
 ReleasesParser.checkUpdate().catch((error) => {
-  Log.error(error);
+  console.error(error);
 });
 ChangelogParser.checkUpdate().catch((error) => {
-  Log.error(error);
+  console.error(error);
 });
 
 // Get default HTTP server instance
@@ -43,6 +43,7 @@ const httpServer = HTTPServer.instance;
 // Initialize Sentry
 const {dsn} = Config.get('sentry');
 Sentry.init({
+  enabled: !Config.development,
   dsn,
   release: VersionUtils.getVersion(),
   environment: Config.environment,
@@ -53,6 +54,7 @@ Sentry.init({
     new Tracing.Integrations.Express({
       app: httpServer.application,
     }),
+    new CaptureConsoleIntegration(),
   ],
   tracesSampleRate: Config.development ? 1.0 : 0.1,
 });
@@ -61,4 +63,4 @@ Sentry.init({
 await httpServer.initialize();
 await httpServer.listen();
 
-Log.info('Application is initialized and ready for use');
+console.info('Application is initialized and ready for use');

@@ -11,7 +11,6 @@ import {DownloadsRouter} from './routes/downloads.js';
 import {ChangelogRouter} from './routes/changelog.js';
 import {QuickstartRouter} from './routes/quickstart.js';
 import {AltApiRouter} from './routes/altapi.js';
-import {Log} from '../utils/log.js';
 import {VersionUtils} from '../utils/version.js';
 import {FrontendManager} from './frontend.js';
 
@@ -172,7 +171,7 @@ export default class HTTPServer {
       });
       server.on('listening', () => {
         const address = server.address();
-        Log.info(`Listening on port ${address.port}`);
+        console.info(`Listening on port ${address.port}`);
 
         resolve();
       });
@@ -236,7 +235,7 @@ export default class HTTPServer {
     if (Config.get('http')['forcePrimaryDomain']) {
       const {primaryDomain} = Config.get('http');
       if (!primaryDomain) {
-        Log.warn(new Error('Unable to enforce unspecified primary domain'));
+        console.warn(new Error('Unable to enforce unspecified primary domain'));
       } else {
         application.use((req, res, next) => {
           if (req.hostname && req.hostname !== primaryDomain) {
@@ -304,7 +303,7 @@ export default class HTTPServer {
       // Include Sentry error id
       error.sentryId = res.sentry;
 
-      Log.warn(error);
+      console.warn(error);
 
       res.status(error.status);
       res.render('error', {

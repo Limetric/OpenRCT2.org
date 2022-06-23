@@ -1,7 +1,6 @@
 import {got} from 'got';
 import hash from 'object-hash';
 import {Database} from '../../misc/database.js';
-import {Log} from '../../utils/log.js';
 
 export class ChangelogParser {
   /**
@@ -17,9 +16,9 @@ export class ChangelogParser {
 
     const changes = await this.parse(rawContent);
     if (changes > 0) {
-      Log.info(`Updated ${changes} changelog sets`);
+      console.info(`Updated ${changes} changelog sets`);
     } else {
-      Log.debug('No changelog update');
+      console.debug('No changelog update');
     }
   }
 
@@ -98,7 +97,7 @@ export class ChangelogParser {
 
         changesCount++;
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
       }
     }
 

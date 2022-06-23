@@ -1,6 +1,5 @@
 import {Release} from './release.js';
 import {Database} from './database.js';
-import {Log} from '../utils/log.js';
 
 export class Releases {
   /**
@@ -19,7 +18,7 @@ export class Releases {
       try {
         await release.parseRecord(record);
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
         continue;
       }
       releases.push(release);

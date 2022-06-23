@@ -1,6 +1,5 @@
 import mysql, {Pool} from 'mysql2';
 import {Config} from './config.js';
-import {Log} from '../utils/log.js';
 
 /**
  * Database class
@@ -57,7 +56,7 @@ export class Database {
           try {
             return JSON.parse(value);
           } catch (error) {
-            Log.warn(error);
+            console.warn(error);
             return undefined;
           }
         }
@@ -68,7 +67,7 @@ export class Database {
       queueLimit: 100,
     }).promise();
 
-    Log.debug(`Created database pool using database: ${database}`);
+    console.debug(`Created database pool using database: ${database}`);
   }
 
   /**

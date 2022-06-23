@@ -1,7 +1,6 @@
 import HTTPServer from '../http.js';
 import {Releases} from '../../misc/releases.js';
 import {StringUtils} from '../../utils/string.js';
-import {Log} from '../../utils/log.js';
 
 /**
  * @typedef {import('../../../misc/release.js').Release} Release
@@ -27,7 +26,7 @@ export class DownloadsRouter {
         releases = await Releases.getLastByBranch('develop', 1);
         lastDevelop = releases.length ? releases[0] : undefined;
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
         lastRelease = {};
         lastDevelop = {};
       }
@@ -94,7 +93,7 @@ export class DownloadsRouter {
       try {
         releases = await Releases.getLastByBranch(branch, 30);
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
         releases = [];
       }
 
@@ -131,7 +130,7 @@ export class DownloadsRouter {
           release = await Releases.getByBranchVersion(req.params.branch, identifier);
         }
       } catch (error) {
-        Log.error(error);
+        console.error(error);
       }
 
       if (!release) {

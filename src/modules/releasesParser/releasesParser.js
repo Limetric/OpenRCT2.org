@@ -2,7 +2,6 @@ import {got} from 'got';
 import {UrlHandler} from '../urlHandler/urlHandler.js';
 import {StringUtils} from '../../utils/string.js';
 import {Database} from '../../misc/database.js';
-import {Log} from '../../utils/log.js';
 
 export class ReleasesParser {
   /**
@@ -26,7 +25,7 @@ export class ReleasesParser {
       await this.parse(jsonData, type);
     }
 
-    Log.debug('Fetched releases');
+    console.debug('Fetched releases');
   }
 
   /**
@@ -46,7 +45,7 @@ export class ReleasesParser {
       try {
         await this.parseReleaseData(jsonReleaseData, type);
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
       }
     }
   }
@@ -98,7 +97,7 @@ export class ReleasesParser {
         branch,
       });
 
-      Log.info(`Stored '${branch}-${data['id']}' in database`);
+      console.info(`Stored '${branch}-${data['id']}' in database`);
     }
 
     // Parse assets
@@ -120,7 +119,7 @@ export class ReleasesParser {
             }]);
           }
         } catch (error) {
-          Log.warn(error);
+          console.warn(error);
         }
       }
     } else {
@@ -128,7 +127,7 @@ export class ReleasesParser {
       try {
         await Database.query('DELETE FROM `assets` WHERE `releaseId` = ?', [data['id']]);
       } catch (error) {
-        Log.warn(error);
+        console.warn(error);
       }
     }
   }
