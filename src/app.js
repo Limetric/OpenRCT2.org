@@ -5,7 +5,7 @@ import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
-import {CaptureConsole as CaptureConsoleIntegration} from '@sentry/integrations';
+import {CaptureConsole as CaptureConsoleIntegration, ExtraErrorData as ExtraErrorDataIntegration} from '@sentry/integrations';
 import {Config} from './misc/config.js';
 import HTTPServer from './http/http.js';
 import {ReleasesParser} from './modules/releasesParser/releasesParser.js';
@@ -55,6 +55,7 @@ Sentry.init({
       app: httpServer.application,
     }),
     new CaptureConsoleIntegration(),
+    new ExtraErrorDataIntegration(),
   ],
   tracesSampleRate: Config.development ? 1.0 : 0.1,
 });
