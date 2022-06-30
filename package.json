@@ -58,7 +58,7 @@
     "eslint-plugin-jsdoc": "^39.3.3",
     "eslint-plugin-promise": "^6.0.0",
     "mini-css-extract-plugin": "^2.6.1",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.18",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.53.0",
     "sass-loader": "^13.0.0",
