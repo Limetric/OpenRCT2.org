@@ -54,7 +54,9 @@ Sentry.init({
     new Tracing.Integrations.Express({
       app: httpServer.application,
     }),
-    new CaptureConsoleIntegration(),
+    new CaptureConsoleIntegration({
+      levels: ['warn', 'error', 'assert'],
+    }),
     new ExtraErrorDataIntegration(),
   ],
   tracesSampleRate: Config.development ? 1.0 : 0.1,
