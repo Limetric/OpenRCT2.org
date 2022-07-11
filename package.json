@@ -24,7 +24,7 @@
     "last 2 iOS versions, last 2 and_ff versions, last 2 ChromeAndroid versions, last 3 safari versions, last 3 chrome versions, last 3 firefox versions, last 3 edge versions, last 3 opera versions, not dead"
   ],
   "dependencies": {
-    "@octokit/rest": "^18.12.0",
+    "@octokit/rest": "^19.0.3",
     "@sentry/integrations": "^7.4.1",
     "@sentry/node": "^7.4.1",
     "@sentry/tracing": "^7.4.1",
