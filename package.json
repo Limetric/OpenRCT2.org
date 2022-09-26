@@ -52,7 +52,7 @@
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^4.0.0",
-    "eslint": "^8.19.0",
+    "eslint": "^8.24.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.3.3",
