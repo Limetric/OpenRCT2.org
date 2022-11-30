@@ -27,7 +27,7 @@
     "@octokit/rest": "^19.0.3",
     "@sentry/integrations": "^7.4.1",
     "@sentry/node": "^7.4.1",
-    "@sentry/tracing": "^7.4.1",
+    "@sentry/tracing": "^7.22.0",
     "core-js": "^3.23.3",
     "eta": "^1.12.3",
     "express": "~4.18.1",
