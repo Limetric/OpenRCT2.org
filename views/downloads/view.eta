@@ -65,7 +65,7 @@
         <tbody>
           <% for (const asset of assets) { %>
             <tr>
-              <td><%= asset.platform %> <%= asset.architecture %> <%= asset.title %></td>
+              <td><%= asset.platform %> <%= asset.architecture %><%= asset.title ? ' '+ asset.title : '' %></td>
               <td>
                 <a href="<%= asset.url %>" title="Download <%= asset.fileName %>" class="monospace"><%= asset.fileName %></a>
               </td>
