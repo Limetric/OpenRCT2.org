@@ -107,7 +107,7 @@ export class ReleaseAsset {
     } else if (this.fileName.includes('-focal')) {
       this.platform = 'Ubuntu Focal 20.04';
       this.category = 'linux'; // Force category
-    } else if (this.fileName.includes('-bionic') || (this.fileName.includes('-linux') && !this.fileName.endsWith('.AppImage'))) {
+    } else if (this.fileName.includes('-bionic') || ((this.fileName.includes('-linux') && !this.fileName.endsWith('.AppImage')))) {
       this.platform = 'Ubuntu Bionic 18.04';
       this.category = 'linux'; // Force category
     } else if (this.fileName.includes('-bullseye')) {
