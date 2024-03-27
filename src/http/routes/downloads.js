@@ -44,6 +44,18 @@ export class DownloadsRouter {
       });
     });
 
+    router.get('/demo', (req, res) => {
+      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
+    });
+
+    router.get('/demo/zip', (req, res) => {
+      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
+    });
+
+    router.get('/demo/exe', (req, res) => {
+      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo-executable/');
+    });
+
     router.param('branch', (req, res, next, branch) => {
       if (branch.length > 50) {
         throw new Error('Invalid branch.');
