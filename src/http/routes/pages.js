@@ -73,6 +73,10 @@ export class PagesRouter {
       });
     });
 
+    router.get('/download-demo', (req, res) => {
+      res.redirect(301, '/downloads/demo');
+    });
+
     // Redirect legacy forums links to new ones
     const forumsPath = '/forums';
     router.get([forumsPath, `${forumsPath}*`], (req, res) => {
