@@ -45,15 +45,15 @@ export class DownloadsRouter {
     });
 
     router.get('/demo', (req, res) => {
-      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
+      res.redirect(301, 'https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
     });
 
     router.get('/demo/zip', (req, res) => {
-      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
+      res.redirect(301, 'https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
     });
 
     router.get('/demo/exe', (req, res) => {
-      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo-executable/');
+      res.redirect(301, 'https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo-executable/');
     });
 
     router.param('branch', (req, res, next, branch) => {
