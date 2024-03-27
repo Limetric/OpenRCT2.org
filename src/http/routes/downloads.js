@@ -45,23 +45,15 @@ export class DownloadsRouter {
     });
 
     router.get('/demo', (req, res) => {
-      res.render('downloads/demo', {
-        ...HTTPServer.instance.application.locals,
-        req,
-        page: {
-          title: 'Download RCT2 Demo',
-          description: 'By downloading the free RollerCoaster Tycoon 2 TTP Demo you can play the full OpenRCT2 game.',
-          path: HTTPServer.getExpressPath(req.baseUrl, req.path),
-        },
-      });
+      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
     });
 
     router.get('/demo/zip', (req, res) => {
-      res.redirect('https://openrct2.org/files/demo/RollerCoasterTycoon2TTP_EN.zip');
+      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo/');
     });
 
     router.get('/demo/exe', (req, res) => {
-      res.redirect('https://openrct2.org/files/demo/RollerCoasterTycoon2TTP_EN.exe');
+      res.redirect('https://files.xoti.net/rollercoaster-tycoon-2/demos/rct2-triple-thrill-pack-demo-executable/');
     });
 
     router.param('branch', (req, res, next, branch) => {
