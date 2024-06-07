@@ -16,7 +16,7 @@ export class ChangelogRouter {
       let lastUpdated;
 
       // Getting 6 instead of 3 items as some records might not be parsed
-      const records = await Database.query('SELECT * FROM `changesets` ORDER BY `versionName` DESC LIMIT 0,6');
+      const records = await Database.query('SELECT * FROM `changesets` ORDER BY `created` DESC LIMIT 0,6');
       if (records) {
         let isFirst = true;
         for (const record of records) {
