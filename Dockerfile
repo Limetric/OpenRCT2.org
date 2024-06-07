@@ -7,7 +7,7 @@ ARG NODE_ENV
 ARG CI
 
 # --- Define base image ---
-FROM node:16-alpine AS base
+FROM node:22-alpine AS base
 
 # Environment
 ARG NODE_ENV
