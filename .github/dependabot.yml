@@ -4,13 +4,9 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
-      time: "09:30"
-      timezone: "Europe/Amsterdam"
-  # Maintain dependencies for npm
-  - package-ecosystem: "npm"
+      interval: "weekly"
+  # Maintain dependencies for docker
+  - package-ecosystem: "docker"
     directory: "/"
     schedule:
-      interval: "daily"
-      time: "09:30"
-      timezone: "Europe/Amsterdam"
+      interval: "weekly"
