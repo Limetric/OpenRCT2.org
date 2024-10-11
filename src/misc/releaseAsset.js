@@ -94,29 +94,37 @@ export class ReleaseAsset {
   set fileName(fileName) {
     this.#fileName = fileName;
 
+    const lcFileName = fileName.toLowerCase();
+
     // Determine platform
-    if (this.fileName.includes('-windows')) {
+    if (lcFileName.includes('-windows')) {
       this.platform = 'Windows';
-    } else if (this.fileName.includes('-macos')) {
+    } else if (lcFileName.includes('-macos')) {
       this.platform = 'macOS';
-    } else if (this.fileName.includes('-android')) {
+    } else if (lcFileName.includes('-android')) {
       this.platform = 'Android';
-    } else if (this.fileName.includes('-jammy')) {
+    } else if (lcFileName.includes('-noble')) {
+      this.platform = 'Ubuntu Noble 24.04';
+      this.category = 'linux'; // Force category
+    } else if (lcFileName.includes('-jammy')) {
       this.platform = 'Ubuntu Jammy 22.04';
       this.category = 'linux'; // Force category
-    } else if (this.fileName.includes('-focal')) {
+    } else if (lcFileName.includes('-focal')) {
       this.platform = 'Ubuntu Focal 20.04';
       this.category = 'linux'; // Force category
-    } else if (this.fileName.includes('-bionic')) {
+    } else if (lcFileName.includes('-bionic')) {
       this.platform = 'Ubuntu Bionic 18.04';
       this.category = 'linux'; // Force category
-    } else if (this.fileName.includes('-bullseye')) {
+    } else if (lcFileName.includes('-bookworm')) {
+      this.platform = 'Debian Bookworm';
+      this.category = 'linux'; // Force category
+    } else if (lcFileName.includes('-bullseye')) {
       this.platform = 'Debian Bullseye';
       this.category = 'linux'; // Force category
-    } else if (this.fileName.endsWith('.AppImage')) {
+    } else if (lcFileName.endsWith('.AppImage')) {
       this.platform = 'AppImage';
       this.category = 'linux'; // Force category
-    } else if (this.fileName.includes('-linux')) {
+    } else if (lcFileName.includes('-linux')) {
       this.platform = 'Linux';
     } else {
       this.platform = 'misc';
@@ -133,19 +141,19 @@ export class ReleaseAsset {
     }
 
     // Determine architecture
-    if (this.fileName.includes('-x64') || this.fileName.includes('-win64')) {
+    if (lcFileName.includes('-x64') || lcFileName.includes('-win64')) {
       this.architecture = 'x64';
-    } else if (this.fileName.includes('-x86_64')) {
+    } else if (lcFileName.includes('-x86_64')) {
       this.architecture = 'x86_64';
-    } else if (this.fileName.includes('-x86') || this.fileName.includes('-win32')) {
+    } else if (lcFileName.includes('-x86') || lcFileName.includes('-win32')) {
       this.architecture = 'x86';
-    } else if (this.fileName.includes('-i686')) {
+    } else if (lcFileName.includes('-i686')) {
       this.architecture = 'i686';
-    } else if (this.fileName.includes('-arm64')) {
+    } else if (lcFileName.includes('-arm64')) {
       this.architecture = 'ARM64';
-    } else if (this.fileName.includes('-arm')) {
+    } else if (lcFileName.includes('-arm')) {
       this.architecture = 'ARM';
-    } else if (this.fileName.includes('-universal')) {
+    } else if (lcFileName.includes('-universal')) {
       this.architecture = 'Universal';
     }
 
