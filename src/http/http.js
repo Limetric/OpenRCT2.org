@@ -88,7 +88,6 @@ export default class HTTPServer {
 
     // Sentry handlers
     application.use(SentryHandlers.requestHandler());
-    application.use(SentryHandlers.tracingHandler());
   }
 
   /**

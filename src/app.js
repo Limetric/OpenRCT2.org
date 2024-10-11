@@ -4,7 +4,6 @@ import {cwd, chdir} from 'node:process';
 import {dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import * as Sentry from '@sentry/node';
-import * as Tracing from '@sentry/tracing';
 import {CaptureConsole as CaptureConsoleIntegration, ExtraErrorData as ExtraErrorDataIntegration} from '@sentry/integrations';
 import {Config} from './misc/config.js';
 import HTTPServer from './http/http.js';
@@ -48,12 +47,7 @@ Sentry.init({
   release: VersionUtils.getVersion(),
   environment: Config.environment,
   integrations: [
-    new Sentry.Integrations.Http({
-      tracing: true,
-    }),
-    new Tracing.Integrations.Express({
-      app: httpServer.application,
-    }),
+    new Sentry.Integrations.Http(),
     new CaptureConsoleIntegration({
       levels: ['warn', 'error', 'assert'],
     }),
