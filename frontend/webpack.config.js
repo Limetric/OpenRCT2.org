@@ -5,7 +5,6 @@ import {env} from 'node:process';
 import {fileURLToPath} from 'node:url';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import SentryCliPlugin from '@sentry/webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import WebpackAssetsManifest from 'webpack-assets-manifest';
 import Package from '../package.json' assert { type: 'json' };
@@ -94,15 +93,6 @@ export default {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].bundle.min.css',
       chunkFilename: '[name].[contenthash].chunk.min.css',
-    }),
-    new SentryCliPlugin({
-      release: bundleVersion,
-      include: outputPath,
-      ignore: ['node_modules', 'webpack.config.js'],
-      configFile: resolvePath(__dirname, 'sentry.properties'),
-      urlPrefix: `~/${urlPath}`,
-      dryRun: !(isCI && gitTag),
-      authToken: isCI ? readFileSync('/run/secrets/sentry_auth_token', 'utf8') : undefined,
     }),
     new WebpackAssetsManifest({
       writeToDisk: true,
