@@ -1,6 +1,5 @@
 import {resolve as resolvePath, dirname} from 'node:path';
 import webpack from 'webpack';
-import {readFileSync} from 'node:fs';
 import {env} from 'node:process';
 import {fileURLToPath} from 'node:url';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
