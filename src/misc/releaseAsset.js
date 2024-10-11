@@ -92,7 +92,7 @@ export class ReleaseAsset {
    * @param {string} fileName File name
    */
   set fileName(fileName) {
-    this.#fileName = fileName;
+    this.#fileName = fileName.toLowerCase();
 
     // Determine platform
     if (this.fileName.includes('-windows')) {
@@ -101,6 +101,9 @@ export class ReleaseAsset {
       this.platform = 'macOS';
     } else if (this.fileName.includes('-android')) {
       this.platform = 'Android';
+    } else if (this.fileName.includes('-noble')) {
+      this.platform = 'Ubuntu Noble 24.04';
+      this.category = 'linux'; // Force category
     } else if (this.fileName.includes('-jammy')) {
       this.platform = 'Ubuntu Jammy 22.04';
       this.category = 'linux'; // Force category
@@ -109,6 +112,9 @@ export class ReleaseAsset {
       this.category = 'linux'; // Force category
     } else if (this.fileName.includes('-bionic')) {
       this.platform = 'Ubuntu Bionic 18.04';
+      this.category = 'linux'; // Force category
+    } else if (this.fileName.includes('-bookworm')) {
+      this.platform = 'Debian Bookworm';
       this.category = 'linux'; // Force category
     } else if (this.fileName.includes('-bullseye')) {
       this.platform = 'Debian Bullseye';
