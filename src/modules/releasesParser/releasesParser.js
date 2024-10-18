@@ -18,7 +18,7 @@ export class ReleasesParser {
      */
     const urls = new Map();
     urls.set('https://api.github.com/repos/OpenRCT2/OpenRCT2/releases', 'releases');
-    urls.set('https://api.github.com/repos/Limetric/OpenRCT2-binaries/releases', '*');
+    urls.set('https://api.github.com/repos/OpenRCT2/OpenRCT2-binaries/releases', '*');
 
     for (const [url, type] of urls) {
       const jsonData = await got(url).json();
