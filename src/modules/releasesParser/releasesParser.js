@@ -18,7 +18,7 @@ export class ReleasesParser {
      */
     const urls = new Map();
     urls.set('https://api.github.com/repos/OpenRCT2/OpenRCT2/releases', 'releases');
-    urls.set('https://api.github.com/repos/OpenRCT2/OpenRCT2-binaries/releases', '*');
+    urls.set('https://api.github.com/repos/OpenRCT2/OpenRCT2-binaries/releases/latest', 'develop');
 
     for (const [url, type] of urls) {
       const jsonData = await got(url).json();
@@ -36,10 +36,10 @@ export class ReleasesParser {
    * @returns {Promise<void>}
    */
   static async parse(jsonData, type) {
-    for (const jsonReleaseData of jsonData) {
+    const parseRelease = async (jsonReleaseData) => {
       // Skip drafts
       if (jsonReleaseData['draft']) {
-        continue;
+        return;
       }
 
       try {
@@ -47,6 +47,14 @@ export class ReleasesParser {
       } catch (error) {
         console.warn(error);
       }
+    };
+
+    if (Array.isArray(jsonData)) {
+      for (const jsonReleaseData of jsonData) {
+        await parseRelease(jsonReleaseData);
+      }
+    } else {
+      await parseRelease(jsonData);
     }
   }
 
@@ -79,6 +87,13 @@ export class ReleasesParser {
 
       commit = StringUtils.substringBetween(body[0], '`', '`').toLowerCase();
       branch = StringUtils.substringBetween(body[1], '`', '`').toLowerCase();
+    } else if (type === 'develop') {
+      const {body} = data;
+      const startIndex = body.indexOf('\n', body.indexOf('\n') + 1) + 1;
+      const endIndex = body.indexOf('\n\n\nSHA1 checksums:');
+      const extractedText = body.substring(startIndex, endIndex).trim();
+
+      notes = extractedText;
     } else {
       notes = data['body'];
     }
